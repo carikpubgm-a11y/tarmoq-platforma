@@ -1,0 +1,26 @@
+{
+  // Cloudflare Workers sozlamasi.
+  // GitHub'ga push qilinganda Cloudflare shu faylni oʻqib saytni avtomatik yangilaydi.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tarmoq-platforma",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-01",
+
+  // Yigʻilgan sayt (npm run build → dist/)
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // Sahifa manzillari (#/...) uchun doim index.html qaytariladi
+    "not_found_handling": "single-page-application",
+    // /api/* — avval worker ishlaydi, aks holda statik fayl qaytib qolardi
+    "run_worker_first": ["/api/*"]
+  },
+
+  // Oʻquvchilar va natijalar bazasi (SQLite). Bepul tarifda ham ishlaydi.
+  "durable_objects": {
+    "bindings": [{ "name": "MAKTAB", "class_name": "Maktab" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Maktab"] }],
+
+  "observability": { "enabled": true }
+}
