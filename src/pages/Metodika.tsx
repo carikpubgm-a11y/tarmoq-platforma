@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
-import { Block, Callout, Card, CheckList, DataTable, Goal, Grid, KV, LifeExample, MiniTask, PageHeader, Pill, Takeaway, TONE, cx } from '../components/ui'
+import { Block, Callout, Card, CheckList, DataTable, Goal, Grid, KV, LifeExample, PageHeader, Pill, Takeaway, TONE, cx } from '../components/ui'
 import { SECTIONS } from '../data/sections'
 
 const METHODS = SECTIONS.filter(s => s.path.startsWith('/metodika/'))
@@ -114,14 +114,7 @@ export default function Metodika() {
         'Baholashda javob emas, asos baholanadi: «Nega switch, nega router emas?»',
       ]} />
 
-      <MiniTask questions={[
-        { q: 'Oʻqituvchi dars oxirida test oʻtkazdi va baho qoʻydi, lekin dars davomida hech kimdan savol soʻramadi. Bu qanday metodik xato?',
-          options: ['Summativ baholash yoʻq', 'Formativ baholash yoʻq — oʻquvchi xatosini tuzatish imkonini olmadi', 'Test savollari juda oson', 'Refleksiya ortiqcha oʻtkazildi'], correct: 1,
-          explain: 'Dars oxiridagi test — summativ baholash. Dars davomida yoʻnaltiruvchi (formativ) baholash boʻlmasa, oʻquvchi xatosini vaqtida tuzata olmaydi.' },
-        { q: 'Oʻquvchilar xavfsizlik choralarini bilishadi, lekin qaysi biri muhimroq ekanini asoslay olmaydi. Qaysi metod eng mos?',
-          options: ['Maʼruza oʻqish', 'Snowball: yakka → juftlik → guruhda saralash va asoslash', 'Taʼriflarni yozdirish', 'Uyga vazifa berish'], correct: 1,
-          explain: 'Snowball har bir bosqichda fikrlarni solishtirish va tanlashni talab qiladi — oʻquvchi ustuvorlikni asoslashga majbur boʻladi.' },
-      ]} />
+
     </>
   )
 }

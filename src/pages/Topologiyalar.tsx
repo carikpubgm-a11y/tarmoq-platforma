@@ -1,5 +1,5 @@
 import {
-  PageHeader, Goal, Block, Grid, Card, Callout, Pill, DataTable, LifeExample, Takeaway, MiniTask, Term,
+  PageHeader, Goal, Block, Grid, Card, Callout, Pill, DataTable, LifeExample, Takeaway, Term,
 } from '../components/ui'
 import TopologyExplorer from '../sims/TopologyExplorer'
 
@@ -78,43 +78,7 @@ export default function Topologiyalar() {
         ]}
       />
 
-      <MiniTask
-        questions={[
-          {
-            q: 'Yulduz ulangan sinfda 12-kompyuterning kabeli uzildi. Nima boʻladi?',
-            options: [
-              'Butun sinf tarmoqsiz qoladi',
-              'Faqat 12-kompyuter uziladi',
-              'Tarmoq ikkiga boʻlinadi',
-              'Signal teskari aylanadi',
-            ],
-            correct: 1,
-            explain: 'Yulduzda har qurilmaning oʻz kabeli bor, shuning uchun nosozlik bittasida qoladi. Tarmoqning boʻlinishi — shinaga xos holat.',
-          },
-          {
-            q: 'Shifoxonada serverlar aloqasi bir daqiqa ham uzilmasligi kerak. Nima qilamiz?',
-            options: [
-              'Hammasini bitta uzun kabelga ulaymiz',
-              'Halqa qilib ulaymiz',
-              'Muhim joylarga zaxira kabel tortamiz — toʻr',
-              'Bitta switchli yulduz qilamiz',
-            ],
-            correct: 2,
-            explain: 'Uzilmasligi uchun muqobil yoʻl kerak. Biri uzilsa, trafik ikkinchisidan ketadi.',
-          },
-          {
-            q: 'Maktabga 40 kompyuter uchun yulduz tanlandi. Qaysi xavfni hisobga olish kerak?',
-            options: [
-              'Markaziy switch buzilsa, hamma toʻxtaydi',
-              'Bitta kompyuter oʻchsa, qolganlari uziladi',
-              'Tarmoq albatta sekin ishlaydi',
-              'Yangi kompyuter qoʻshilmaydi',
-            ],
-            correct: 0,
-            explain: 'Yulduzning zaif joyi — markaziy qurilma. Shuning uchun zaxira switch va uzluksiz quvvat manbai kerak.',
-          },
-        ]}
-      />
+
     </>
   )
 }

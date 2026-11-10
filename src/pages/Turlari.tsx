@@ -1,7 +1,6 @@
 import { Lock, Puzzle, Wifi } from 'lucide-react'
 import {
-  PageHeader, Goal, Block, Grid, Card, Callout, Mono, DataTable, LifeExample, Takeaway, MiniTask,
-} from '../components/ui'
+  PageHeader, Goal, Block, Grid, Card, Callout, Mono, DataTable, LifeExample, Takeaway, } from '../components/ui'
 
 /* Qamrov halqalari: PAN ⊂ LAN ⊂ MAN ⊂ WAN. */
 const RINGS = [
@@ -128,33 +127,7 @@ export default function Turlari() {
         ]}
       />
 
-      <MiniTask
-        questions={[
-          {
-            q: 'Maktab binosidagi barcha kompyuter, printer va Wi-Fi bitta tarmoqda, uni maktab oʻzi boshqaradi. Bu qaysi tur?',
-            options: ['PAN', 'LAN', 'MAN', 'WAN'],
-            correct: 1,
-            explain: 'Bitta bino va bitta tashkilot — LAN belgisi. Uning simsiz qismi esa WLAN.',
-          },
-          {
-            q: 'Bank Toshkent, Samarqand va Buxoro filiallarini ijara kanallar bilan bogʻladi. Internetga chiqilmaydi. Bu nima?',
-            options: [
-              'LAN — bitta tashkilotga tegishli',
-              'Internet — shaharlarni bogʻlaydi',
-              'WAN, lekin internet emas',
-              'MAN — shaharlar haqida gap ketyapti',
-            ],
-            correct: 2,
-            explain: 'Shaharlararo qamrov — WAN. Lekin bu yopiq tarmoq, internet emas. MAN esa bitta shahar bilan cheklanadi.',
-          },
-          {
-            q: 'Direktor bitta switchdagi oʻquvchi va buxgalteriya kompyuterlarini yangi qurilma olmasdan ajratmoqchi. Nima mos?',
-            options: ['VLAN', 'VPN', 'WLAN', 'PAN'],
-            correct: 0,
-            explain: 'VLAN bitta switch ichida koʻrinmas devor qoʻyadi. VPN — masofadan xavfsiz ulanish, WLAN — simsiz tarmoq.',
-          },
-        ]}
-      />
+
     </>
   )
 }

@@ -1,7 +1,6 @@
 import { Repeat, Users } from 'lucide-react'
 import {
-  PageHeader, Goal, Block, Grid, Card, Callout, Term, Mono, DataTable, Accordion, LifeExample, Takeaway, MiniTask,
-} from '../components/ui'
+  PageHeader, Goal, Block, Grid, Card, Callout, Term, Mono, DataTable, Accordion, LifeExample, Takeaway, } from '../components/ui'
 
 /* Katta fayl kichik boʻlaklarga — paketlarga — boʻlinib yuboriladi. */
 function PaketChizma() {
@@ -178,33 +177,7 @@ export default function Kirish() {
         ]}
       />
 
-      <MiniTask
-        questions={[
-          {
-            q: 'Onlayn darsda tasvir bir lahza qotdi va davom etdi. Yoʻqolgan qism qayta koʻrsatilmadi. Bu qaysi protokol?',
-            options: [
-              'TCP — yoʻqolgan paketni qayta yuboradi',
-              'UDP — tezlik muhim, yoʻqolgani qayta yuborilmaydi',
-              'DNS — sayt nomi topilmadi',
-              'Wi-Fi — kabel uzildi',
-            ],
-            correct: 1,
-            explain: 'Jonli videoda kechikkan paketning foydasi yoʻq, shuning uchun UDP ishlatiladi. TCP boʻlsa, tasvir toʻxtab, yoʻqolgan qismni kutib turardi.',
-          },
-          {
-            q: 'Oʻqituvchi oddiy kompyuterda umumiy papka ochdi, sinf esa undan fayl oladi. Oʻqituvchi kompyuteri qanday rolda?',
-            options: ['Mijoz', 'Router', 'Server', 'Wi-Fi nuqtasi'],
-            correct: 2,
-            explain: 'Server — rol, qurilma turi emas. Boshqalarga xizmat qilayotgan har qanday kompyuter server boʻladi.',
-          },
-          {
-            q: 'Katta rasmni doʻstingizga yubordingiz. U yoʻlda nimaga boʻlinadi?',
-            options: ['Paketlarga', 'Kanallarga', 'Tugunlarga', 'Protokollarga'],
-            correct: 0,
-            explain: 'Katta fayl kichik paketlarga boʻlinib yuboriladi va qabul qiluvchida yana bir butun boʻlib yigʻiladi.',
-          },
-        ]}
-      />
+
     </>
   )
 }

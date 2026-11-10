@@ -4,7 +4,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import {
-  Block, Callout, Card, DataTable, Goal, Grid, LifeExample, MiniTask, PageHeader, Pill, StepList, Takeaway, TONE, cx,
+  Block, Callout, Card, DataTable, Goal, Grid, LifeExample, PageHeader, Pill, StepList, Takeaway, TONE, cx,
   type Tone,
 } from '../components/ui'
 
@@ -301,23 +301,7 @@ export default function Vositalar() {
         ]}
       />
 
-      <MiniTask
-        intro="Vaziyatga mos vositani tanlang — izoh darhol chiqadi."
-        questions={[
-          {
-            q: 'Snowball metodining yakuniy bosqichida oʻqituvchi toʻrt kishilik guruhlarning fikrlarini bitta umumiy doskada yigʻib, butun auditoriyaga koʻrsatmoqchi. Qaysi vosita eng mos?',
-            options: ['Kahoot!', 'Padlet', 'Cisco Packet Tracer', 'diagrams.net'],
-            correct: 1,
-            explain: 'Padlet — umumiy onlayn doska: har bir guruh oʻz yozuvini joylaydi va hamma bir-birining fikrini koʻradi. Eʼtibor bering: Snowball — metod, Padlet esa uni qoʻllab-quvvatlaydigan vosita. Kahoot! bilimni tekshiradi, Packet Tracer va diagrams.net esa tarmoq sxemasi bilan ishlaydi.',
-          },
-          {
-            q: 'Oʻquvchilar switch, router va kompyuterlarni ulab, paket manzilga yetib borishini virtual muhitda sinab koʻrishi kerak. Qaysi vosita kerak?',
-            options: ['LearningApps', 'diagrams.net', 'Cisco Packet Tracer', 'Padlet'],
-            correct: 2,
-            explain: 'Cisco Packet Tracer — tarmoq simulyatori: unda qurilmalar sozlanadi va paketning yoʻli kuzatiladi. diagrams.net muharririda ham sxema chizish mumkin, lekin bunday sxema «ishlamaydi» — unda paket yuborib boʻlmaydi. Platformada xuddi shu vazifani tarmoq konstruktori bajaradi.',
-          },
-        ]}
-      />
+
     </>
   )
 }

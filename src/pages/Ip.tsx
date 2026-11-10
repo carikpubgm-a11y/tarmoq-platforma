@@ -2,7 +2,7 @@ import { Fragment, useId, useState } from 'react'
 import { ArrowRight, Globe, House, Network, Router, Search } from 'lucide-react'
 import {
   PageHeader, Goal, Block, Grid, Card, Callout, Pill, Term, Mono, DataTable, CheckList, StepList,
-  LifeExample, Takeaway, Btn, Stage, MiniTask, cx,
+  LifeExample, Takeaway, Btn, Stage, cx,
 } from '../components/ui'
 import PacketFlow from '../sims/PacketFlow'
 
@@ -296,31 +296,7 @@ export default function Ip() {
         <>Switch bitta tarmoq ichida, router esa tarmoqlar orasida ishlaydi.</>,
       ]} />
 
-      <MiniTask questions={[
-        {
-          q: 'Brauzerga «maktab.uz» yozdingiz. Bu nomni raqamli manzilga kim aylantiradi? 🔎',
-          options: ['DNS', 'DHCP', 'Switch', 'Printer'],
-          correct: 0,
-          explain: 'DNS — tarmoqning telefon kitobi: nomni qabul qiladi, IP manzilni qaytaradi.',
-        },
-        {
-          q: 'Taʼtildan keyin hech kim chop eta olmayapti: printer boshqa manzil olib qolgan. Eng toʻgʻri yechim?',
-          options: [
-            'Printerga doimiy manzil berish',
-            'Barcha kompyuterlarni qayta yoqish',
-            'Wi-Fi parolini almashtirish',
-            'Printerni boshqa xonaga koʻchirish',
-          ],
-          correct: 0,
-          explain: 'Printer va server manzili oʻzgarmasligi kerak. Shuning uchun ularga doimiy manzil beriladi va IP reja jadvaliga yoziladi.',
-        },
-        {
-          q: 'Quyidagilardan qaysi biri ichki manzil — yaʼni faqat tarmoq ichida ishlaydi? 🏠',
-          options: ['203.0.113.10', '192.168.10.25', '8.8.8.8', '198.51.100.20'],
-          correct: 1,
-          explain: '192.168 bilan boshlanadigan manzillar ichki manzillar. Uy va maktab tarmoqlarida aynan shular ishlatiladi.',
-        },
-      ]} />
+
     </>
   )
 }

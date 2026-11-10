@@ -1,7 +1,6 @@
 import { BookOpen, Brain, Cog, Handshake, School, Target } from 'lucide-react'
 import {
-  PageHeader, Goal, Block, Grid, Card, Callout, Pill, DataTable, CheckList, KV, LifeExample, Takeaway, MiniTask,
-} from '../components/ui'
+  PageHeader, Goal, Block, Grid, Card, Callout, Pill, DataTable, CheckList, KV, LifeExample, Takeaway, } from '../components/ui'
 
 export default function Kurs() {
   return (
@@ -147,38 +146,7 @@ export default function Kurs() {
         ]}
       />
 
-      <MiniTask
-        questions={[
-          {
-            q: 'Oʻqituvchi dars maqsadiga faqat «switch va router taʼrifini biladi» deb yozdi. Nima yetishmaydi?',
-            options: [
-              'Hech narsa, hammasi joyida',
-              'Qurilmalar narxi',
-              'Munosabat va koʻnikma qismlari',
-              'Dars sanasi',
-            ],
-            correct: 2,
-            explain: 'Maqsad uch qismdan iborat: bilim, munosabat va koʻnikma. Faqat bilimni yozish — eng koʻp uchraydigan xato.',
-          },
-          {
-            q: 'Oʻquvchi taʼrifni aytadi, lekin yangi sinf uchun qaysi qurilma kerakligini tanlay olmaydi. U qaysi darajada toʻxtab qolgan?',
-            options: ['Bilaman', 'Tushunaman', 'Qoʻllayman', 'Tahlil qilaman'],
-            correct: 0,
-            explain: 'U taʼrifni biladi, ammo bilimini yangi vaziyatga qoʻllay olmaydi. Demak, «bilaman» darajasidan nariga oʻtmagan.',
-          },
-          {
-            q: '«Sinf uchun tarmoq sxemasini tuzadi» — buni qanday tekshirish toʻgʻri?',
-            options: [
-              'Taʼrifni ogʻzaki soʻrash',
-              'Oʻquvchi sxemani oʻzi chizib, tushuntirib bersin',
-              'Qurilma rasmini koʻrsatib, nomini soʻrash',
-              'Uyga oʻqishga berish',
-            ],
-            correct: 1,
-            explain: 'Sxema tuzish — amaliy koʻnikma. U faqat amalda, oʻquvchining oʻz ishida koʻrinadi.',
-          },
-        ]}
-      />
+
     </>
   )
 }

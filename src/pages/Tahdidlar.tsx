@@ -5,8 +5,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import {
-  PageHeader, Goal, Block, Grid, Card, Callout, Pill, Term, Mono, CheckList, LifeExample, Takeaway, MiniTask,
-} from '../components/ui'
+  PageHeader, Goal, Block, Grid, Card, Callout, Pill, Term, Mono, CheckList, LifeExample, Takeaway, } from '../components/ui'
 import TrafficFilter from '../sims/TrafficFilter'
 
 /* ------------------------------ «Tahdid → Chora» juftligi ------------------------------ */
@@ -176,41 +175,7 @@ export default function Tahdidlar() {
         <>Firewall yolgʻiz yetmaydi — u parol, yangilanish va boʻlaklash bilan birga ishlaydi.</>,
       ]} />
 
-      <MiniTask questions={[
-        {
-          q: 'Telefon qilishdi: «IT boʻlimidanmiz, tekshirish uchun parolingizni ayting». Nima qilasiz? ☎️',
-          options: [
-            'Parolni aytaman — ular IT boʻlimidan',
-            'Parolni aytmayman va rasmiy raqam orqali qayta tekshiraman',
-            'Antivirusni ishga tushiraman',
-            'VPN ni yoqib, keyin parolni aytaman',
-          ],
-          correct: 1,
-          explain: 'Haqiqiy IT boʻlimi parolni hech qachon soʻramaydi. Bu — odamni aldash.',
-        },
-        {
-          q: 'Firewallda avval «RUXSAT: oʻquv tarmogʻi → server», keyin «TAQIQ: 192.168.10.26 → server» qoidasi turibdi. 192.168.10.26 ning paketi bilan nima boʻladi?',
-          options: [
-            'Bloklanadi — taqiq har doim ustun',
-            'Firewall xato beradi',
-            'Bloklanadi — oxirgi qoida toʻxtatadi',
-            'Oʻtkaziladi — birinchi mos kelgani ruxsat qoidasi',
-          ],
-          correct: 3,
-          explain: 'Qoidalar yuqoridan pastga oʻqiladi. Shuning uchun aniq qoida (bitta kompyuterga taqiq) umumiy ruxsatdan yuqorida turishi kerak.',
-        },
-        {
-          q: 'Ransomware serverni ham, unga doimiy ulangan zaxira diskini ham qulflab qoʻydi. Nima yordam bergan boʻlardi? 💾',
-          options: [
-            'Tarmoqdan uzib saqlanadigan (oflayn) zaxira nusxa',
-            'Wi-Fi parolini uzaytirish',
-            'Serverga ikkinchi monitor ulash',
-            'Firewallda 443-portni yopish',
-          ],
-          correct: 0,
-          explain: 'Ransomware tarmoqqa ulangan zaxirani ham qulflaydi. Faqat oflayn nusxa omon qoladi.',
-        },
-      ]} />
+
     </>
   )
 }

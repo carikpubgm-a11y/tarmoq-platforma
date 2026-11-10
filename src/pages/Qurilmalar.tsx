@@ -1,7 +1,6 @@
 import { ArrowLeftRight, Monitor, ShieldCheck } from 'lucide-react'
 import {
-  PageHeader, Goal, Block, Grid, Card, Callout, Term, DataTable, StepList, LifeExample, Takeaway, MiniTask,
-} from '../components/ui'
+  PageHeader, Goal, Block, Grid, Card, Callout, Term, DataTable, StepList, LifeExample, Takeaway, } from '../components/ui'
 import DeviceExplorer from '../sims/DeviceExplorer'
 
 export default function Qurilmalar() {
@@ -97,33 +96,7 @@ export default function Qurilmalar() {
         ]}
       />
 
-      <MiniTask
-        questions={[
-          {
-            q: '12 kompyuter faqat oʻzaro fayl almashishi va bitta printerdan foydalanishi kerak. Internet shart emas. Nima yetarli?',
-            options: ['Router', 'Switch', 'Modem', 'Firewall'],
-            correct: 1,
-            explain: 'Hammasi bitta tarmoqda, shuning uchun switch yetarli. Router faqat boshqa tarmoqqa chiqish kerak boʻlganda zarur.',
-          },
-          {
-            q: 'Maktabda ikki tarmoq bor: oʻquvchilar va maʼmuriyat. Ular orasida nazorat ostida aloqa kerak. Nima zarur?',
-            options: [
-              'Yana bitta switch',
-              'Wi-Fi nuqtasi',
-              'Router',
-              'Modem',
-            ],
-            correct: 2,
-            explain: 'Bular ikki xil IP-tarmoq. Ularni faqat IP-manzilga qaraydigan qurilma — router — bogʻlay oladi.',
-          },
-          {
-            q: 'Majlislar zalida Wi-Fi yetmaydi, lekin devorda ishlaydigan tarmoq rozetkasi bor. Nima oʻrnatamiz?',
-            options: ['Wi-Fi nuqtasi', 'Modem', 'Yana bitta router', 'Server'],
-            correct: 0,
-            explain: 'Wi-Fi nuqtasi simsiz qurilmalarni mavjud simli tarmoqqa ulaydi — aynan shu kerak. Qoʻshimcha router keraksiz ikkinchi tarmoq hosil qiladi.',
-          },
-        ]}
-      />
+
     </>
   )
 }

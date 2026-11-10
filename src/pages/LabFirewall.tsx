@@ -1,4 +1,4 @@
-import { Block, Callout, Goal, LifeExample, MiniTask, PageHeader, StepList, Takeaway } from '../components/ui'
+import { Block, Callout, Goal, LifeExample, PageHeader, StepList, Takeaway } from '../components/ui'
 import FirewallLab from '../lab/FirewallLab'
 
 export default function LabFirewall() {
@@ -41,14 +41,7 @@ export default function LabFirewall() {
         'Firewall — himoyaning bir qatlami, yolgʻiz yechim emas.',
       ]} />
 
-      <MiniTask questions={[
-        { q: '1-qoida: «⛔ Taqiq — hamma narsaga». 2-qoida: «✅ Ruxsat — HTTPS, LAN dan Internetga». Oʻquvchi saytni ocha oladimi?',
-          options: ['Ha, chunki 2-qoida aniqroq', 'Yoʻq — birinchi mos kelgan qoida taqiq edi', 'Ha, chunki ruxsat taqiqdan kuchli', 'Faqat «qolgan hammasi — ruxsat» boʻlsa'], correct: 1,
-          explain: 'Firewall yuqoridan pastga oʻqiydi va birinchi mos kelganida toʻxtaydi. Umumiy taqiq yuqorida tursa, pastdagi ruxsatga navbat yetmaydi.' },
-        { q: 'Nomaʼlum dastur tashqariga ulanmoqchi. Qaysi sozlama uni oʻzi toʻxtatadi?',
-          options: ['Antivirusni yangilash', '«Qolgan hammasi — taqiq» qoidasi', 'Wi-Fi parolini almashtirish', 'HTTP ga ruxsat berish'], correct: 1,
-          explain: 'Bu qoida ruxsat berilmagan hamma narsani toʻxtatadi. Nomaʼlum port uchun alohida qoida yozish kerak ham emas.' },
-      ]} />
+
     </>
   )
 }

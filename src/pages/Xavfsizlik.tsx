@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Activity, BadgeCheck, HardDrive, KeyRound, Lock, RefreshCw, ScrollText, Smartphone, Zap } from 'lucide-react'
 import {
-  PageHeader, Goal, Block, Grid, Card, Callout, Pill, Term, Mono, CheckList, StepList, LifeExample, Takeaway, MiniTask,
-} from '../components/ui'
+  PageHeader, Goal, Block, Grid, Card, Callout, Pill, Term, Mono, CheckList, StepList, LifeExample, Takeaway, } from '../components/ui'
 
 /* ------------------------------ Qatlamli himoya (vizual) ------------------------------ */
 const LAYERS = [
@@ -212,36 +211,7 @@ export default function Xavfsizlik() {
         <><strong>3-2-1</strong>: 3 nusxa, 2 xil joyda, 1 tasi boshqa binoda. Tekshirilmagan zaxira — zaxira emas.</>,
       ]} />
 
-      <MiniTask questions={[
-        {
-          q: 'Elektr uzilib, maktab serveri yarim kun ishlamadi. Maʼlumot yoʻqolmadi va oʻgʻirlanmadi. Qaysi ustun buzildi? ⚡',
-          options: ['Maxfiylik', 'Yaxlitlik', 'Foydalanuvchanlik', 'Hech biri'],
-          correct: 2,
-          explain: 'Maʼlumot kerak boʻlganda ishlamadi. Chorasi: zaxira quvvat manbai (UPS) va zaxira nusxalar.',
-        },
-        {
-          q: 'Oʻqituvchining paroli oʻgʻirlandi, lekin hujumchi elektron jurnalga kira olmadi. Nima ishladi?',
-          options: [
-            'MFA — paroldan tashqari ikkinchi dalil soʻraldi',
-            'Parolda katta harf borligi',
-            'Parol har oy almashtirilgani',
-            'Kompyuterdagi antivirus',
-          ],
-          correct: 0,
-          explain: 'MFA yoqilgan boʻlsa, parolning oʻzi yetmaydi: telefondagi ikkinchi kalit ham kerak.',
-        },
-        {
-          q: 'Zaxira nusxa oʻsha serverning ikkinchi diskida turadi va undan hech qachon tiklab koʻrilmagan. Kamchilik nimada? 💾',
-          options: [
-            'Nusxa juda tez-tez olinmoqda',
-            'Nusxa asl maʼlumot bilan bir joyda va sinalmagan',
-            'Nusxa kunduzi olinishi kerak',
-            'Nusxa shifrlanmagan',
-          ],
-          correct: 1,
-          explain: '3-2-1 qoidasi buzilgan: server ishdan chiqsa, asl maʼlumot ham, nusxa ham birga yoʻqoladi.',
-        },
-      ]} />
+
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Cloud, ShieldCheck, Split, TriangleAlert } from 'lucide-react'
-import { PageHeader, Goal, Block, Grid, Card, Callout, StepList, DataTable, LifeExample, Takeaway, MiniTask } from '../components/ui'
+import { PageHeader, Goal, Block, Grid, Card, Callout, StepList, DataTable, LifeExample, Takeaway } from '../components/ui'
 import SchoolBuild from '../sims/SchoolBuild'
 
 export default function Loyihalash() {
@@ -84,36 +84,7 @@ export default function Loyihalash() {
         <>Xavfsizlik oxirgi qadam emas — u <strong>birinchi kundan</strong> oʻylanadi.</>,
       ]} />
 
-      <MiniTask questions={[
-        {
-          q: 'Direktor: «Avval switch sotib olaylik, qolganini keyin koʻramiz». Siz nima qilasiz? 🤔',
-          options: [
-            'Eng arzon switchni buyurtma qilaman',
-            'Avval nima kerakligini yozib chiqaman: nechta kompyuter, qanday xizmatlar',
-            'Kabel tortishni boshlayman',
-            'Wi-Fi parolini oʻylab topaman',
-          ],
-          correct: 1,
-          explain: 'Loyiha 1-qadamdan boshlanadi. Portlar soni va narx talablardan kelib chiqadi.',
-        },
-        {
-          q: 'Tarmoq ishga tushdi. Oʻquvchi kompyuteridan buxgalteriya papkasi koʻrinib qoldi. Qaysi qadam oʻtkazib yuborilgan?',
-          options: [
-            '2-qadam: bino chizmasi',
-            '4-qadam: switch tanlash',
-            '3- va 6-qadam: tarmoq boʻlaklarga ajratilmagan va qoidalar yozilmagan',
-            '7-qadam: kabel notoʻgʻri tortilgan',
-          ],
-          correct: 2,
-          explain: 'Oʻquv tarmogʻi va maʼmuriyat alohida boʻlishi kerak edi. Buni keyin tuzatish ancha qiyin.',
-        },
-        {
-          q: 'Yangi printer ulandi va bir kompyuter bilan bir xil manzil olib qoldi. Qaysi hujjat buning oldini olardi?',
-          options: ['IP reja jadvali', 'Bino chizmasi', 'Xarid roʻyxati', 'Wi-Fi paroli'],
-          correct: 0,
-          explain: 'IP reja jadvalida qaysi manzil kimga tegishli ekani yozilgan boʻladi — manzillar toʻqnashmaydi.',
-        },
-      ]} />
+
     </>
   )
 }
