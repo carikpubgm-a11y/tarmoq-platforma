@@ -13,8 +13,12 @@ export default function Home() {
 
   const bajarilgan = new Set<string>(oquvchi?.natijalar?.length ? oquvchi.natijalar.map(n => n.vazifa) : Object.keys(mahalliy))
   const ball = oquvchi?.jamiBall ?? 0
-  // bosqich tugadimi: oʻyinli bosqich → natija bor; boshqalari → koʻrilgan
+  // bosqich tugadimi (yashil belgi): oʻyinli bosqich → natija bor; boshqalari → koʻrilgan
   const tugadi = (s: typeof SAYOHAT[number]) => s.gameKey ? bajarilgan.has(s.gameKey) : visited.includes(s.path)
+  // bosqichga «yetib borilganmi» (qulf uchun): koʻrilgan yoki oʻyin bajarilgan
+  const yetilgan = (s: typeof SAYOHAT[number]) => visited.includes(s.path) || (!!s.gameKey && bajarilgan.has(s.gameKey))
+  const engUzoq = SAYOHAT.reduce((m, s, i) => (yetilgan(s) ? i : m), -1)
+  const ochiqmi = (i: number) => i <= engUzoq + 1
   const tugaganSoni = SAYOHAT.filter(tugadi).length
   const keyingi = SAYOHAT.find(s => !tugadi(s)) ?? SAYOHAT[0]
   const nishonlar = ochilganNishonlar(bajarilgan, ball)
@@ -72,7 +76,7 @@ export default function Home() {
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {SAYOHAT.map((s, i) => {
             const ok = tugadi(s)
-            const ochiq = i === 0 || tugadi(SAYOHAT[i - 1]) || ok
+            const ochiq = ochiqmi(i)
             const t = TONE[s.tone]
             const Inner = (
               <>

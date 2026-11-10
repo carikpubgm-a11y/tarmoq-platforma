@@ -43,6 +43,8 @@ export function useStored<T>(key: string, initial: T): [T, (v: T | ((prev: T) =>
         const next = typeof v === 'function' ? (v as (p: T) => T)(prev) : v
         try {
           localStorage.setItem(PREFIX + key, JSON.stringify(next))
+          // boshqa komponentlar (yon panel, bosh sahifa) ham yangilansin
+          window.dispatchEvent(new CustomEvent('tp-storage', { detail: key }))
         } catch {
           /* ignore */
         }
@@ -54,6 +56,7 @@ export function useStored<T>(key: string, initial: T): [T, (v: T | ((prev: T) =>
   const reset = useCallback(() => {
     try {
       localStorage.removeItem(PREFIX + key)
+      window.dispatchEvent(new CustomEvent('tp-storage', { detail: key }))
     } catch {
       /* ignore */
     }

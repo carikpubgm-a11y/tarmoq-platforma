@@ -243,15 +243,15 @@ export default function FirewallLab() {
           {PACKETS.map(p => {
             const r = evaluate(cfg, p)
             return (
-              <div key={p.id} className="flex items-center gap-3 rounded-lg border border-navy-700 bg-navy-950/40 p-2.5">
+              <div key={p.id} className="flex items-center gap-2 overflow-hidden rounded-lg border border-navy-700 bg-navy-950/40 p-2.5">
                 <div className="min-w-0 flex-1">
-                  <div className="font-mono text-xs font-bold text-teal-200">{SVC[p.svc].label} : {SVC[p.svc].port} · {p.from === 'lan' ? 'LAN → Internet' : 'Internet → LAN'}</div>
+                  <div className="truncate font-mono text-xs font-bold text-teal-200">{SVC[p.svc].label} : {SVC[p.svc].port} · {p.from === 'lan' ? 'LAN → Internet' : 'Internet → LAN'}</div>
                   <div className="truncate text-xs text-navy-300" title={p.why}>{p.why}</div>
                 </div>
-                <span className={cx('flex-none rounded-md px-2 py-0.5 text-[0.7rem] font-bold', r.allow === (p.expect === 'allow') ? 'bg-emerald-500/20 text-emerald-200' : 'bg-amber-500/20 text-amber-200')} title="Hozirgi qoidalar bilan natija toʻgʻri chiqadimi">
+                <span className={cx('flex-none rounded-md px-1.5 py-0.5 text-[0.68rem] font-bold', r.allow === (p.expect === 'allow') ? 'bg-emerald-500/20 text-emerald-200' : 'bg-amber-500/20 text-amber-200')} title="Hozirgi qoidalar bilan natija toʻgʻri chiqadimi">
                   {r.allow === (p.expect === 'allow') ? 'toʻgʻri' : 'xavfli'}
                 </span>
-                <button type="button" onClick={() => fire(p)} aria-label={`${SVC[p.svc].label} xabarini yuborish`} className="flex-none rounded-lg border border-navy-600 bg-navy-800 p-2 text-white hover:border-teal-400"><Send size={15} /></button>
+                <button type="button" onClick={() => fire(p)} aria-label={`${SVC[p.svc].label} xabarini yuborish`} className="grid h-9 w-9 flex-none place-items-center rounded-lg border border-navy-600 bg-navy-800 text-white hover:border-teal-400"><Send size={15} /></button>
               </div>
             )
           })}

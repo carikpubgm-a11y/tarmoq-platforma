@@ -110,12 +110,16 @@ export default function Bosqich() {
   const { slug } = useParams()
   const nav = useNavigate()
   const { oquvchi } = useOquvchi()
-  const [visited] = useStored<string[]>('visited', [])
+  const [, setVisited] = useStored<string[]>('visited', [])
   const [mahalliy] = useStored<Partial<Record<ResultKey, Result>>>('results', {})
   const path = '/bosqich/' + slug
   const idx = SAYOHAT.findIndex(s => s.path === path)
   const s = SAYOHAT[idx]
-  useEffect(() => { window.scrollTo(0, 0) }, [path])
+  // Bosqichga kirgan zahoti «koʻrilgan» boʻladi — shunda keyingi bosqich qulfdan chiqadi
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    if (idx >= 0) setVisited(v => (v.includes(path) ? v : [...v, path]))
+  }, [path, idx]) // eslint-disable-line react-hooks/exhaustive-deps
   if (!s) return <div className="py-16 text-center text-slate-500">Bunday bosqich yoʻq. <Link to="/" className="text-brand-700 underline">Sayohatga qaytish</Link></div>
 
   const oldingi = SAYOHAT[idx - 1], keyingi = SAYOHAT[idx + 1]

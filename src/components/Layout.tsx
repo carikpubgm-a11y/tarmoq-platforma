@@ -32,6 +32,8 @@ function Brand() {
 
 function SideNav({ visited, bajarilgan, onNavigate }: { visited: string[]; bajarilgan: Set<string>; onNavigate?: () => void }) {
   const tugadi = (s: typeof SAYOHAT[number]) => s.gameKey ? bajarilgan.has(s.gameKey) : visited.includes(s.path)
+  const yetilgan = (s: typeof SAYOHAT[number]) => visited.includes(s.path) || (!!s.gameKey && bajarilgan.has(s.gameKey))
+  const engUzoq = SAYOHAT.reduce((m, s, i) => (yetilgan(s) ? i : m), -1)
   return (
     <nav aria-label="Sayohat bosqichlari" className="px-3 pb-6">
       <NavLink to="/" end onClick={onNavigate}
@@ -44,7 +46,7 @@ function SideNav({ visited, bajarilgan, onNavigate }: { visited: string[]; bajar
       <ul className="space-y-0.5">
         {SAYOHAT.map((s, i) => {
           const ok = tugadi(s)
-          const ochiq = i === 0 || tugadi(SAYOHAT[i - 1]) || ok
+          const ochiq = i <= engUzoq + 1
           return (
             <li key={s.path}>
               <NavLink to={s.path} onClick={e => { if (!ochiq) e.preventDefault(); else onNavigate?.() }}

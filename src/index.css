@@ -22,9 +22,9 @@
 @layer base {
   html {
     scroll-behavior: smooth; -webkit-text-size-adjust: 100%;
-    font-size: 17px;            /* maktab oʻquvchisi uchun yirikroq asos */
+    font-size: 15.5px;          /* ixcham, lekin oʻquvchi uchun qulay */
   }
-  @media (max-width: 640px) { html { font-size: 16px; } }
+  @media (min-width: 1280px) { html { font-size: 16px; } }
   body {
     @apply text-slate-700 font-sans antialiased;
     background:
@@ -41,8 +41,8 @@
   ::selection { @apply bg-brand-200 text-navy-900; }
 
   /* Himoya rejimi: hamma narsa uzoqdan koʻrinadigan boʻlib kattalashadi */
-  html.defense { font-size: 20px; }
-  @media (min-width: 1500px) { html.defense { font-size: 22px; } }
+  html.defense { font-size: 17px; }
+  @media (min-width: 1500px) { html.defense { font-size: 18.5px; } }
   html.defense .defense-hide { display: none !important; }
   html:not(.defense) .defense-only { display: none !important; }
 }
