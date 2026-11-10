@@ -52,13 +52,12 @@ export const api = {
 
 /** Vazifa kodlari → oʻquvchiga koʻrinadigan nom va sahifa manzili. */
 export const VAZIFALAR: Record<string, { nom: string; yoʻl: string; emoji: string }> = {
-  test: { nom: 'Yakuniy test', yoʻl: '/test', emoji: '🏁' },
-  lab: { nom: 'Tarmoq quramiz', yoʻl: '/laboratoriya', emoji: '🔧' },
-  firewall: { nom: 'Firewall tajribasi', yoʻl: '/laboratoriya/firewall', emoji: '🛡️' },
-  muammoli: { nom: 'Muammoni yechamiz', yoʻl: '/metodika/muammoli', emoji: '🧩' },
-  snowball: { nom: 'Qor uyumi', yoʻl: '/metodika/snowball', emoji: '❄️' },
-  jurnal: { nom: 'Bilgan va bilganim', yoʻl: '/metodika/jurnal', emoji: '📖' },
-  namoyish: { nom: 'Namoyish', yoʻl: '/metodika/namoyish', emoji: '🎬' },
-  amaliy: { nom: 'Oʻz tarmogʻim', yoʻl: '/metodika/amaliy', emoji: '🏗️' },
+  mosini: { nom: 'Mosini top', yoʻl: '/bosqich/qurilmalar', emoji: '🔌' },
+  yigish: { nom: 'Tarmoqni yigʻ', yoʻl: '/bosqich/qurish', emoji: '🔧' },
+  parol: { nom: 'Xavfsiz parol', yoʻl: '/bosqich/parol', emoji: '🔑' },
+  bilimdon: { nom: 'Tezkor bilimdon', yoʻl: '/bosqich/bilimdon', emoji: '🏆' },
+  lab: { nom: 'Tarmoq konstruktori', yoʻl: '/laboratoriya', emoji: '🏗️' },
+  firewall: { nom: 'Firewall laboratoriyasi', yoʻl: '/laboratoriya/firewall', emoji: '🛡️' },
+  test: { nom: 'Katta test', yoʻl: '/test', emoji: '📝' },
 }
 export const VAZIFA_KODLARI = Object.keys(VAZIFALAR)

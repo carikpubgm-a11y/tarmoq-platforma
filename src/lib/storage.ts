@@ -71,7 +71,10 @@ export interface Result {
   detail?: string
   at: number
 }
-export type ResultKey = 'test' | 'lab' | 'firewall' | 'muammoli' | 'snowball' | 'jurnal' | 'namoyish' | 'amaliy'
+export type ResultKey =
+  | 'test' | 'lab' | 'firewall'
+  | 'mosini' | 'yigish' | 'parol' | 'bilimdon'          // oʻyinlar
+  | 'muammoli' | 'snowball' | 'jurnal' | 'namoyish' | 'amaliy'  // metodlar
 
 /** Oʻquvchi sessiyasi shu yerga ulanadi — natija serverga ham yuboriladi. */
 let syncer: ((key: ResultKey, r: Result) => void) | null = null

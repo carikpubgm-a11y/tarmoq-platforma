@@ -6,6 +6,10 @@
   "main": "worker.js",
   "compatibility_date": "2026-11-01",
 
+  // Cloudflare "deploy" dan oldin saytni yigʻadi (dist/ paydo boʻladi).
+  // Shu tufayli dashboard'da alohida "Build command" sozlash shart emas.
+  "build": { "command": "npm run build" },
+
   // Yigʻilgan sayt (npm run build → dist/)
   "assets": {
     "directory": "./dist",

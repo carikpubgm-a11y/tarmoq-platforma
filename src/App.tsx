@@ -28,6 +28,7 @@ import OquvchiKirish from './pages/OquvchiKirish'
 import Reyting from './pages/Reyting'
 import Sertifikat from './pages/Sertifikat'
 import Oqituvchi from './pages/Oqituvchi'
+import Bosqich from './pages/Bosqich'
 import NotFound from './pages/NotFound'
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
       <Route path="/kirish-oquvchi" element={<OquvchiKirish />} />
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/bosqich/:slug" element={<Bosqich />} />
         <Route path="/kurs" element={<Kurs />} />
         <Route path="/kirish" element={<Kirish />} />
         <Route path="/turlari" element={<Turlari />} />

@@ -28,11 +28,11 @@ export default function Sertifikat() {
     ? oquvchi.natijalar.map(n => ({ kod: n.vazifa, ball: n.ball, maks: n.maks }))
     : Object.entries(mahalliy).map(([kod, r]) => ({ kod, ball: r!.score, maks: r!.max }))
 
-  const test = natijalar.find(n => n.kod === 'test')
+  const yakun = natijalar.find(n => n.kod === 'test' || n.kod === 'bilimdon')
   const jamiFoiz = natijalar.length
     ? Math.round(natijalar.reduce((a, n) => a + (n.maks ? (n.ball / n.maks) * 100 : 0), 0) / natijalar.length)
     : 0
-  const ochiq = !!test
+  const ochiq = !!yakun
   const d = daraja(jamiFoiz)
   const ism = oquvchi?.toliqIsm || [oquvchi?.familiya, oquvchi?.ism].filter(Boolean).join(' ') || ''
 
@@ -55,14 +55,14 @@ export default function Sertifikat() {
         <p className="mt-3 max-w-2xl text-[1.1rem] text-slate-600">
           {ochiq
             ? 'Tabriklaymiz! Yakuniy testni yakunladingiz. Sertifikatni chop eting yoki PDF sifatida saqlang.'
-            : 'Sertifikat yakuniy testni yakunlaganingizdan soʻng ochiladi.'}
+            : 'Sertifikat 7-bosqich (Tezkor bilimdon)ni yakunlaganingizdan soʻng ochiladi.'}
         </p>
       </header>
 
       {!ochiq && (
         <div className="no-print mb-8 space-y-4">
           <Callout kind="warn" title="Sertifikat hali yopiq">
-            Uni ochish uchun <Link to="/test">yakuniy testni</Link> toʻliq yeching. Boshqa vazifalarni ham bajarsangiz, darajangiz yuqoriroq boʻladi.
+            Uni ochish uchun <Link to="/bosqich/bilimdon">7-bosqich (Tezkor bilimdon)</Link> oʻyinini tugating. Koʻproq oʻyin oʻynasangiz — darajang yuqoriroq boʻladi.
           </Callout>
           <div className="rounded-4xl border-2 border-slate-200 bg-white p-6 shadow-card">
             <h2 className="font-display text-lg font-extrabold">Bajarilgan vazifalar: {natijalar.length} / {Object.keys(VAZIFALAR).length}</h2>
@@ -104,7 +104,7 @@ export default function Sertifikat() {
 
               <p className="mx-auto mt-7 max-w-2xl text-[1.05rem] leading-relaxed text-slate-600">
                 U <strong className="font-extrabold text-navy-900">«{COURSE.title}»</strong> mavzusi boʻyicha
-                nazariy darslarni oʻzlashtirdi, interaktiv laboratoriyada oʻz tarmogʻini qurdi va yakuniy testni yakunladi.
+                nazariy darslarni oʻzlashtirdi, interaktiv oʻyinlar orqali oʻz tarmogʻini qurdi va yakuniy bilimdon oʻyinini tugatdi.
               </p>
 
               <div className="mx-auto mt-8 grid max-w-xl gap-3 sm:grid-cols-3">

@@ -2,14 +2,16 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   ArrowLeft, ArrowRight, Check, LayoutGrid, Maximize, Menu, NotebookText, Presentation, Printer, X, LogOut, Clock, Mic, MonitorPlay,
-  Trophy, UserRound, Users, EllipsisVertical,
+  Trophy, UserRound, Users, EllipsisVertical, Map, Award, Lock, BookOpen,
 } from 'lucide-react'
-import { GROUPS, SECTIONS, COURSE, findSection, neighbours, type SectionDef } from '../data/sections'
+import { SECTIONS, COURSE, findSection, neighbours, type SectionDef } from '../data/sections'
+import { SAYOHAT } from '../data/sayohat'
 import { useDefense, toggleFullscreen } from '../lib/defense'
 import { useStored } from '../lib/storage'
 import { useOquvchi } from '../lib/student'
 import IsmSorov from './IsmSorov'
 import { VAZIFALAR } from '../lib/api'
+import { type Result, type ResultKey } from '../lib/storage'
 import { TONE, cx } from './ui'
 
 function Brand() {
@@ -28,34 +30,50 @@ function Brand() {
   )
 }
 
-function SideNav({ visited, onNavigate }: { visited: string[]; onNavigate?: () => void }) {
+function SideNav({ visited, bajarilgan, onNavigate }: { visited: string[]; bajarilgan: Set<string>; onNavigate?: () => void }) {
+  const tugadi = (s: typeof SAYOHAT[number]) => s.gameKey ? bajarilgan.has(s.gameKey) : visited.includes(s.path)
   return (
-    <nav aria-label="Boʻlimlar" className="space-y-5 px-3 pb-6">
-      {GROUPS.map(g => (
-        <div key={g}>
-          <div className="px-3 pb-1.5 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-navy-400">{g}</div>
-          <ul className="space-y-0.5">
-            {SECTIONS.filter(s => s.group === g).map(s => (
-              <li key={s.path}>
-                <NavLink to={s.path} end onClick={onNavigate}
-                  className={({ isActive }) => cx('group flex items-center gap-2.5 rounded-xl py-2 pr-2.5 text-[0.88rem] font-medium transition',
-                    s.child ? 'pl-7' : 'pl-3',
-                    isActive ? 'bg-white/10 text-white shadow-inner' : 'text-navy-200 hover:bg-white/5 hover:text-white')}>
-                  {({ isActive }) => (
-                    <>
-                      <span className={cx('grid h-7 w-7 flex-none place-items-center rounded-lg', isActive ? TONE[s.tone].solid : 'bg-navy-800 text-navy-300 group-hover:text-white')}>
-                        <s.icon size={15} />
-                      </span>
-                      <span className="min-w-0 flex-1 truncate">{s.short}</span>
-                      {visited.includes(s.path) && !isActive && <Check size={14} className="flex-none text-teal-400" aria-label="koʻrilgan" />}
-                    </>
-                  )}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <nav aria-label="Sayohat bosqichlari" className="px-3 pb-6">
+      <NavLink to="/" end onClick={onNavigate}
+        className={({ isActive }) => cx('mb-2 flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[0.92rem] font-bold transition',
+          isActive ? 'bg-white/10 text-white' : 'text-navy-200 hover:bg-white/5 hover:text-white')}>
+        <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-brand-600 text-white"><Map size={15} /></span>
+        Sayohat xaritasi
+      </NavLink>
+      <div className="px-3 pb-1.5 pt-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-navy-400">7 bosqich</div>
+      <ul className="space-y-0.5">
+        {SAYOHAT.map((s, i) => {
+          const ok = tugadi(s)
+          const ochiq = i === 0 || tugadi(SAYOHAT[i - 1]) || ok
+          return (
+            <li key={s.path}>
+              <NavLink to={s.path} onClick={e => { if (!ochiq) e.preventDefault(); else onNavigate?.() }}
+                className={({ isActive }) => cx('group flex items-center gap-2.5 rounded-xl py-2 pl-3 pr-2.5 text-[0.88rem] font-medium transition',
+                  !ochiq ? 'cursor-not-allowed text-navy-500' : isActive ? 'bg-white/10 text-white shadow-inner' : 'text-navy-200 hover:bg-white/5 hover:text-white')}>
+                {({ isActive }) => (
+                  <>
+                    <span className={cx('grid h-7 w-7 flex-none place-items-center rounded-lg text-sm', ok ? 'bg-emerald-500 text-white' : isActive ? TONE[s.tone].solid : 'bg-navy-800 text-navy-300 group-hover:text-white')}>
+                      {ok ? <Check size={14} strokeWidth={3} /> : ochiq ? s.n : <Lock size={12} />}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate">{s.title}</span>
+                    {s.gameKey && ochiq && !ok && <span className="flex-none text-xs">🎮</span>}
+                  </>
+                )}
+              </NavLink>
+            </li>
+          )
+        })}
+      </ul>
+      <div className="mt-4 border-t border-navy-800 pt-3">
+        <NavLink to="/reyting" onClick={onNavigate}
+          className={({ isActive }) => cx('flex items-center gap-2.5 rounded-xl px-3 py-2 text-[0.88rem] font-medium transition', isActive ? 'bg-white/10 text-white' : 'text-navy-200 hover:bg-white/5 hover:text-white')}>
+          <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-amber-500 text-navy-900"><Trophy size={15} /></span> Reyting
+        </NavLink>
+        <NavLink to="/sertifikat" onClick={onNavigate}
+          className={({ isActive }) => cx('flex items-center gap-2.5 rounded-xl px-3 py-2 text-[0.88rem] font-medium transition', isActive ? 'bg-white/10 text-white' : 'text-navy-200 hover:bg-white/5 hover:text-white')}>
+          <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-violet-500 text-white"><Award size={15} /></span> Sertifikat
+        </NavLink>
+      </div>
     </nav>
   )
 }
@@ -99,6 +117,8 @@ export default function Layout() {
   const { index, prev, next } = neighbours(pathname)
   const [visited, setVisited] = useStored<string[]>('visited', [])
   const { oquvchi, chiqish } = useOquvchi()
+  const [mahalliyNat] = useStored<Partial<Record<ResultKey, Result>>>('results', {})
+  const bajarilgan = new Set<string>(oquvchi?.natijalar?.length ? oquvchi.natijalar.map(n => n.vazifa) : Object.keys(mahalliyNat))
   const [ustoz, setUstoz] = useState(false)
   const [drawer, setDrawer] = useState(false)
   const [grid, setGrid] = useState(false)
@@ -133,7 +153,7 @@ export default function Layout() {
     return () => window.removeEventListener('keydown', onKey)
   }, [defense.on, next, prev, grid, navigate])
 
-  const seen = SECTIONS.filter(s => visited.includes(s.path)).length
+  const bosqichTugadi = SAYOHAT.filter(x => x.gameKey ? bajarilgan.has(x.gameKey) : visited.includes(x.path)).length
 
   return (
     <div className="min-h-screen">
@@ -142,10 +162,10 @@ export default function Layout() {
       {/* ---------- Yon panel (kompyuter) ---------- */}
       <aside className="no-print defense-hide fixed inset-y-0 left-0 z-40 hidden w-72 flex-col overflow-y-auto bg-navy-950 lg:flex">
         <div className="sticky top-0 z-10 bg-navy-950 px-3 pb-3 pt-4"><Brand /></div>
-        <SideNav visited={visited} />
+        <SideNav visited={visited} bajarilgan={bajarilgan} />
         <div className="mt-auto space-y-2 border-t border-navy-800 p-4">
-          <div className="flex items-center justify-between text-xs text-navy-300"><span>Koʻrilgan boʻlimlar</span><span className="font-mono font-bold text-teal-300">{seen} / {SECTIONS.length}</span></div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-navy-800"><div className="h-full rounded-full bg-teal-400 transition-all" style={{ width: (seen / SECTIONS.length) * 100 + '%' }} /></div>
+          <div className="flex items-center justify-between text-xs text-navy-300"><span>Sayohat</span><span className="font-mono font-bold text-teal-300">{bosqichTugadi} / {SAYOHAT.length}</span></div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-navy-800"><div className="h-full rounded-full bg-gradient-to-r from-brand-400 to-cyan-400 transition-all" style={{ width: (bosqichTugadi / SAYOHAT.length) * 100 + '%' }} /></div>
         </div>
       </aside>
 
@@ -158,7 +178,7 @@ export default function Layout() {
               <Brand />
               <button type="button" onClick={() => setDrawer(false)} aria-label="Yopish" className="rounded-lg p-2 text-navy-200 hover:bg-white/10"><X size={22} /></button>
             </div>
-            <SideNav visited={visited} onNavigate={() => setDrawer(false)} />
+            <SideNav visited={visited} bajarilgan={bajarilgan} onNavigate={() => setDrawer(false)} />
           </div>
         </div>
       )}
