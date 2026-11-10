@@ -1,0 +1,19 @@
+# Render.com uchun sozlama.
+# Render'da «New → Blueprint» ni tanlab, GitHub repozitoriyani ulasangiz —
+# shu fayl oʻqiladi va har bir `git push` dan keyin sayt oʻzi yangilanadi.
+services:
+  - type: web
+    name: tarmoq-platforma
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: main
+    autoDeploy: true            # GitHub'ga push qilinsa — avtomatik yangilanadi
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/holat
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: OQITUVCHI_PIN      # Oʻqituvchi paneli PIN kodi
+        sync: false             # qiymatini Render panelida oʻzingiz yozasiz (boʻsh qolsa — 2026)

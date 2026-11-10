@@ -8,6 +8,8 @@ import { GROUPS, SECTIONS, COURSE, findSection, neighbours, type SectionDef } fr
 import { useDefense, toggleFullscreen } from '../lib/defense'
 import { useStored } from '../lib/storage'
 import { useOquvchi } from '../lib/student'
+import IsmSorov from './IsmSorov'
+import { VAZIFALAR } from '../lib/api'
 import { TONE, cx } from './ui'
 
 function Brand() {
@@ -228,6 +230,7 @@ export default function Layout() {
       <div className={defense.on ? '' : 'lg:pl-72'}>
       <main id="mazmun" ref={mainRef} tabIndex={-1}
         className={cx('mx-auto px-4 pt-8 outline-none sm:px-8', defense.on ? 'max-w-6xl pb-36' : 'max-w-5xl pb-16')}>
+        {Object.values(VAZIFALAR).some(v => v.yoʻl === (pathname.replace(/\/+$/, '') || '/')) && <IsmSorov />}
         <Outlet />
         <PrevNext prev={prev} next={next} />
         <footer className="no-print defense-hide mt-10 flex flex-wrap justify-between gap-3 text-sm text-slate-500">

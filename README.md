@@ -73,7 +73,19 @@ Agar server umuman ishga tushmasa, bola vazifalarni baribir bajara oladi: natija
 
 ## Internetga qoʻyish
 
-Sayt + server bitta Node dasturi, shuning uchun **Node ishlatadigan** bepul hosting kerak (Render, Railway, Fly, Glitch). Sozlamalar:
+Sayt + server bitta Node dasturi, shuning uchun **Node ishlatadigan** bepul hosting kerak (Render, Railway, Fly).
+
+### Render.com — avtomatik yangilanish bilan (tavsiya)
+
+Loyihada **`render.yaml`** fayli bor, shuning uchun qoʻlda sozlash shart emas:
+
+1. [render.com](https://render.com) → GitHub hisobingiz bilan kiring
+2. **New → Blueprint** → `carikpubgm-a11y/tarmoq-platforma` repozitoriyasini tanlang
+3. **Apply** — Render `render.yaml` ni oʻqiydi va saytni yigʻib ishga tushiradi
+
+Shundan soʻng **GitHub'ga har bir `git push` avtomatik yangilanishni boshlaydi** (`autoDeploy: true`). Oʻqituvchi PIN kodini Render panelidagi `OQITUVCHI_PIN` oʻzgaruvchisida belgilashingiz mumkin.
+
+### Boshqa hostinglar uchun
 
 - Build: `npm install && npm run build`
 - Start: `npm start`
