@@ -12,18 +12,10 @@ import Xavfsizlik from './pages/Xavfsizlik'
 import Tahdidlar from './pages/Tahdidlar'
 import Laboratoriya from './pages/Laboratoriya'
 import LabFirewall from './pages/LabFirewall'
-import Metodika from './pages/Metodika'
-import Muammoli from './pages/methods/Muammoli'
-import Snowball from './pages/methods/Snowball'
 import Jurnal from './pages/methods/Jurnal'
-import Namoyish from './pages/methods/Namoyish'
 import AmaliyTopshiriq from './pages/methods/AmaliyTopshiriq'
-import Vositalar from './pages/Vositalar'
-import Amaliyot from './pages/Amaliyot'
-import Test from './pages/Test'
 import Xulosa from './pages/Xulosa'
 import Himoya from './pages/Himoya'
-import Ssenariy from './pages/Ssenariy'
 import OquvchiKirish from './pages/OquvchiKirish'
 import Reyting from './pages/Reyting'
 import Fikr from './pages/Fikr'
@@ -51,21 +43,13 @@ export default function App() {
         <Route path="/tahdidlar" element={<Tahdidlar />} />
         <Route path="/laboratoriya" element={<Laboratoriya />} />
         <Route path="/laboratoriya/firewall" element={<LabFirewall />} />
-        <Route path="/metodika" element={<Metodika />} />
-        <Route path="/metodika/muammoli" element={<Muammoli />} />
-        <Route path="/metodika/snowball" element={<Snowball />} />
         <Route path="/metodika/jurnal" element={<Jurnal />} />
-        <Route path="/metodika/namoyish" element={<Namoyish />} />
         <Route path="/metodika/amaliy" element={<AmaliyTopshiriq />} />
-        <Route path="/vositalar" element={<Vositalar />} />
-        <Route path="/amaliyot" element={<Amaliyot />} />
-        <Route path="/test" element={<Test />} />
         <Route path="/reyting" element={<Reyting />} />
         <Route path="/fikr" element={<Fikr />} />
         <Route path="/sertifikat" element={<Sertifikat />} />
         <Route path="/oqituvchi" element={<Oqituvchi />} />
         <Route path="/xulosa" element={<Xulosa />} />
-        <Route path="/ssenariy" element={<Ssenariy />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

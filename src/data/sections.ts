@@ -1,7 +1,6 @@
 import {
   House, GraduationCap, Network, Globe, Share2, Router, DraftingCompass, Hash, ShieldCheck, Bug, FlaskConical,
-  BrickWall, Presentation, CircleHelp, Snowflake, BookOpenText, MonitorPlay, Wrench, AppWindow, ClipboardList,
-  ListChecks, Flag, Trophy, Award, type LucideIcon,
+  BrickWall, BookOpenText, Wrench, Trophy, Award, Flag, type LucideIcon,
 } from 'lucide-react'
 import type { Tone } from '../components/ui'
 
@@ -21,7 +20,7 @@ export interface SectionDef {
 /** Boʻlimlar tartibi — navigatsiya, «oldingi / keyingi» va himoya rejimi shu roʻyxat boʻyicha yuradi. */
 export const SECTIONS: SectionDef[] = [
   { path: '/', no: '01', title: 'Bosh sahifa', short: 'Bosh sahifa', group: 'Kirish', tone: 'blue', icon: House,
-    script: { time: '0:30', key: true, say: 'Mavzu va fan nomini ayting. Platforma oddiy sayt emas — unda nazariya, laboratoriya, metodlar va baholash bitta joyda ekanini taʼkidlang.', method: 'Kirish soʻzi', demo: 'Kurs tuzilmasi kartalarini koʻrsating: 15 boʻlim, laboratoriya, 5 metod, test.' } },
+    script: { time: '0:30', key: true, say: 'Mavzu va fan nomini ayting. Platforma oddiy sayt emas — unda nazariya, laboratoriya, metodlar va baholash bitta joyda ekanini taʼkidlang.', method: 'Kirish soʻzi', demo: 'Kurs tuzilmasi kartalarini koʻrsating: nazariya boʻlimlari, laboratoriya, metodlar.' } },
   { path: '/kurs', no: '02', title: 'Kurs haqida va oʻquv maqsadlari', short: 'Kurs va maqsadlar', group: 'Kirish', tone: 'blue', icon: GraduationCap,
     script: { time: '1:00', key: true, say: 'Uch turdagi maqsadni (taʼlimiy, tarbiyaviy, rivojlantiruvchi) va kutilayotgan natijalar jadvalini qisqa tushuntiring. Asosiy gʻoya: yodlashdan tushunishga oʻtish.', method: 'Maqsadni eʼlon qilish', demo: 'Kutilayotgan natijalar jadvali — har bir natija qaysi mashq bilan tekshirilishini koʻrsating.' } },
   { path: '/kirish', no: '03', title: 'Kompyuter tarmoqlariga kirish', short: 'Tarmoqqa kirish', group: 'Nazariya', tone: 'blue', icon: Network,
@@ -44,27 +43,15 @@ export const SECTIONS: SectionDef[] = [
     script: { time: '3:00', key: true, say: 'Bu — loyihaning asosiy qismi. Oʻquvchi tarmoqni oʻzi quradi: qurilma qoʻshadi, kabel ulaydi, IP sozlaydi va aloqani tekshiradi.', method: 'Amaliy ish (learning by doing)', demo: 'Tayyor «Yulduz» andozasini yuklang → paket yuboring → bitta kabelni uzing → qayta yuboring. Soʻng IP manzilni ataylab buzib, xato izohini koʻrsating.' } },
   { path: '/laboratoriya/firewall', no: '11.1', title: 'Firewall laboratoriyasi', short: 'Firewall laboratoriyasi', group: 'Laboratoriya', tone: 'green', icon: BrickWall, child: true,
     script: { time: '1:30', key: true, say: 'Qoidalar yuqoridan pastga oʻqiladi, birinchi mos kelgani ishlaydi; oxirida — standart taqiq.', method: 'Tajriba', demo: 'Uchta vazifani bajaring: HTTP ga ruxsat, SSH ni bloklash, nomaʼlum trafikni bloklash. Qoida tartibini almashtirib, natija oʻzgarishini koʻrsating.' } },
-  { path: '/metodika/muammoli', no: '12.1', title: 'Muammoli taʼlim metodi', short: 'Muammoli taʼlim', group: 'Metodika', tone: 'amber', icon: CircleHelp, child: true,
-    script: { time: '2:00', key: true, say: 'Avval muammo, keyin bilim. Oʻquvchi 20 kompyuterli tarmoqni oʻzi loyihalaydi, platforma mezon boʻyicha tekshiradi.', method: 'Muammoli taʼlim', demo: 'Olti qadamni auditoriya bilan birga toʻldiring va «Yechimni baholash» tugmasini bosing.' } },
-  { path: '/metodika/snowball', no: '12.2', title: 'Snowball (qor uyumi) metodi', short: 'Snowball', group: 'Metodika', tone: 'amber', icon: Snowflake, child: true,
-    script: { time: '2:00', key: true, say: 'Fikr 1 → 2 → 4 kishilik guruhda yiriklashadi. Savol: xavfsizlik uchun eng muhim uchta chora.', method: 'Snowball', demo: 'Bir oʻquvchidan 3 ta chora soʻrang, juftlik va guruh bosqichida birlashtiring, yakuniy uchlikni ekspert roʻyxati bilan solishtiring.' } },
-  { path: '/metodika/jurnal', no: '12.3', title: 'Double-Entry Journal metodi', short: 'Double-Entry Journal', group: 'Metodika', tone: 'amber', icon: BookOpenText, child: true,
+  { path: '/metodika/jurnal', no: '12.1', title: 'Double-Entry Journal metodi', short: 'Double-Entry Journal', group: 'Metodika', tone: 'amber', icon: BookOpenText, child: true,
     script: { time: '1:30', say: 'Chap ustun — avval bilgani, oʻng ustun — yangi oʻrgangani. Refleksiya vositasi.', method: 'Double-Entry Journal', demo: 'Bitta tushunchani (masalan, Firewall) auditoriya bilan toʻldiring va «Taqqoslash» koʻrinishini oching.' } },
-  { path: '/metodika/namoyish', no: '12.4', title: 'Namoyish metodi', short: 'Namoyish', group: 'Metodika', tone: 'amber', icon: MonitorPlay, child: true,
-    script: { time: '2:00', say: 'Oʻqituvchi ekranda bosqichma-bosqich koʻrsatadi, har qadamda savol beradi.', method: 'Namoyish', demo: 'Olti qadam: qurilma → ulash → IP → paket → firewall. Har qadamda «Oʻqituvchi nima deydi?» izohini oching.' } },
-  { path: '/metodika/amaliy', no: '12.5', title: 'Amaliy topshiriq metodi', short: 'Amaliy topshiriq', group: 'Metodika', tone: 'amber', icon: Wrench, child: true,
+  { path: '/metodika/amaliy', no: '12.2', title: 'Amaliy topshiriq metodi', short: 'Amaliy topshiriq', group: 'Metodika', tone: 'amber', icon: Wrench, child: true,
     script: { time: '3:00', key: true, say: '10 ta kompyuter va 1 ta printer uchun lokal tarmoq. Olti mezon boʻyicha avtomatik baholanadi.', method: 'Amaliy topshiriq', demo: 'Vaqt tejash uchun «Namunaviy yechim»ni yuklang, soʻng bitta kabelni olib tashlab, ball qanday oʻzgarishini koʻrsating.' } },
-  { path: '/vositalar', no: '12.6', title: 'Raqamli taʼlim vositalari', short: 'Raqamli vositalar', group: 'Metodika', tone: 'amber', icon: AppWindow, child: true,
-    script: { time: '1:00', say: 'Metod va vositani farqlang: Snowball — metod, Padlet — uni qoʻllab-quvvatlovchi vosita.', method: 'Sharh', demo: 'Besh vosita kartasi: Packet Tracer, Padlet, Kahoot!, LearningApps, diagrams.net.' } },
-  { path: '/amaliyot', no: '13', title: 'Amaliy mashgʻulotlar', short: 'Amaliy mashgʻulotlar', group: 'Amaliyot va baholash', tone: 'green', icon: ClipboardList,
-    script: { time: '1:30', say: 'Uch darajali topshiriq (A, B, C): bitta sinfda ham, sinfdan tashqari mashgʻulotda ham qoʻllanadi. Baholanadigani — javob emas, asos.', method: 'Tabaqalashtirilgan topshiriq, guruh ishi', demo: 'B topshiriqqa javob yozing, mezon bilan oʻz-oʻzini baholashni koʻrsating.' } },
-  { path: '/test', no: '14', title: 'Bilimni baholash va testlar', short: 'Test markazi', group: 'Amaliyot va baholash', tone: 'green', icon: ListChecks,
-    script: { time: '2:00', key: true, say: 'Savollar taʼrifni emas, vaziyatni tahlil qilishni soʻraydi. Har javobdan keyin izoh chiqadi.', method: 'Formativ va summativ baholash', demo: 'Mavzu boʻyicha 3–4 savolni auditoriya bilan yeching; natijalar sahifasi va amaliy ishlar ballarini koʻrsating.' } },
-  { path: '/reyting', no: '15', title: 'Sinf reytingi', short: 'Reyting', group: 'Yakun', tone: 'amber', icon: Trophy,
+  { path: '/reyting', no: '13', title: 'Sinf reytingi', short: 'Reyting', group: 'Yakun', tone: 'amber', icon: Trophy,
     script: { time: '0:40', key: true, say: 'Har bir bajarilgan vazifa ball beradi. Reyting sinfni ragʻbatlantiradi va kim qayerda ekanini koʻrsatadi.', method: 'Ragʻbatlantirish', demo: 'Jonli reytingni koʻrsating: birinchi uchlik va oʻquvchining oʻz oʻrni.' } },
-  { path: '/sertifikat', no: '16', title: 'Sertifikat', short: 'Sertifikat', group: 'Yakun', tone: 'amber', icon: Award,
-    script: { time: '0:40', key: true, say: 'Yakuniy testni tugatgan oʻquvchi oʻz ismi va familiyasi yozilgan sertifikat oladi.', method: 'Yakuniy ragʻbat', demo: 'Sertifikatni oching va «Chop etish» tugmasini koʻrsating.' } },
-  { path: '/xulosa', no: '17', title: 'Xulosa va foydalanilgan manbalar', short: 'Xulosa va manbalar', group: 'Yakun', tone: 'slate', icon: Flag,
+  { path: '/sertifikat', no: '14', title: 'Sertifikat', short: 'Sertifikat', group: 'Yakun', tone: 'amber', icon: Award,
+    script: { time: '0:40', key: true, say: 'Yakuniy oʻyinni tugatgan oʻquvchi oʻz ismi va familiyasi yozilgan sertifikat oladi.', method: 'Yakuniy ragʻbat', demo: 'Sertifikatni oching va «Chop etish» tugmasini koʻrsating.' } },
+  { path: '/xulosa', no: '15', title: 'Xulosa va foydalanilgan manbalar', short: 'Xulosa va manbalar', group: 'Yakun', tone: 'slate', icon: Flag,
     script: { time: '1:00', key: true, say: 'Yetti asosiy fikr. Yakuniy gap: «Nega switch, nega router emas?» degan savol yodlashni tushunishga aylantiradi.', method: 'Refleksiya (3-2-1)', demo: 'Manbalar roʻyxati — rasmiy standartlar va tashkilotlar.' } },
 ]
 
@@ -78,6 +65,9 @@ export function neighbours(pathname: string) {
   const i = SECTIONS.findIndex(s => s.path === (pathname.replace(/\/+$/, '') || '/'))
   return { index: i, prev: i > 0 ? SECTIONS[i - 1] : undefined, next: i >= 0 && i < SECTIONS.length - 1 ? SECTIONS[i + 1] : undefined }
 }
+
+/** Oʻqitish metodlari — asosiy (oʻquvchi) oynasida ham koʻrsatiladi. */
+export const METODLAR = SECTIONS.filter(s => s.path.startsWith('/metodika/'))
 
 export const COURSE = {
   title: 'Kompyuter tarmoqlarini loyihalash va tarmoq xavfsizligini oʻqitish',

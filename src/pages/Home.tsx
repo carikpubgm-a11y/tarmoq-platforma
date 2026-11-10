@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Award, Check, Lock, LogIn, MessageSquare, Play, Rocket, Trophy } from 'lucide-react'
-import { COURSE } from '../data/sections'
+import { COURSE, METODLAR } from '../data/sections'
 import { SAYOHAT, ochilganNishonlar } from '../data/sayohat'
 import { useStored, type Result, type ResultKey } from '../lib/storage'
 import { useOquvchi } from '../lib/student'
@@ -112,6 +112,27 @@ export default function Home() {
               <div className="mt-0.5 text-[0.72rem] leading-tight text-slate-500">{n.ochildi ? n.izoh : 'hali yopiq'}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ---------- Oʻqitish metodlari ---------- */}
+      <section className="mb-10">
+        <h2 className="mb-1 text-[1.6rem] font-extrabold sm:text-[1.9rem]">Oʻqitish metodlari 🧩</h2>
+        <p className="mb-5 text-[1.05rem] text-slate-600">Darsda qoʻllaniladigan interaktiv metodlar — oʻzing ham sinab koʻr.</p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {METODLAR.map(m => {
+            const t = TONE[m.tone]
+            return (
+              <Link key={m.path} to={m.path} className="group flex items-center gap-4 rounded-4xl border-2 border-amber-200 bg-white p-5 shadow-card transition hover:-translate-y-1 hover:shadow-lift">
+                <span className={cx('grid h-14 w-14 flex-none place-items-center rounded-2xl bg-gradient-to-br text-white transition group-hover:scale-110', t.grad)}><m.icon size={26} /></span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-[1.1rem] font-extrabold leading-snug text-navy-900">{m.short}</span>
+                  <span className="block text-[0.95rem] text-slate-500">{m.title}</span>
+                </span>
+                <ArrowRight className="flex-none text-amber-500 transition group-hover:translate-x-1" />
+              </Link>
+            )
+          })}
         </div>
       </section>
 

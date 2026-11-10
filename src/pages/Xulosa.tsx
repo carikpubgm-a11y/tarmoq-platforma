@@ -12,7 +12,7 @@ const IDEAS: { title: string; text: string; tone: Tone; to: string; section: str
   { title: 'Xavfsizlik — qatlamlar, bitta devor emas', text: 'Firewall, segmentatsiya, MFA, yangilanish, zaxira va oʻqitilgan odam — har biri alohida himoya qatlami.', tone: 'violet', to: '/xavfsizlik', section: 'Xavfsizlik' },
   { title: '100% xavfsizlik yoʻq', text: 'Maqsad — xavfni kamaytirish va hodisani tez aniqlash.', tone: 'violet', to: '/xavfsizlik', section: 'Xavfsizlik' },
   { title: 'Tekshirilmagan zaxira — zaxira emas', text: 'Nusxa olishning oʻzi yetarli emas: undan tiklashni muntazam sinab koʻrish shart.', tone: 'violet', to: '/xavfsizlik', section: 'Xavfsizlik' },
-  { title: 'Oʻqitishda sabab soʻralsin', text: '«Nega switch, nega router emas?» — aynan shu savol yodlashni tushunishga aylantiradi.', tone: 'amber', to: '/metodika', section: 'Oʻqitish metodikasi' },
+  { title: 'Oʻqitishda sabab soʻralsin', text: '«Nega switch, nega router emas?» — aynan shu savol yodlashni tushunishga aylantiradi.', tone: 'amber', to: '/metodika/jurnal', section: 'Oʻqitish metodlari' },
 ]
 
 /* ------------------------------ Manbalar ------------------------------ */
@@ -219,8 +219,8 @@ export default function Xulosa() {
       <Block tone="slate" title="Refleksiya: 3-2-1" sub="Mashgʻulot yakunida har bir ishtirokchi uchta fakt, ikkita savol va bitta xulosa yozadi. Bu usul nimani tushunganingizni va nima ochiq qolganini koʻrsatadi.">
         <Reflection />
         <div className="mt-4 flex flex-wrap gap-3">
-          <Link to="/test" className="inline-flex items-center gap-2 rounded-xl bg-teal-600 px-4 py-2.5 text-[0.95rem] font-semibold text-white shadow-sm transition hover:bg-teal-700">
-            <ListChecks size={17} /> Bilimni testda tekshirish
+          <Link to="/sertifikat" className="inline-flex items-center gap-2 rounded-xl bg-teal-600 px-4 py-2.5 text-[0.95rem] font-semibold text-white shadow-sm transition hover:bg-teal-700">
+            <ListChecks size={17} /> Sertifikatni koʻrish
           </Link>
           <Link to="/laboratoriya" className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-[0.95rem] font-semibold text-navy-950 transition hover:border-teal-500 hover:bg-teal-50">
             <FlaskConical size={17} /> Laboratoriyaga qaytish

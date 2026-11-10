@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   ArrowLeft, ArrowRight, Check, LayoutGrid, Maximize, Menu, NotebookText, Presentation, Printer, X, LogOut, Clock, Mic, MonitorPlay,
-  Trophy, UserRound, Users, EllipsisVertical, Map, Award, Lock, BookOpen, MessageSquare,
+  Trophy, UserRound, Users, EllipsisVertical, Map, Award, Lock, BookOpen, MessageSquare, BookOpenText, Wrench,
 } from 'lucide-react'
 import { SECTIONS, COURSE, findSection, neighbours, type SectionDef } from '../data/sections'
 import { SAYOHAT } from '../data/sayohat'
@@ -79,6 +79,18 @@ function SideNav({ visited, bajarilgan, onNavigate }: { visited: string[]; bajar
           className={({ isActive }) => cx('flex items-center gap-2.5 rounded-xl px-3 py-2 text-[0.88rem] font-medium transition', isActive ? 'bg-white/10 text-white' : 'text-navy-200 hover:bg-white/5 hover:text-white')}>
           <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-violet-500 text-white"><Award size={15} /></span> Sertifikat
         </NavLink>
+      </div>
+      <div className="mt-4 border-t border-navy-800 pt-3">
+        <div className="px-3 pb-1.5 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-navy-400">Metodlar</div>
+        {[
+          { to: '/metodika/jurnal', I: BookOpenText, t: 'Double-Entry Journal' },
+          { to: '/metodika/amaliy', I: Wrench, t: 'Amaliy topshiriq' },
+        ].map(m => (
+          <NavLink key={m.to} to={m.to} onClick={onNavigate}
+            className={({ isActive }) => cx('flex items-center gap-2.5 rounded-xl px-3 py-2 text-[0.88rem] font-medium transition', isActive ? 'bg-white/10 text-white' : 'text-navy-200 hover:bg-white/5 hover:text-white')}>
+            <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-amber-500 text-navy-900"><m.I size={15} /></span> {m.t}
+          </NavLink>
+        ))}
       </div>
     </nav>
   )
@@ -236,7 +248,6 @@ export default function Layout() {
                   {[
                     { to: '/oqituvchi', I: Users, t: 'Natijalar va baholar' },
                     { to: '/himoya', I: Presentation, t: 'Himoya rejimi' },
-                    { to: '/ssenariy', I: NotebookText, t: 'Taqdimot ssenariysi' },
                   ].map(x => (
                     <Link key={x.to} to={x.to} onClick={() => setUstoz(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold text-navy-900 hover:bg-brand-50">
                       <x.I size={17} className="text-brand-600" />{x.t}

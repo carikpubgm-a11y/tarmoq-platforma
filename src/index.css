@@ -40,9 +40,9 @@
   :focus-visible { @apply outline-none ring-4 ring-brand-300 ring-offset-2 ring-offset-white; }
   ::selection { @apply bg-brand-200 text-navy-900; }
 
-  /* Himoya rejimi: hamma narsa uzoqdan koʻrinadigan boʻlib kattalashadi */
-  html.defense { font-size: 17px; }
-  @media (min-width: 1500px) { html.defense { font-size: 18.5px; } }
+  /* Himoya rejimi: uzoqdan koʻrinsin, lekin boʻlim ekranga sigʻsin */
+  html.defense { font-size: 15px; }
+  @media (min-width: 1500px) { html.defense { font-size: 16px; } }
   html.defense .defense-hide { display: none !important; }
   html:not(.defense) .defense-only { display: none !important; }
 }

@@ -41,7 +41,6 @@ export default function Himoya() {
         <div className="no-print flex flex-wrap items-center justify-between gap-3">
           <Link to="/" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-navy-200 hover:bg-white/10 hover:text-white"><ArrowLeft size={17} /> Platformaga qaytish</Link>
           <div className="flex gap-2">
-            <Link to="/ssenariy" className="inline-flex items-center gap-2 rounded-xl border border-navy-600 px-3 py-2 text-sm font-semibold text-navy-100 hover:border-amber-400"><NotebookText size={17} /> Taqdimot ssenariysi</Link>
             <button type="button" onClick={toggleFullscreen} className="inline-flex items-center gap-2 rounded-xl border border-navy-600 px-3 py-2 text-sm font-semibold text-navy-100 hover:border-teal-400"><Maximize size={17} /> Toʻliq ekran</button>
           </div>
         </div>
