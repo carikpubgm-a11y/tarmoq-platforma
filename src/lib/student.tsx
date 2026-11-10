@@ -26,6 +26,27 @@ export const useOquvchi = () => useContext(C)
 
 interface Navbat { vazifa: string; ball: number; maks: number; izoh?: string }
 
+/* Chiqishda yoki boshqa oʻquvchi kirganda — bu brauzerdagi oldingi oʻquvchining
+   progressini tozalaymiz (ball, koʻrilgan boʻlimlar, oʻyin/metod qoralamalari).
+   Faqat oʻqituvchi PIN, himoya rejimi va kirish formasi xotirasi saqlanadi. */
+const SAQLANADI = new Set(['oqituvchiPin', 'defense', 'oxirgiKirish'])
+function tozalaProgress() {
+  // subscriberlar (bosh sahifa, yon panel) darhol yangilansin
+  saveStored('results', {})
+  saveStored('visited', [])
+  saveStored('navbat', [])
+  try {
+    for (const k of Object.keys(localStorage)) {
+      if (!k.startsWith('tarmoq-platforma:')) continue
+      const nom = k.slice('tarmoq-platforma:'.length)
+      if (nom === 'oquvchi' || SAQLANADI.has(nom) || ['results', 'visited', 'navbat'].includes(nom)) continue
+      localStorage.removeItem(k)   // oʻyin/metod qoralamalari
+    }
+  } catch {
+    /* localStorage yopiq boʻlsa ham ishlashda davom etamiz */
+  }
+}
+
 export function OquvchiProvider({ children }: { children: ReactNode }) {
   const [oquvchi, setOquvchi] = useState<Oquvchi | null>(() => loadStored<Oquvchi | null>('oquvchi', null))
   const [kutilyapti, setKutilyapti] = useState(false)
@@ -104,12 +125,24 @@ export function OquvchiProvider({ children }: { children: ReactNode }) {
   const kirish = useCallback(async (ism: string, familiya: string, sinf: string) => {
     setKutilyapti(true); setXato('')
     try {
+      const avvalgi = oquvchiRef.current
       const { oquvchi: o } = await api.kirish(ism, familiya, sinf)
+
+      // Boshqa oʻquvchi kirayotgan boʻlsa — bu kompyuterdagi oldingi natija/progressni
+      // tozalaymiz, aks holda u yangi oʻquvchiga ulanib ketadi.
+      if (!avvalgi || avvalgi.id !== o.id) tozalaProgress()
+
       setOquvchi(o); saveStored('oquvchi', o); setAloqa('bor')
-      // avvalgi natijalar bor boʻlsa — ularni ham yuboramiz
-      const eski = loadStored<Partial<Record<ResultKey, Result>>>('results', {})
-      const q: Navbat[] = Object.entries(eski).map(([vazifa, r]) => ({ vazifa, ball: r!.score, maks: r!.max, izoh: r!.detail }))
-      if (q.length) { setNavbat(q); saveStored('navbat', q) }
+
+      // Faqat ANONIM oʻynagandan keyin birinchi marta kirgan boʻlsa — oʻsha natijalarni
+      // shu oʻquvchiga biriktiramiz. Qayta kirishda yoki boshqa oʻquvchida — yoʻq.
+      if (!avvalgi) {
+        const eski = loadStored<Partial<Record<ResultKey, Result>>>('results', {})
+        const q: Navbat[] = Object.entries(eski).map(([vazifa, r]) => ({ vazifa, ball: r!.score, maks: r!.max, izoh: r!.detail }))
+        if (q.length) { setNavbat(q); saveStored('navbat', q) }
+      } else {
+        setNavbat([]); saveStored('navbat', [])
+      }
       return true
     } catch (e) {
       setXato(e instanceof ApiXato ? e.message : 'Kirishda xato yuz berdi.')
@@ -121,6 +154,7 @@ export function OquvchiProvider({ children }: { children: ReactNode }) {
   const chiqish = useCallback(() => {
     setOquvchi(null); saveStored('oquvchi', null)
     setNavbat([]); saveStored('navbat', [])
+    tozalaProgress()   // keyingi oʻquvchi toza boshlashi uchun
   }, [])
 
   const yangilash = useCallback(async () => {

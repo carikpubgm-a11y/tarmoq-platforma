@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Award, Lock, Printer, Star } from 'lucide-react'
+import { Award, Download, Lock, Printer } from 'lucide-react'
 import { Btn, Callout, Progress, cx } from '../components/ui'
 import { VAZIFALAR } from '../lib/api'
 import { COURSE } from '../data/sections'
@@ -12,10 +12,60 @@ const OY = ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust'
 const sana = (d = new Date()) => `${d.getDate()}-${OY[d.getMonth()]}, ${d.getFullYear()}-yil`
 
 function daraja(foiz: number) {
-  if (foiz >= 86) return { nom: 'Aʼlo', rang: 'from-amber-400 to-orange-400', emoji: '🥇' }
-  if (foiz >= 71) return { nom: 'Yaxshi', rang: 'from-cyan-400 to-blue-400', emoji: '🥈' }
-  if (foiz >= 56) return { nom: 'Qoniqarli', rang: 'from-emerald-400 to-lime-400', emoji: '🥉' }
-  return { nom: 'Ishtirokchi', rang: 'from-violet-400 to-fuchsia-400', emoji: '🎖️' }
+  if (foiz >= 86) return { nom: 'AʼLO', ribbon: '#D4A017', seal1: '#FDE68A', seal2: '#D4A017', emoji: '🥇' }
+  if (foiz >= 71) return { nom: 'YAXSHI', ribbon: '#3B82F6', seal1: '#BFDBFE', seal2: '#2563EB', emoji: '🥈' }
+  if (foiz >= 56) return { nom: 'QONIQARLI', ribbon: '#10B981', seal1: '#A7F3D0', seal2: '#059669', emoji: '🥉' }
+  return { nom: 'ISHTIROKCHI', ribbon: '#8B5CF6', seal1: '#DDD6FE', seal2: '#7C3AED', emoji: '🎖️' }
+}
+
+/** Oʻquvchi id'sidan oddiy tekshiruv kodi (sertifikat raqami). */
+function kod(id: string) {
+  let h = 0
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0
+  return 'TX-' + (h % 100000).toString().padStart(5, '0') + '-' + id.slice(-3).toUpperCase()
+}
+
+/* Burchak naqshi (guilloché uslubida) */
+function Burchak({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 90 90" className={cx('absolute h-16 w-16 text-amber-500/70 sm:h-20 sm:w-20', className)} fill="none" aria-hidden="true">
+      <path d="M6 84V34C6 18 18 6 34 6h50" stroke="currentColor" strokeWidth="2" />
+      <path d="M14 84V36C14 24 24 14 36 14h48" stroke="currentColor" strokeWidth="1" opacity=".6" />
+      <circle cx="20" cy="20" r="4" fill="currentColor" />
+      <path d="M20 20c10-2 18-10 20-20M20 20c-2 10 0 0 0 0" stroke="currentColor" strokeWidth="1.2" opacity=".5" />
+    </svg>
+  )
+}
+
+/* Oltin muhr (lenta bilan) */
+function Muhr({ d }: { d: ReturnType<typeof daraja> }) {
+  return (
+    <div className="relative mx-auto h-28 w-28 sm:h-32 sm:w-32">
+      {/* lentalar */}
+      <svg viewBox="0 0 120 150" className="absolute left-1/2 top-12 -z-0 h-28 w-28 -translate-x-1/2" aria-hidden="true">
+        <path d="M44 70 L30 145 L52 128 L60 150 L68 128 L90 145 L76 70Z" fill={d.ribbon} />
+        <path d="M44 70 L37 108 L60 96 L60 70Z" fill="#000" opacity=".15" />
+      </svg>
+      {/* muhr doirasi */}
+      <svg viewBox="0 0 120 120" className="relative z-10 h-full w-full drop-shadow-lg" aria-hidden="true">
+        <circle cx="60" cy="60" r="56" fill={d.seal2} />
+        <circle cx="60" cy="60" r="52" fill={`url(#g${d.ribbon})`} />
+        <defs>
+          <radialGradient id={`g${d.ribbon}`} cx="40%" cy="35%" r="75%">
+            <stop offset="0%" stopColor={d.seal1} /><stop offset="100%" stopColor={d.seal2} />
+          </radialGradient>
+        </defs>
+        {/* tishli chekka */}
+        {Array.from({ length: 40 }).map((_, i) => {
+          const a = (i / 40) * Math.PI * 2
+          return <circle key={i} cx={60 + Math.cos(a) * 56} cy={60 + Math.sin(a) * 56} r="2.4" fill={d.seal2} />
+        })}
+        <circle cx="60" cy="60" r="44" fill="none" stroke="#fff" strokeWidth="1.5" opacity=".8" />
+      </svg>
+      <span className="absolute inset-0 z-20 grid place-items-center pb-1 text-4xl sm:text-5xl">{d.emoji}</span>
+      <span className="absolute inset-x-0 top-[38%] z-20 text-center font-display text-[0.6rem] font-extrabold tracking-widest text-white/90">{d.nom}</span>
+    </div>
+  )
 }
 
 export default function Sertifikat() {
@@ -23,10 +73,9 @@ export default function Sertifikat() {
   const [mahalliy] = useStored<Partial<Record<ResultKey, Result>>>('results', {})
   useEffect(() => { void yangilash() }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Natijalar: serverdan, boʻlmasa shu brauzerdan
   const natijalar = oquvchi?.natijalar?.length
     ? oquvchi.natijalar.map(n => ({ kod: n.vazifa, ball: n.ball, maks: n.maks }))
-    : Object.entries(mahalliy).map(([kod, r]) => ({ kod, ball: r!.score, maks: r!.max }))
+    : Object.entries(mahalliy).map(([k, r]) => ({ kod: k, ball: r!.score, maks: r!.max }))
 
   const yakun = natijalar.find(n => n.kod === 'test' || n.kod === 'bilimdon')
   const jamiFoiz = natijalar.length
@@ -49,12 +98,15 @@ export default function Sertifikat() {
 
   return (
     <>
+      {/* Chop etishda sertifikat butun A4 (yotiq) boʻlib chiqadi */}
+      <style>{`@media print { @page { size: A4 landscape; margin: 0 } body { background: #fff !important } .sert-wrap { position: fixed; inset: 0; margin: 0 !important; padding: 0 !important } }`}</style>
+
       <header className="no-print anim-in mb-8">
         <span className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-4 py-2 text-sm font-extrabold text-amber-800"><Award size={18} /> Yakuniy hujjat</span>
         <h1 className="mt-4 text-[2.1rem] font-extrabold leading-tight sm:text-[2.7rem]">Sertifikatingiz</h1>
         <p className="mt-3 max-w-2xl text-[1.1rem] text-slate-600">
           {ochiq
-            ? 'Tabriklaymiz! Yakuniy testni yakunladingiz. Sertifikatni chop eting yoki PDF sifatida saqlang.'
+            ? 'Tabriklaymiz! Sarguzashtni yakunladingiz. Sertifikatni chop eting yoki PDF sifatida saqlang.'
             : 'Sertifikat 7-bosqich (Tezkor bilimdon)ni yakunlaganingizdan soʻng ochiladi.'}
         </p>
       </header>
@@ -68,10 +120,10 @@ export default function Sertifikat() {
             <h2 className="font-display text-lg font-extrabold">Bajarilgan vazifalar: {natijalar.length} / {Object.keys(VAZIFALAR).length}</h2>
             <Progress className="mt-3" value={natijalar.length} max={Object.keys(VAZIFALAR).length} />
             <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
-              {Object.entries(VAZIFALAR).map(([kod, v]) => {
-                const n = natijalar.find(x => x.kod === kod)
+              {Object.entries(VAZIFALAR).map(([k, v]) => {
+                const n = natijalar.find(x => x.kod === k)
                 return (
-                  <li key={kod} className={cx('flex items-center gap-3 rounded-2xl border-2 px-4 py-3', n ? 'border-emerald-200 bg-emerald-50' : 'border-slate-200')}>
+                  <li key={k} className={cx('flex items-center gap-3 rounded-2xl border-2 px-4 py-3', n ? 'border-emerald-200 bg-emerald-50' : 'border-slate-200')}>
                     <span className="text-xl">{v.emoji}</span>
                     <Link to={v.yoʻl} className="flex-1 font-bold text-navy-900 hover:text-brand-700">{v.nom}</Link>
                     <span className={cx('font-mono text-sm font-extrabold', n ? 'text-emerald-700' : 'text-slate-400')}>
@@ -85,51 +137,71 @@ export default function Sertifikat() {
         </div>
       )}
 
-      {/* ---------- SERTIFIKAT ---------- */}
-      <div className={cx('relative', !ochiq && 'no-print pointer-events-none select-none opacity-40 blur-[2px]')}>
-        <article className="relative overflow-hidden rounded-4xl bg-white p-2 shadow-lift print:rounded-none print:shadow-none" aria-label="Sertifikat">
-          <div className={cx('absolute inset-0 bg-gradient-to-br', d.rang)} />
-          <div className="relative rounded-[1.7rem] border-4 border-double border-amber-300/70 bg-white px-6 py-10 text-center sm:px-12 sm:py-14 print:rounded-none">
-            <div className="pointer-events-none absolute inset-0 opacity-[0.045]" aria-hidden="true"
-              style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, #7C3AED 0 2px, transparent 2px), radial-gradient(circle at 80% 70%, #06B6D4 0 2px, transparent 2px)', backgroundSize: '44px 44px' }} />
+      {/* ====================== SERTIFIKAT ====================== */}
+      <div className={cx('sert-wrap', !ochiq && 'no-print pointer-events-none select-none opacity-40 blur-[2px]')}>
+        <article aria-label="Sertifikat"
+          className="relative mx-auto w-full max-w-[1000px] overflow-hidden rounded-3xl bg-gradient-to-br from-amber-200 via-amber-100 to-amber-200 p-[6px] shadow-lift sm:min-h-[650px] print:h-screen print:max-w-none print:rounded-none print:shadow-none">
+          {/* ichki qogʻoz */}
+          <div className="relative h-full w-full rounded-[1.35rem] bg-[#FFFDF7] print:rounded-none"
+            style={{ backgroundImage: 'radial-gradient(circle at 15% 15%, rgba(212,160,23,.05) 0 1.5px, transparent 1.5px), radial-gradient(circle at 85% 85%, rgba(124,58,237,.04) 0 1.5px, transparent 1.5px)', backgroundSize: '26px 26px' }}>
+            {/* ikki qavatli ramka */}
+            <div className="absolute inset-3 rounded-[1rem] border-[3px] border-amber-500/80 sm:inset-5" />
+            <div className="absolute inset-[18px] rounded-[0.8rem] border border-amber-400/50 sm:inset-7" />
+            {/* burchak naqshlari */}
+            <Burchak className="left-4 top-4 sm:left-6 sm:top-6" />
+            <Burchak className="right-4 top-4 rotate-90 sm:right-6 sm:top-6" />
+            <Burchak className="bottom-4 right-4 rotate-180 sm:bottom-6 sm:right-6" />
+            <Burchak className="bottom-4 left-4 -rotate-90 sm:bottom-6 sm:left-6" />
 
-            <div className="relative">
-              <span className={cx('mx-auto grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br text-4xl shadow-lift', d.rang)}>{d.emoji}</span>
-              <p className="mt-6 font-display text-sm font-extrabold uppercase tracking-[0.42em] text-amber-700">Sertifikat</p>
-              <div className="mx-auto mt-3 h-1 w-24 rounded-full bg-gradient-to-r from-amber-400 to-orange-400" />
+            {/* mazmun */}
+            <div className="relative flex h-full flex-col items-center justify-center px-6 py-6 text-center sm:px-16 sm:py-8">
+              {/* logo + muassasa */}
+              <div className="flex items-center gap-2 text-amber-700">
+                <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 9v7M16 16l-7 6M16 16l7 6" stroke="currentColor" strokeWidth="1.8" fill="none" /><circle cx="16" cy="7" r="3" fill="currentColor" /><circle cx="8" cy="23" r="3" fill="currentColor" /><circle cx="24" cy="23" r="3" fill="currentColor" /></svg>
+                <span className="font-display text-xs font-extrabold uppercase tracking-[0.2em] sm:text-sm">Tarmoq olami · Informatika</span>
+              </div>
 
-              <p className="mt-8 text-[1.05rem] text-slate-500">Ushbu sertifikat</p>
-              <p className="text-balance mt-2 font-display text-[2rem] font-extrabold leading-tight text-navy-900 sm:text-[2.8rem]">{ism}</p>
-              <p className="mt-1.5 text-[1.05rem] font-semibold text-slate-500">{oquvchi.sinf} oʻquvchisiga berildi</p>
+              <h2 className="mt-3 font-display text-2xl font-black uppercase tracking-[0.12em] text-navy-900 sm:mt-4 sm:text-[2.4rem]">Sertifikat</h2>
+              <p className="mt-0.5 text-[0.7rem] font-bold uppercase tracking-[0.3em] text-amber-700 sm:text-xs">Yutuqlar uchun · Certificate of Achievement</p>
 
-              <p className="mx-auto mt-7 max-w-2xl text-[1.05rem] leading-relaxed text-slate-600">
-                U <strong className="font-extrabold text-navy-900">«{COURSE.title}»</strong> mavzusi boʻyicha
-                nazariy darslarni oʻzlashtirdi, interaktiv oʻyinlar orqali oʻz tarmogʻini qurdi va yakuniy bilimdon oʻyinini tugatdi.
+              <p className="mt-4 text-sm text-slate-500 sm:mt-5 sm:text-base">Ushbu sertifikat</p>
+              {/* ism */}
+              <p className="text-balance mt-1 font-display text-[1.7rem] font-black leading-tight text-navy-950 sm:text-[3.2rem]" style={{ fontFamily: '"Plus Jakarta Sans Variable", serif' }}>{ism}</p>
+              <svg viewBox="0 0 300 12" className="mt-1 h-3 w-56 text-amber-500 sm:w-72" fill="none" aria-hidden="true"><path d="M2 6c40-6 60-6 100 0s60 6 100 0 56-6 96 0" stroke="currentColor" strokeWidth="2" /><circle cx="150" cy="6" r="3" fill="currentColor" /></svg>
+              <p className="mt-1.5 text-sm font-semibold text-slate-500 sm:text-base">{oquvchi.sinf} oʻquvchisiga beriladi</p>
+
+              <p className="mx-auto mt-3 max-w-xl text-[0.82rem] leading-relaxed text-slate-600 sm:mt-4 sm:text-[0.98rem]">
+                U <strong className="font-bold text-navy-900">«{COURSE.title}»</strong> mavzusini oʻzlashtirdi:
+                tarmoq qurilmalarini oʻrgandi, oʻz tarmogʻini qurdi va yakuniy bilim sinovidan oʻtdi.
               </p>
 
-              <div className="mx-auto mt-8 grid max-w-xl gap-3 sm:grid-cols-3">
-                {[['Daraja', d.nom], ['Natija', jamiFoiz + '%'], ['Bajarilgan vazifa', `${natijalar.length} / ${Object.keys(VAZIFALAR).length}`]].map(([k, v]) => (
-                  <div key={k} className="rounded-2xl border-2 border-slate-200 bg-slate-50 px-3 py-3 print:bg-white">
-                    <div className="text-xs font-bold uppercase tracking-wider text-slate-500">{k}</div>
-                    <div className="font-display text-xl font-extrabold text-navy-900">{v}</div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-9 flex items-center justify-center gap-1.5 text-amber-400" aria-hidden="true">
-                {[0, 1, 2, 3, 4].map(i => <Star key={i} size={18} className={i < Math.round(jamiFoiz / 20) ? 'fill-amber-400' : 'opacity-25'} />)}
-              </div>
-
-              <div className="mt-9 grid gap-8 border-t-2 border-slate-100 pt-7 sm:grid-cols-2">
-                <div>
-                  <div className="mx-auto h-px w-44 bg-slate-300" />
-                  <p className="mt-2 text-sm font-semibold text-slate-500">Oʻqituvchi imzosi</p>
+              {/* muhr + natija */}
+              <div className="mt-3 flex items-center justify-center gap-6 sm:mt-4 sm:gap-10">
+                <div className="text-center">
+                  <div className="font-display text-2xl font-black text-navy-950 sm:text-4xl">{jamiFoiz}%</div>
+                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-slate-400 sm:text-xs">Natija</div>
                 </div>
-                <div>
-                  <p className="font-display text-base font-extrabold text-navy-900">{sana()}</p>
-                  <p className="mt-1 text-sm text-slate-500">{COURSE.subject}</p>
+                <Muhr d={d} />
+                <div className="text-center">
+                  <div className="font-display text-2xl font-black text-navy-950 sm:text-4xl">{natijalar.length}<span className="text-base text-slate-400 sm:text-xl">/{Object.keys(VAZIFALAR).length}</span></div>
+                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-slate-400 sm:text-xs">Vazifa</div>
                 </div>
               </div>
+
+              {/* imzolar */}
+              <div className="mt-auto grid w-full max-w-2xl grid-cols-2 gap-8 pt-4 sm:gap-16 sm:pt-6">
+                <div>
+                  <div className="mx-auto h-8 w-full border-b-2 border-slate-300" />
+                  <p className="mt-1 text-[0.68rem] font-bold uppercase tracking-wider text-slate-500 sm:text-xs">Oʻqituvchi imzosi</p>
+                </div>
+                <div>
+                  <div className="mx-auto flex h-8 w-full items-end justify-center border-b-2 border-slate-300 pb-1 font-display text-sm font-extrabold text-navy-900 sm:text-base">{sana()}</div>
+                  <p className="mt-1 text-[0.68rem] font-bold uppercase tracking-wider text-slate-500 sm:text-xs">Sana</p>
+                </div>
+              </div>
+
+              {/* sertifikat raqami */}
+              <p className="mt-3 font-mono text-[0.6rem] tracking-wider text-slate-400 sm:text-[0.7rem]">Sertifikat №: {kod(oquvchi.id)} · {COURSE.subject}</p>
             </div>
           </div>
         </article>
@@ -141,6 +213,7 @@ export default function Sertifikat() {
           <Link to="/reyting" className="inline-flex items-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-6 py-4 font-extrabold text-navy-900 hover:border-brand-400 hover:bg-brand-50">
             🏆 Reytingni koʻrish
           </Link>
+          <span className="inline-flex items-center gap-2 self-center text-sm text-slate-500"><Download size={15} /> Chop etishda «PDF saqlash»ni tanlang</span>
         </div>
       )}
     </>
