@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Award, Check, Lock, LogIn, Play, Rocket, Trophy } from 'lucide-react'
+import { ArrowRight, Award, Check, Lock, LogIn, MessageSquare, Play, Rocket, Trophy } from 'lucide-react'
 import { COURSE } from '../data/sections'
 import { SAYOHAT, ochilganNishonlar } from '../data/sayohat'
 import { useStored, type Result, type ResultKey } from '../lib/storage'
@@ -114,6 +114,16 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* ---------- Sinf fikri (Snowball) ---------- */}
+      <Link to="/fikr" className="group mb-4 flex items-center gap-5 overflow-hidden rounded-4xl border-2 border-amber-200 bg-gradient-to-r from-amber-50 to-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-lift">
+        <span className="grid h-16 w-16 flex-none place-items-center rounded-3xl bg-gradient-to-br from-amber-400 to-orange-400 text-navy-900 transition group-hover:scale-110">
+          {bajarilgan.has('snowball') ? <Check size={30} strokeWidth={3} /> : <MessageSquare size={28} />}
+        </span>
+        <span className="flex-1"><span className="block font-display text-xl font-extrabold text-navy-900">💭 Sinf fikri</span>
+          <span className="block text-slate-600">{bajarilgan.has('snowball') ? 'Fikringni yozding! Sinfning javoblarini koʻr.' : 'Fikringni yoz — oʻqituvchi va butun sinf koʻradi.'}</span></span>
+        <ArrowRight className="text-amber-500 transition group-hover:translate-x-1" />
+      </Link>
 
       {/* ---------- Sertifikat ---------- */}
       <Link to="/sertifikat" className="group flex items-center gap-5 overflow-hidden rounded-4xl border-2 border-violet-200 bg-gradient-to-r from-violet-50 to-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-lift">

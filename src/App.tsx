@@ -26,6 +26,7 @@ import Himoya from './pages/Himoya'
 import Ssenariy from './pages/Ssenariy'
 import OquvchiKirish from './pages/OquvchiKirish'
 import Reyting from './pages/Reyting'
+import Fikr from './pages/Fikr'
 import Sertifikat from './pages/Sertifikat'
 import Oqituvchi from './pages/Oqituvchi'
 import Bosqich from './pages/Bosqich'
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/amaliyot" element={<Amaliyot />} />
         <Route path="/test" element={<Test />} />
         <Route path="/reyting" element={<Reyting />} />
+        <Route path="/fikr" element={<Fikr />} />
         <Route path="/sertifikat" element={<Sertifikat />} />
         <Route path="/oqituvchi" element={<Oqituvchi />} />
         <Route path="/xulosa" element={<Xulosa />} />

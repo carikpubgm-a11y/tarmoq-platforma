@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Download, KeyRound, LogIn, Printer, RefreshCw, Save, Trash2, TriangleAlert, Users } from 'lucide-react'
+import { Download, KeyRound, LogIn, MessageSquare, Printer, RefreshCw, Save, Trash2, TriangleAlert, Users } from 'lucide-react'
 import { Btn, Callout, Pill, Progress, cx } from '../components/ui'
 import { api, ApiXato, VAZIFALAR, VAZIFA_KODLARI, type Oquvchi } from '../lib/api'
 import { useStored } from '../lib/storage'
@@ -212,6 +212,41 @@ export default function Oqituvchi() {
             </table>
           </div>
           <p className="no-print mt-2.5 text-sm text-slate-500">Bahoni tanlagandan soʻng yashil <Save size={13} className="inline" /> tugmasini bosing. Ustun belgilari: {VAZIFA_KODLARI.map(k => `${VAZIFALAR[k].emoji} ${VAZIFALAR[k].nom}`).join(' · ')}.</p>
+
+          {/* ---------- Snowball: oʻquvchilar fikri ---------- */}
+          {(() => {
+            const fikrli = (o: Oquvchi) => o.natijalar.find(n => n.vazifa === 'snowball' && n.izoh)?.izoh
+            const bilan = royxat.filter(o => fikrli(o))
+            const siz = royxat.filter(o => !fikrli(o))
+            return (
+              <section className="mt-8 overflow-hidden rounded-4xl border-2 border-amber-200 bg-white shadow-card">
+                <div className="flex flex-wrap items-center gap-3 bg-gradient-to-r from-amber-400 to-orange-400 px-5 py-3.5 sm:px-6">
+                  <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-white/30 text-navy-900"><MessageSquare size={20} /></span>
+                  <h2 className="mr-auto font-display text-base font-extrabold !text-navy-900 sm:text-lg">«Sinf fikri» (Snowball) javoblari</h2>
+                  <span className="rounded-full bg-white/80 px-3 py-1 text-sm font-extrabold text-emerald-800">Qatnashdi: {bilan.length} / {royxat.length}</span>
+                </div>
+                <div className="p-5 sm:p-6">
+                  {!bilan.length ? (
+                    <p className="text-slate-500">Hali hech kim fikr yozmagan. Oʻquvchilar bosh sahifadagi <strong>«💭 Sinf fikri»</strong> boʻlimida yozadi.</p>
+                  ) : (
+                    <ul className="space-y-2.5">
+                      {bilan.map(o => (
+                        <li key={o.id} className="rounded-2xl border-2 border-slate-200 p-3.5">
+                          <div className="font-display text-sm font-extrabold text-navy-900">{o.toliqIsm} <span className="font-medium text-slate-400">· {o.sinf}</span></div>
+                          <p className="mt-0.5 text-[0.97rem] leading-relaxed text-slate-700">{fikrli(o)}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {siz.length > 0 && (
+                    <p className="mt-4 rounded-2xl bg-slate-50 p-3.5 text-sm text-slate-600">
+                      <strong className="text-slate-700">Hali yozmaganlar ({siz.length}):</strong> {siz.map(o => o.toliqIsm).join(', ')}
+                    </p>
+                  )}
+                </div>
+              </section>
+            )
+          })()}
         </>
       )}
 

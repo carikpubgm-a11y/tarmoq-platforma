@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   ArrowLeft, ArrowRight, Check, LayoutGrid, Maximize, Menu, NotebookText, Presentation, Printer, X, LogOut, Clock, Mic, MonitorPlay,
-  Trophy, UserRound, Users, EllipsisVertical, Map, Award, Lock, BookOpen,
+  Trophy, UserRound, Users, EllipsisVertical, Map, Award, Lock, BookOpen, MessageSquare,
 } from 'lucide-react'
 import { SECTIONS, COURSE, findSection, neighbours, type SectionDef } from '../data/sections'
 import { SAYOHAT } from '../data/sayohat'
@@ -67,6 +67,10 @@ function SideNav({ visited, bajarilgan, onNavigate }: { visited: string[]; bajar
         })}
       </ul>
       <div className="mt-4 border-t border-navy-800 pt-3">
+        <NavLink to="/fikr" onClick={onNavigate}
+          className={({ isActive }) => cx('flex items-center gap-2.5 rounded-xl px-3 py-2 text-[0.88rem] font-medium transition', isActive ? 'bg-white/10 text-white' : 'text-navy-200 hover:bg-white/5 hover:text-white')}>
+          <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-amber-500 text-navy-900"><MessageSquare size={15} /></span> Sinf fikri
+        </NavLink>
         <NavLink to="/reyting" onClick={onNavigate}
           className={({ isActive }) => cx('flex items-center gap-2.5 rounded-xl px-3 py-2 text-[0.88rem] font-medium transition', isActive ? 'bg-white/10 text-white' : 'text-navy-200 hover:bg-white/5 hover:text-white')}>
           <span className="grid h-7 w-7 flex-none place-items-center rounded-lg bg-amber-500 text-navy-900"><Trophy size={15} /></span> Reyting

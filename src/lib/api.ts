@@ -59,5 +59,6 @@ export const VAZIFALAR: Record<string, { nom: string; yoʻl: string; emoji: stri
   lab: { nom: 'Tarmoq konstruktori', yoʻl: '/laboratoriya', emoji: '🏗️' },
   firewall: { nom: 'Firewall laboratoriyasi', yoʻl: '/laboratoriya/firewall', emoji: '🛡️' },
   test: { nom: 'Katta test', yoʻl: '/test', emoji: '📝' },
+  snowball: { nom: 'Sinf fikri', yoʻl: '/fikr', emoji: '💭' },
 }
 export const VAZIFA_KODLARI = Object.keys(VAZIFALAR)
