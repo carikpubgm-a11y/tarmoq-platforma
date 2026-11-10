@@ -8,7 +8,7 @@
 
   // Cloudflare "deploy" dan oldin saytni yigʻadi (dist/ paydo boʻladi).
   // Shu tufayli dashboard'da alohida "Build command" sozlash shart emas.
-  "build": { "command": "npm run build" },
+  "build": { "command": "npm run build:cf" },
 
   // Yigʻilgan sayt (npm run build → dist/)
   "assets": {

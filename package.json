@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "start": "node server.js",
     "serve": "npm run build && node server.js",
-    "dars": "npm run build && node server.js"
+    "dars": "npm run build && node server.js",
+    "build:cf": "vite build"
   },
   "dependencies": {
     "lucide-react": "^1.71.0",

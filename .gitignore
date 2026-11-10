@@ -5,4 +5,4 @@ dist-offline
 .DS_Store
 *.local
 
-data/
+/data/
