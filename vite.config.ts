@@ -8,5 +8,5 @@ export default defineConfig(({ mode }) => ({
   base: './',
   plugins: [react(), ...(mode === 'offline' ? [viteSingleFile()] : [])],
   build: mode === 'offline' ? { outDir: 'dist-offline', assetsInlineLimit: 100000000 } : { chunkSizeWarningLimit: 1200 },
-  server: { port: 5173, strictPort: true },
+  server: { port: 5173, strictPort: true, proxy: { '/api': 'http://localhost:3000' } },
 }))

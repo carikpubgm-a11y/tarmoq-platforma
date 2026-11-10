@@ -36,32 +36,32 @@ const MAC = {
 
 const STEPS: { at: NodeId; title: string; text: ReactNode }[] = [
   {
-    at: 'pc', title: 'Manzil aniqlanadi',
-    text: <>Kompyuter (192.168.10.25) fayl serveriga (192.168.40.5) maʼlumot yubormoqchi. Nishon <span className="font-semibold text-amber-300">boshqa tarmoqda</span>, shuning uchun paket toʻgʻridan-toʻgʻri emas, <strong>shlyuzga</strong> — router interfeysi 192.168.10.1 ga yuboriladi.</>,
+    at: 'pc', title: 'Manzil tekshiriladi',
+    text: <>Kompyuter fayl serveriga xabar yubormoqchi. Server <span className="font-semibold text-amber-300">boshqa tarmoqda</span>, shuning uchun xabar avval <strong>routerga</strong> beriladi.</>,
   },
   {
-    at: 'pc', title: 'Ramka yasaladi',
-    text: <>Manba MAC — kompyuter, nishon MAC — <strong>shlyuz (router)</strong>; kompyuter uni ARP soʻrovi orqali bilib oladi. IP manzillar oʻzgarmaydi: manba 192.168.10.25, nishon 192.168.40.5.</>,
+    at: 'pc', title: 'Konvert yasaladi',
+    text: <>Xabar konvertga solinadi. Konvertda yaqin manzil yoziladi: <strong>router</strong>. Ichidagi asl manzil — server — oʻzgarmaydi. ✉️</>,
   },
   {
-    at: 'sw', title: 'Switch ishlaydi',
-    text: <>Switch ramkani <strong>MAC jadval</strong> boʻyicha kerakli portga yoʻnaltiradi. IP manzilga <span className="font-semibold text-rose-300">qaramaydi</span> va ramkani oʻzgartirmaydi — shuning uchun u «bitta tarmoq ichida» ishlaydi deyiladi.</>,
+    at: 'sw', title: 'Switch yoʻl koʻrsatadi',
+    text: <>Switch konvertni kerakli portga uzatadi. U IP manzilga <span className="font-semibold text-rose-300">qaramaydi</span> — faqat MAC manzilga qaraydi.</>,
   },
   {
-    at: 'rtr', title: 'Router qabul qiladi',
-    text: <>Router IP sarlavhani oʻqiydi, TTL ni bittaga kamaytiradi va paketni qaysi interfeysdan chiqarishni hal qiladi. Soʻng <strong>yangi ramka</strong> yasaydi: manba MAC — router, nishon MAC — server. IP manzillar saqlanadi. Agar paket Internetga chiqayotgan boʻlganida, chegaradagi qurilma NAT yordamida manba manzilini umumiy IP ga almashtirar edi.</>,
+    at: 'rtr', title: 'Router qayta yozadi',
+    text: <>Router konvertni ochadi va <strong>yangi konvert</strong> yasaydi: endi yaqin manzil — server. IP manzillar esa oʻsha-oʻsha qolaveradi.</>,
   },
   {
-    at: 'srv', title: 'Paket serverga yetdi',
-    text: <>Javob teskari yoʻl bilan qaytadi — har uchastkada MAC manzillar yana qayta yoziladi, IP manzillar esa faqat oʻrin almashadi. Bu ichki yoʻnalishda NAT qatnashmadi. <span className="font-semibold text-teal-300">Sikl tugadi.</span></>,
+    at: 'srv', title: 'Xabar yetib bordi',
+    text: <>Javob xuddi shu yoʻl bilan qaytadi. <span className="font-semibold text-teal-300">Tayyor!</span> 🎉</>,
   },
 ]
 
-/** Hozirgi uchastkadagi ramka sarlavhasi (MAC manzillar va TTL). */
+/** Hozirgi qadamdagi konvert ustidagi yaqin manzillar (MAC). */
 function frameAt(i: number) {
   if (i < 2) return null
-  if (i < 4) return { src: 'Kompyuter', srcMac: MAC.pc, dst: 'Router (shlyuz)', dstMac: MAC.gw, ttl: 64 }
-  return { src: 'Router', srcMac: MAC.out, dst: 'Fayl serveri', dstMac: MAC.srv, ttl: 63 }
+  if (i < 4) return { src: 'Kompyuter', srcMac: MAC.pc, dst: 'Router', dstMac: MAC.gw }
+  return { src: 'Router', srcMac: MAC.out, dst: 'Fayl serveri', dstMac: MAC.srv }
 }
 
 export default function PacketFlow() {
@@ -79,9 +79,9 @@ export default function PacketFlow() {
 
   return (
     <Stage
-      title="Paket oqimi simulyatori"
+      title="Xabar qanday yoʻl bosadi?"
       badge={`${i} / ${TOTAL} qadam`}
-      hint={<>Soddalashtirilgan model. Haqiqatda ARP jadval, TTL, fragmentatsiya va boshqa mexanizmlar ham qatnashadi. MAC manzillar — namoyish uchun shartli qiymatlar.</>}
+      hint={<>Bu — soddalashtirilgan model. MAC manzillar namoyish uchun olingan.</>}
     >
       <div className="overflow-x-auto">
         <div className="min-w-[640px]">
@@ -136,33 +136,32 @@ export default function PacketFlow() {
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         <div className={cx('rounded-xl border bg-navy-900 p-3.5 transition-colors', rewritten ? 'border-amber-400' : 'border-navy-700')}>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-navy-300">Ramka sarlavhasi · MAC</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-navy-300">Konvert ustidagi yaqin manzil · MAC</span>
             <span className={cx('rounded-full px-2 py-0.5 text-[0.7rem] font-bold', rewritten ? 'bg-amber-400 text-navy-950' : 'bg-navy-800 text-amber-300')}>
-              {rewritten ? 'router qayta yozdi' : 'har uchastkada qayta yoziladi'}
+              {rewritten ? 'router qayta yozdi' : 'har qadamda qayta yoziladi'}
             </span>
           </div>
           {frame ? (
             <dl className="mt-2.5 space-y-1.5 font-mono text-[0.82rem]">
-              <div className="flex flex-wrap gap-x-2"><dt className="w-14 text-navy-300">manba</dt><dd className="text-white">{frame.srcMac} <span className="text-navy-300">· {frame.src}</span></dd></div>
-              <div className="flex flex-wrap gap-x-2"><dt className="w-14 text-navy-300">nishon</dt><dd className="text-white">{frame.dstMac} <span className="text-navy-300">· {frame.dst}</span></dd></div>
+              <div className="flex flex-wrap gap-x-2"><dt className="w-14 text-navy-300">kimdan</dt><dd className="text-white">{frame.srcMac} <span className="text-navy-300">· {frame.src}</span></dd></div>
+              <div className="flex flex-wrap gap-x-2"><dt className="w-14 text-navy-300">kimga</dt><dd className="text-white">{frame.dstMac} <span className="text-navy-300">· {frame.dst}</span></dd></div>
             </dl>
           ) : (
-            <p className="mt-2.5 text-[0.88rem] text-navy-300">Ramka hali yasalmagan.</p>
+            <p className="mt-2.5 text-[0.88rem] text-navy-300">Konvert hali yasalmagan.</p>
           )}
         </div>
         <div className="rounded-xl border border-navy-700 bg-navy-900 p-3.5">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-navy-300">Paket sarlavhasi · IP</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-navy-300">Konvert ichidagi asl manzil · IP</span>
             <span className="rounded-full bg-navy-800 px-2 py-0.5 text-[0.7rem] font-bold text-teal-300">yoʻl davomida oʻzgarmaydi</span>
           </div>
           {i > 0 ? (
             <dl className="mt-2.5 space-y-1.5 font-mono text-[0.82rem]">
-              <div className="flex flex-wrap gap-x-2"><dt className="w-14 text-navy-300">manba</dt><dd className="text-white">192.168.10.25</dd></div>
-              <div className="flex flex-wrap gap-x-2"><dt className="w-14 text-navy-300">nishon</dt><dd className="text-white">192.168.40.5</dd></div>
-              {frame && <div className="flex flex-wrap gap-x-2"><dt className="w-14 text-navy-300">TTL</dt><dd className={frame.ttl === 63 ? 'text-amber-300' : 'text-white'}>{frame.ttl}</dd></div>}
+              <div className="flex flex-wrap gap-x-2"><dt className="w-14 text-navy-300">kimdan</dt><dd className="text-white">192.168.10.25</dd></div>
+              <div className="flex flex-wrap gap-x-2"><dt className="w-14 text-navy-300">kimga</dt><dd className="text-white">192.168.40.5</dd></div>
             </dl>
           ) : (
-            <p className="mt-2.5 text-[0.88rem] text-navy-300">Paket hali yuborilmagan.</p>
+            <p className="mt-2.5 text-[0.88rem] text-navy-300">Xabar hali yuborilmagan.</p>
           )}
         </div>
       </div>
@@ -170,7 +169,7 @@ export default function PacketFlow() {
       <div ref={logRef} role="status" aria-live="polite"
         className="mt-3 max-h-[28rem] overflow-y-auto rounded-xl border border-navy-700 bg-navy-900 px-4 py-3 text-[0.94rem] leading-relaxed">
         {i === 0 ? (
-          <p className="text-navy-100">Tayyor. <strong>«Keyingi qadam»</strong> tugmasini bosing.</p>
+          <p className="text-navy-100">Tayyormisiz? <strong>«Keyingi qadam»</strong> tugmasini bosing. 🚀</p>
         ) : (
           <ol className="space-y-2.5">
             {STEPS.slice(0, i).map((s, k) => (

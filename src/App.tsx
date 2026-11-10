@@ -24,12 +24,17 @@ import Test from './pages/Test'
 import Xulosa from './pages/Xulosa'
 import Himoya from './pages/Himoya'
 import Ssenariy from './pages/Ssenariy'
+import OquvchiKirish from './pages/OquvchiKirish'
+import Reyting from './pages/Reyting'
+import Sertifikat from './pages/Sertifikat'
+import Oqituvchi from './pages/Oqituvchi'
 import NotFound from './pages/NotFound'
 
 export default function App() {
   return (
     <Routes>
       <Route path="/himoya" element={<Himoya />} />
+      <Route path="/kirish-oquvchi" element={<OquvchiKirish />} />
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/kurs" element={<Kurs />} />
@@ -52,6 +57,9 @@ export default function App() {
         <Route path="/vositalar" element={<Vositalar />} />
         <Route path="/amaliyot" element={<Amaliyot />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/reyting" element={<Reyting />} />
+        <Route path="/sertifikat" element={<Sertifikat />} />
+        <Route path="/oqituvchi" element={<Oqituvchi />} />
         <Route path="/xulosa" element={<Xulosa />} />
         <Route path="/ssenariy" element={<Ssenariy />} />
         <Route path="*" element={<NotFound />} />

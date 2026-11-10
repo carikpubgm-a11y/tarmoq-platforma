@@ -1,5 +1,5 @@
 import {
-  PageHeader, Goal, Block, Grid, Card, Callout, Pill, DataTable, LifeExample, Takeaway, MiniTask,
+  PageHeader, Goal, Block, Grid, Card, Callout, Pill, DataTable, LifeExample, Takeaway, MiniTask, Term,
 } from '../components/ui'
 import TopologyExplorer from '../sims/TopologyExplorer'
 
@@ -10,132 +10,108 @@ export default function Topologiyalar() {
         no="05"
         tone="teal"
         eyebrow="Interaktiv koʻrgazma"
-        title="Tarmoq topologiyalari"
-        lead={<>Topologiya — qurilmalarning <em>qanday joylashgani va oʻzaro ulangani</em>. Bu shunchaki nazariy savol emas: topologiya tarmoqning nosozlikka chidamliligini toʻgʻridan-toʻgʻri belgilaydi. Asosiy savol: bitta kabel uzilsa, nima boʻladi?</>}
+        title="Qurilmalarni qanday ulaymiz?"
+        lead={<>Qurilmalarning ulanish shakli — <Term en="topology">topologiya</Term>. Bitta savol hammasini hal qiladi: <strong>bitta kabel uzilsa, nima boʻladi?</strong></>}
       />
 
       <Goal
         items={[
-          'Yulduz, shina, halqa va toʻr topologiyalarini sxemasiga qarab tanish',
-          'Bitta kabel uzilganda har bir topologiyada nima boʻlishini bashorat qilish va simulyatsiyada tekshirish',
-          'Vaziyatga mos topologiyani kabel sarfi va ishonchlilik boʻyicha asoslab tanlash',
+          'Toʻrt topologiyani sxemasiga qarab tanib olaman',
+          'Bitta kabel uzilsa nima boʻlishini oldindan ayta olaman',
+          'Vaziyatga mos topologiyani tanlab, sababini aytaman',
         ]}
       />
 
-      <Block
-        tone="teal"
-        title="Toʻrt asosiy topologiya"
-        sub="Har bir topologiya ikki savolga turlicha javob beradi: qancha kabel kerak va bitta nosozlik nechta qurilmaga taʼsir qiladi."
-      >
+      <Block tone="teal" title="Toʻrt asosiy shakl">
         <Grid cols={4}>
-          <Card tone="teal" tag={<Pill tone="teal">star</Pill>} title="Yulduz">
-            Har bir qurilma markaziy qurilmaga (switchga) alohida kabel bilan ulanadi.
+          <Card tone="teal" tag={<Pill tone="teal">star</Pill>} title="⭐ Yulduz">
+            Hamma bitta markaziy switchga ulanadi.
           </Card>
-          <Card tone="slate" tag={<Pill tone="slate">bus</Pill>} title="Shina">
-            Barcha qurilmalar bitta umumiy magistral kabelga ulanadi.
+          <Card tone="slate" tag={<Pill tone="slate">bus</Pill>} title="➖ Shina">
+            Hamma bitta uzun kabelga ulanadi.
           </Card>
-          <Card tone="amber" tag={<Pill tone="amber">ring</Pill>} title="Halqa">
-            Har bir qurilma ikki qoʻshnisiga ulanadi; maʼlumot doira boʻylab aylanadi.
+          <Card tone="amber" tag={<Pill tone="amber">ring</Pill>} title="🔄 Halqa">
+            Har biri ikki qoʻshnisiga ulanadi, maʼlumot doira boʻylab yuradi.
           </Card>
-          <Card tone="violet" tag={<Pill tone="violet">mesh</Pill>} title="Toʻr">
-            Qurilmalar oʻzaro bir nechta yoʻl bilan bogʻlanadi; har doim muqobil yoʻl bor.
+          <Card tone="violet" tag={<Pill tone="violet">mesh</Pill>} title="🕸️ Toʻr">
+            Koʻp yoʻl bor — biri uzilsa, boshqasi ishlaydi.
           </Card>
         </Grid>
-        <Callout kind="note" title="Avval bashorat qiling" className="mt-4">
-          Simulyatorni ishga tushirishdan oldin oʻzingizdan soʻrang: har bir topologiyada bitta kabel uzilsa, nechta qurilma aloqasiz qoladi? Javobingizni yozib qoʻying, keyin tekshiring.
+        <Callout kind="note" title="Avval oʻzingiz taxmin qiling" className="mt-4">
+          Simulyatorni bosishdan oldin daftaringizga yozib qoʻying: har bir shaklda bitta kabel uzilsa, nechta qurilma aloqasiz qoladi?
         </Callout>
       </Block>
 
       <Block
         tone="teal"
-        title="Bitta kabel uzilsa nima boʻladi?"
-        sub={<>Topologiyani tanlang, soʻng <strong>«Aloqani uzish»</strong> tugmasini bosib, natijani kuzating.</>}
+        title="Sinab koʻring: kabelni uzamiz"
+        sub={<>Shaklni tanlang, soʻng <strong>«Aloqani uzish»</strong> tugmasini bosing.</>}
       >
         <TopologyExplorer />
       </Block>
 
-      <Block tone="teal" title="Toʻrt topologiya taqqosi" sub="Kabel sarfi, nosozlikka chidamlilik va bugungi qoʻllanilishi.">
+      <Block tone="teal" title="Toʻrttasini taqqoslaymiz">
         <DataTable
-          head={['Topologiya', 'Kabel sarfi', 'Nosozlikka chidamlilik', 'Bugun qayerda ishlatiladi']}
+          head={['Shakl', 'Kabel', 'Bitta uzilish', 'Bugun qayerda?']}
           rows={[
-            [
-              <strong>Yulduz</strong>,
-              'Oʻrtacha: har bir qurilmaga markazgacha alohida kabel',
-              'Yaxshi: bitta kabel uzilsa, faqat bitta qurilma aloqasiz qoladi. Zaif nuqtasi — markaziy switch',
-              'Deyarli barcha zamonaviy lokal tarmoqlar: maktab, ofis, uy',
-            ],
-            [
-              <strong>Shina</strong>,
-              'Eng kam: bitta magistral kabel',
-              'Past: magistral bir joyda uzilsa, butun tarmoq boʻlinadi yoki toʻxtaydi',
-              'Amalda ishlatilmaydi — eski koaksial Ethernet tarmoqlarida qoʻllangan',
-            ],
-            [
-              <strong>Halqa</strong>,
-              'Kam: har bir qurilmadan ikki qoʻshnisiga',
-              'Past: bir yoʻnalishli halqada bitta uzilish hammani toʻxtatadi. Qoʻsh halqada zaxira yoʻl bor',
-              'Lokal tarmoqlarda deyarli uchramaydi; operatorlarning optik magistrallarida zaxirali halqa sifatida qoʻllanadi',
-            ],
-            [
-              <strong>Toʻr</strong>,
-              'Eng koʻp: toʻliq toʻrda 5 ta qurilma uchun 10 ta kanal',
-              'Eng yuqori: kanal uzilsa, trafik muqobil yoʻldan ketadi',
-              'Internet magistrallari, provayder va maʼlumot markazlari tarmoqlari, simsiz mesh tizimlar — odatda qismiy toʻr',
-            ],
+            [<strong>⭐ Yulduz</strong>, 'Oʻrtacha', '1 ta qurilma uziladi ✅', 'Maktab, ofis, uy — hamma joyda'],
+            [<strong>➖ Shina</strong>, 'Eng kam', 'Tarmoq ikkiga boʻlinadi ❌', 'Ishlatilmaydi — eski usul'],
+            [<strong>🔄 Halqa</strong>, 'Kam', 'Butun halqa toʻxtaydi ❌', 'Operatorlarning optik yoʻllarida'],
+            [<strong>🕸️ Toʻr</strong>, 'Eng koʻp', 'Hech kim uzilmaydi ✅', 'Internet magistrallari, serverlar'],
           ]}
         />
-        <Callout kind="info" title="Amaliyotda" className="mt-4">
-          Zamonaviy bino tarmogʻi koʻpincha «kengaytirilgan yulduz» boʻladi: har bir qavatdagi switch markaziy switchga ulanadi. Eng muhim kanallar — markaziy switchlar, serverlar va internetga chiqish — zaxira yoʻl bilan, yaʼni qismiy toʻr koʻrinishida ulanadi.
+        <Callout kind="info" title="Amalda shunday" className="mt-4">
+          Koʻp binolarda «katta yulduz» ishlatiladi: har qavatning switchi markaziy switchga ulanadi. Eng muhim joylarga esa zaxira kabel tortiladi.
         </Callout>
       </Block>
 
       <LifeExample>
-        Informatika xonasida 15 ta kompyuter bitta switchga ulangan — bu yulduz. Dars paytida bir oʻquvchi stol ostidagi kabelni oyogʻi bilan uzib yubordi: faqat oʻsha kompyuter tarmoqdan chiqdi, dars davom etdi. Ertasi kuni esa switchning quvvat bloki kuyib qoldi — butun xona tarmoqsiz qoldi. Xulosa: yulduzda kabel uzilishi kichik muammo, markaziy qurilmaning nosozligi esa katta muammo. Shuning uchun maktabda zaxira switch saqlanadi, muhim joylarda esa zaxira kanal tortiladi.
+        Informatika xonasida 15 kompyuter bitta switchga ulangan — bu yulduz. Bir oʻquvchi stol ostidagi kabelni oyogʻi bilan uzdi: faqat oʻsha kompyuter tarmoqdan chiqdi, dars davom etdi. Ertasiga switchning quvvat bloki kuydi — butun xona tarmoqsiz qoldi. Xulosa: kabel uzilishi — kichik muammo, markaziy qurilma nosozligi — katta muammo.
       </LifeExample>
 
       <Takeaway
         items={[
-          'Topologiya tarmoqning nosozlikka chidamliligi va kabel sarfini belgilaydi.',
-          'Yulduz — bugungi lokal tarmoqlarning asosi: bitta kabel uzilsa, bitta qurilma aloqasiz qoladi; zaif nuqtasi — markaziy switch.',
-          'Shina va bir yoʻnalishli halqada bitta uzilish butun tarmoqqa taʼsir qiladi — shu sababli ular lokal tarmoqlarda qoʻllanmay qoʻygan.',
-          'Toʻr — eng ishonchli va eng qimmat; amalda muhim kanallar uchun qismiy toʻr tanlanadi.',
+          'Topologiya tarmoqning uzilishga chidamliligini belgilaydi.',
+          'Yulduz — eng koʻp ishlatiladigani; zaif joyi markaziy switch.',
+          'Shina va halqada bitta uzilish hammaga taʼsir qiladi.',
+          'Toʻr — eng ishonchli, lekin eng qimmat.',
         ]}
       />
 
       <MiniTask
         questions={[
           {
-            q: 'Yulduz topologiyali sinfda 12-kompyuterning tarmoq kabeli uzildi. Nima boʻladi?',
+            q: 'Yulduz ulangan sinfda 12-kompyuterning kabeli uzildi. Nima boʻladi?',
             options: [
               'Butun sinf tarmoqsiz qoladi',
-              'Faqat 12-kompyuter aloqasiz qoladi',
-              'Tarmoq ikki boʻlakka boʻlinadi',
-              'Signal teskari yoʻnalishda aylana boshlaydi',
+              'Faqat 12-kompyuter uziladi',
+              'Tarmoq ikkiga boʻlinadi',
+              'Signal teskari aylanadi',
             ],
             correct: 1,
-            explain: 'Yulduzda har bir qurilma switchga alohida kabel bilan ulangan, shuning uchun nosozlik faqat bitta qurilmaga taʼsir qiladi. Tarmoqning boʻlinishi — shinaga xos holat.',
+            explain: 'Yulduzda har qurilmaning oʻz kabeli bor, shuning uchun nosozlik bittasida qoladi. Tarmoqning boʻlinishi — shinaga xos holat.',
           },
           {
-            q: 'Shifoxonada serverlar va markaziy switchlar orasidagi aloqa bir daqiqa ham uzilmasligi kerak. Qaysi yechim eng mos?',
+            q: 'Shifoxonada serverlar aloqasi bir daqiqa ham uzilmasligi kerak. Nima qilamiz?',
             options: [
-              'Hammasini bitta shina kabeliga ulash',
-              'Bir yoʻnalishli halqa qurish',
-              'Muhim tugunlarni zaxira kanallar bilan ulash — qismiy toʻr',
-              'Bitta switchli oddiy yulduz qurish',
+              'Hammasini bitta uzun kabelga ulaymiz',
+              'Halqa qilib ulaymiz',
+              'Muhim joylarga zaxira kabel tortamiz — toʻr',
+              'Bitta switchli yulduz qilamiz',
             ],
             correct: 2,
-            explain: 'Uzluksizlik uchun muqobil yoʻl zarur. Qismiy toʻrda muhim tugunlar orasida zaxira kanal boʻladi: biri uzilsa, trafik ikkinchisidan ketadi. Oddiy yulduzda esa bitta switch — yagona nosozlik nuqtasi.',
+            explain: 'Uzilmasligi uchun muqobil yoʻl kerak. Biri uzilsa, trafik ikkinchisidan ketadi.',
           },
           {
-            q: 'Maktabda 40 ta kompyuter uchun yulduz topologiyasi tanlandi. Loyihada qaysi xavf alohida hisobga olinishi kerak?',
+            q: 'Maktabga 40 kompyuter uchun yulduz tanlandi. Qaysi xavfni hisobga olish kerak?',
             options: [
-              'Markaziy switch ishdan chiqsa, butun tarmoq toʻxtaydi',
-              'Bitta kompyuter oʻchirilsa, qolganlari ham uziladi',
-              'Maʼlumotlar toʻqnashuvi sababli tarmoq juda sekin ishlaydi',
-              'Yangi kompyuter qoʻshish uchun tarmoqni toʻxtatish kerak boʻladi',
+              'Markaziy switch buzilsa, hamma toʻxtaydi',
+              'Bitta kompyuter oʻchsa, qolganlari uziladi',
+              'Tarmoq albatta sekin ishlaydi',
+              'Yangi kompyuter qoʻshilmaydi',
             ],
             correct: 0,
-            explain: 'Yulduzning zaif nuqtasi — markaziy qurilma. Shuning uchun loyihada zaxira switch, uzluksiz quvvat manbai va muhim kanallar uchun zaxira ulanish koʻzda tutiladi.',
+            explain: 'Yulduzning zaif joyi — markaziy qurilma. Shuning uchun zaxira switch va uzluksiz quvvat manbai kerak.',
           },
         ]}
       />

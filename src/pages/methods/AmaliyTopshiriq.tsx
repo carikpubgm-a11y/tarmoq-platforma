@@ -8,12 +8,12 @@ import { saveResult, useStored } from '../../lib/storage'
 import { MethodInfo, StageTimer, type MethodMeta } from './MethodInfo'
 
 const META: MethodMeta = {
-  goal: <>Bilimni <strong>harakatga</strong> aylantirish: talaba aniq topshiriqni boshidan oxirigacha mustaqil bajaradi va natijasi oldindan maʼlum mezonlar boʻyicha baholanadi.</>,
-  how: ['Topshiriq va baholash mezonlari eʼlon qilinadi', 'Talaba qurilmalarni tanlab, topologiya tuzadi', 'Ulanishlarni bajaradi va IP manzillarni belgilaydi', 'Xavfsizlik choralarini koʻrsatib, loyihasini izohlaydi'],
+  goal: <>Bilimni <strong>harakatga</strong> aylantirish: oʻquvchi aniq topshiriqni boshidan oxirigacha mustaqil bajaradi va natijasi oldindan maʼlum mezonlar boʻyicha baholanadi.</>,
+  how: ['Topshiriq va baholash mezonlari eʼlon qilinadi', 'Oʻquvchi qurilmalarni tanlab, topologiya tuzadi', 'Ulanishlarni bajaradi va IP manzillarni belgilaydi', 'Xavfsizlik choralarini koʻrsatib, loyihasini izohlaydi'],
   teacher: ['Topshiriqni va mezonlarni oldindan tushuntiradi', 'Ish paytida yordam beradi, lekin oʻrniga bajarmaydi', 'Natijani mezon boʻyicha muhokama qiladi'],
   student: ['Topshiriqni mustaqil yoki juftlikda bajaradi', 'Xatosini diagnostika orqali oʻzi topadi', 'Tanlovini yozma asoslaydi'],
-  example: <>Kafedra xonasi uchun 10 ta kompyuter va 1 ta printerli tarmoq. Talaba switch tanlaydi, hammasini yulduz shaklida ulaydi, manzillarni bitta tarmoqdan beradi va chegaraga firewall qoʻyadi.</>,
-  outcome: <>Talaba kichik lokal tarmoqni mustaqil loyihalaydi, sozlaydi, tekshiradi va himoya qiladi — «qoʻllash» va «yaratish» darajasi.</>,
+  example: <>Kafedra xonasi uchun 10 ta kompyuter va 1 ta printerli tarmoq. Oʻquvchi switch tanlaydi, hammasini yulduz shaklida ulaydi, manzillarni bitta tarmoqdan beradi va chegaraga firewall qoʻyadi.</>,
+  outcome: <>Oʻquvchi kichik lokal tarmoqni mustaqil loyihalaydi, sozlaydi, tekshiradi va himoya qiladi — «qoʻllash» va «yaratish» darajasi.</>,
   criteria: ['Topologiyani toʻgʻri tanlash — 18 ball', 'Qurilmalarni toʻgʻri tanlash — 17 ball', 'IP manzillash — 18 ball', 'Ulanishlar — 17 ball', 'Xavfsizlik — 15 ball', 'Loyihani izohlash — 15 ball'],
 }
 
@@ -35,7 +35,7 @@ export default function AmaliyTopshiriq() {
   return (
     <>
       <PageHeader no="12.5" tone="amber" eyebrow="Pedagogik metod" title="Amaliy topshiriq metodi"
-        lead="Talaba tarmoqni oʻzi quradi — natija olti mezon boʻyicha avtomatik baholanadi." />
+        lead="Oʻquvchi tarmoqni oʻzi quradi — natija olti mezon boʻyicha avtomatik baholanadi." />
       <MethodInfo m={META} />
 
       <Block title="Topshiriq" tone="amber">
@@ -45,7 +45,7 @@ export default function AmaliyTopshiriq() {
         </Callout>
         <div className="mb-4 flex flex-wrap items-center gap-3">
           <StageTimer seconds={600} label="Topshiriq taymeri" />
-          <span className="text-sm text-slate-600">Maslahat: «Tartibga solish» va «Avto IP» tugmalari vaqtni tejaydi. Oʻqituvchi «Tayyor andoza» roʻyxatidan namunaviy yechimni yuklashi mumkin.</span>
+          <span className="text-sm text-slate-600">Maslahat: «⚡ Avto IP» tugmasi vaqtni tejaydi. Oʻqituvchi «Yana» tugmasi ostidagi «Tayyor namuna» roʻyxatidan namunaviy yechimni yuklashi mumkin.</span>
         </div>
 
         <NetworkLab value={lab} onChange={s => { setLab(s); setResult(null) }} title="Ish maydoni: 10 kompyuter + 1 printer"

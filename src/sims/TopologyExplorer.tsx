@@ -57,46 +57,45 @@ const RING_POS: LabelPos[] = ['above', 'right', 'below', 'below', 'left']
 const TOPO: Record<TopoKey, Topo> = {
   star: {
     tab: 'Yulduz',
-    title: 'Yulduz (star) topologiyasi',
+    title: 'Yulduz (star)',
     source: 'sw',
     nodes: [
       { id: 'sw', x: 450, y: 200, label: 'Switch', icon: Network, core: true,
-        info: 'Markaziy qurilma. Yulduz topologiyasida barcha aloqa shu qurilma orqali oʻtadi — shuning uchun u eng muhim nuqta.' },
-      { id: 'n1', x: 450, y: 58, ...PC, pos: 'above', info: 'Oddiy oxirgi qurilma. Switchga bitta alohida kabel bilan ulangan.' },
-      { id: 'n2', x: 752, y: 132, ...PRN, info: 'Umumiy resurs. Yulduz topologiyasida printerga boradigan har qanday aloqa switch orqali oʻtadi.' },
-      { id: 'n3', x: 690, y: 330, ...SRV, info: 'Xizmat koʻrsatuvchi qurilma. Uzilishga chidamlilikni oshirish uchun uni zaxira kanal bilan ham ulash mumkin.' },
-      { id: 'n4', x: 210, y: 330, ...CAM, info: 'Tarmoqqa ulangan qurilma. Kabeli uzilsa, faqat oʻzi zarar koʻradi.' },
-      { id: 'n5', x: 148, y: 132, ...AP, info: 'Simsiz ulanish nuqtasi — simsiz mijozlarni simli tarmoqqa ulaydi.' },
+        info: 'Markaziy qurilma. Barcha aloqa shu yerdan oʻtadi — eng muhim nuqta.' },
+      { id: 'n1', x: 450, y: 58, ...PC, pos: 'above', info: 'Switchga oʻz kabeli bilan ulangan.' },
+      { id: 'n2', x: 752, y: 132, ...PRN, info: 'Butun sinf uchun bitta printer.' },
+      { id: 'n3', x: 690, y: 330, ...SRV, info: 'Fayllar shu yerda saqlanadi.' },
+      { id: 'n4', x: 210, y: 330, ...CAM, info: 'Kabeli uzilsa, faqat oʻzi aloqasiz qoladi.' },
+      { id: 'n5', x: 148, y: 132, ...AP, info: 'Telefon va noutbuklarni simsiz ulaydi.' },
     ],
     links: [
       { a: 'sw', b: 'n1' }, { a: 'sw', b: 'n2' }, { a: 'sw', b: 'n3' }, { a: 'sw', b: 'n4' }, { a: 'sw', b: 'n5' },
     ],
     breakIdx: 1,
-    breakMsg: 'Printer kabeli uzildi. Faqat printer aloqasiz qoldi — qolgan qurilmalar ishlashda davom etadi.',
-    why: 'Har bir qurilma switchga alohida kabel bilan ulangan, shuning uchun nosozlik bitta tarmoqchada qoladi. Markaziy switchning oʻzi ishdan chiqsa esa butun tarmoq toʻxtaydi.',
+    breakMsg: 'Printer kabeli uzildi. Faqat printer aloqasiz qoldi, qolganlari ishlayveradi.',
+    why: 'Har qurilmaning oʻz kabeli bor. Lekin markaziy switch buzilsa, butun tarmoq toʻxtaydi.',
     pros: [
-      'Bitta qurilma yoki uning kabeli uzilsa, qolganlari ishlayveradi',
-      'Nosozlikni topish oson — har bir qurilmaga alohida kabel',
+      'Bitta kabel uzilsa, faqat bitta qurilma uziladi',
+      'Nosozlikni topish oson',
       'Yangi qurilma qoʻshish oson',
-      'Zamonaviy lokal tarmoqlarning asosiy turi',
+      'Bugun eng koʻp ishlatiladigan shakl',
     ],
     cons: [
-      'Markaziy switch ishdan chiqsa — butun tarmoq toʻxtaydi',
-      'Har bir qurilmaga alohida kabel kerak — kabel koʻp sarflanadi',
-      'Switchdan yuqoriga chiquvchi magistral kanal yuklamaga sezgir',
+      'Markaziy switch buzilsa — hamma toʻxtaydi',
+      'Kabel koʻp sarflanadi',
     ],
   },
   bus: {
     tab: 'Shina',
-    title: 'Shina (bus) topologiyasi',
+    title: 'Shina (bus)',
     source: 'n1',
     bus: true,
     nodes: [
-      { id: 'n1', x: 130, y: 300, ...PC, info: 'Umumiy kabelga ulangan. Kabel band boʻlsa, uzatish uchun kutishi kerak.' },
-      { id: 'n2', x: 300, y: 300, ...SRV, info: 'Shinada barcha qurilmalar bitta magistral kabelni boʻlishadi.' },
-      { id: 'n3', x: 460, y: 300, ...PRN, info: 'Ikki qurilma bir vaqtda uzatsa, toʻqnashuv (collision) yuz beradi va maʼlumot qayta yuboriladi.' },
-      { id: 'n4', x: 620, y: 300, ...CAM, info: 'Magistral uzilsa, uzilishning narigi tomonidagi qurilmalar bilan aloqa yoʻqoladi.' },
-      { id: 'n5', x: 790, y: 300, ...AP, info: 'Shina topologiyasi bugun amalda ishlatilmaydi — u tarixiy ahamiyatga ega.' },
+      { id: 'n1', x: 130, y: 300, ...PC, info: 'Kabel band boʻlsa, navbat kutadi.' },
+      { id: 'n2', x: 300, y: 300, ...SRV, info: 'Hamma bitta uzun kabelni boʻlishadi.' },
+      { id: 'n3', x: 460, y: 300, ...PRN, info: 'Ikkisi birga gapirsa, maʼlumot toʻqnashadi va qayta yuboriladi.' },
+      { id: 'n4', x: 620, y: 300, ...CAM, info: 'Kabel uzilsa, narigi tomon bilan aloqa yoʻqoladi.' },
+      { id: 'n5', x: 790, y: 300, ...AP, info: 'Bu shakl bugun ishlatilmaydi — faqat tarixda qolgan.' },
     ],
     links: [
       { a: 'n1', b: 'n2', seg: [130, 160, 300, 160] },
@@ -105,61 +104,57 @@ const TOPO: Record<TopoKey, Topo> = {
       { a: 'n4', b: 'n5', seg: [620, 160, 790, 160] },
     ],
     breakIdx: 1,
-    breakMsg: 'Magistral kabel oʻrtada uzildi. Tarmoq ikki boʻlakka boʻlindi: chapdagi qurilmalar oʻngdagilar bilan gaplasha olmaydi.',
-    why: 'Barcha qurilmalar yagona magistral kabelga tayanadi. Haqiqiy koaksial shinada uzilgan uchda terminator boʻlmagani uchun signal ortga qaytadi va koʻpincha ikkala boʻlak ham ishlamay qoladi.',
+    breakMsg: 'Umumiy kabel oʻrtada uzildi. Tarmoq ikkiga boʻlindi: chapdagilar oʻngdagilar bilan gaplasha olmaydi.',
+    why: 'Hamma bitta kabelga tayanadi. Shu kabel uzilsa, tarmoq boʻlinib ketadi.',
     pros: [
-      'Kam kabel talab qiladi',
+      'Kabel kam ketadi',
       'Oʻrnatish arzon va oddiy',
-      'Oʻz davrida kichik tarmoq uchun yetarli edi',
     ],
     cons: [
-      'Magistral bir joyda uzilsa — butun tarmoq boʻlinadi',
+      'Bitta uzilish tarmoqni boʻladi',
       'Kabel band boʻlsa, hamma kutadi',
-      'Qurilmalar koʻpaygan sari toʻqnashuvlar koʻpayadi',
+      'Qurilma koʻpaysa, tarmoq sekinlashadi',
       'Nosozlik joyini topish qiyin',
-      'Bugun amalda ishlatilmaydi',
     ],
   },
   ring: {
     tab: 'Halqa',
-    title: 'Halqa (ring) topologiyasi',
+    title: 'Halqa (ring)',
     source: 'n1',
     nodes: [
-      { id: 'n1', ...RP[0], ...PC, info: 'Maʼlumot halqa boʻylab bitta yoʻnalishda, qurilmadan qurilmaga uzatiladi.' },
-      { id: 'n2', ...RP[1], ...SRV, info: 'Har bir qurilma ikkita qoʻshnisi bilan bogʻlangan.' },
-      { id: 'n3', ...RP[2], ...PRN, info: 'Oʻz navbatini kutadi — «token» (navbat belgisi) halqa boʻylab aylanib yuradi.' },
-      { id: 'n4', ...RP[3], ...CAM, info: 'Halqa uzilsa, signal bu qurilmagacha yetib kelmaydi yoki undan nariga oʻta olmaydi.' },
-      { id: 'n5', ...RP[4], ...AP, info: 'Qoʻsh halqa (dual ring) variantida zaxira halqa boʻladi — uzilishda signal teskari yoʻldan ketadi.' },
+      { id: 'n1', ...RP[0], ...PC, info: 'Maʼlumot doira boʻylab bitta yoʻnalishda yuradi.' },
+      { id: 'n2', ...RP[1], ...SRV, info: 'Har qurilma ikki qoʻshnisiga ulangan.' },
+      { id: 'n3', ...RP[2], ...PRN, info: 'Navbatini kutadi: navbat belgisi doira boʻylab aylanadi.' },
+      { id: 'n4', ...RP[3], ...CAM, info: 'Halqa uzilsa, signal bu yergacha yetib kelmaydi.' },
+      { id: 'n5', ...RP[4], ...AP, info: 'Ikki qatorli halqada zaxira yoʻl boʻladi.' },
     ].map((n, i) => ({ ...n, pos: RING_POS[i] })),
     links: [
       { a: 'n1', b: 'n2', dir: true }, { a: 'n2', b: 'n3', dir: true }, { a: 'n3', b: 'n4', dir: true },
       { a: 'n4', b: 'n5', dir: true }, { a: 'n5', b: 'n1', dir: true },
     ],
     breakIdx: 1,
-    breakMsg: 'Halqa uzildi. Kompyuterdan yuborilgan signal uzilishdan keyingi qurilmalarga (Printer, Kamera, Wi-Fi AP) yetib bormaydi.',
-    why: 'Signal faqat bitta yoʻnalishda harakatlanadi. Uzilishdan keyin javob ham aylanib qayta olmaydi, shuning uchun bitta uzilish amalda butun halqani toʻxtatadi.',
+    breakMsg: 'Halqa uzildi. Signal undan keyingi qurilmalarga (Printer, Kamera, Wi-Fi AP) yetib bormaydi.',
+    why: 'Signal faqat bitta yoʻnalishda yuradi. Yoʻl uzilsa, aylanib qaytishning imkoni yoʻq.',
     pros: [
-      'Har bir qurilma navbat bilan uzatadi — toʻqnashuv yoʻq',
-      'Katta yuklamada ham barqaror, oldindan bilinadigan tezlik',
-      'Kabel uzunligi oldindan maʼlum',
+      'Hamma navbat bilan gapiradi — toʻqnashuv yoʻq',
+      'Tezlik barqaror',
     ],
     cons: [
       'Bitta uzilish butun halqani toʻxtatadi',
-      'Bitta qurilmaning nosozligi ham hammaga taʼsir qiladi',
-      'Qurilma qoʻshish yoki olib tashlash tarmoqni toʻxtatadi',
-      'Zamonaviy lokal tarmoqlarda kam qoʻllanadi',
+      'Bitta qurilma buzilsa ham hamma toʻxtaydi',
+      'Yangi qurilma qoʻshish uchun tarmoqni uzish kerak',
     ],
   },
   mesh: {
     tab: 'Toʻr',
-    title: 'Toʻr (mesh) topologiyasi',
+    title: 'Toʻr (mesh)',
     source: 'n1',
     nodes: [
-      { id: 'n1', ...RP[0], ...PC, info: 'Toʻliq toʻrda har bir qurilma qolgan barcha qurilmalar bilan bevosita bogʻlangan.' },
-      { id: 'n2', ...RP[1], ...SRV, info: 'Istalgan ikki qurilma orasida bir nechta muqobil yoʻl mavjud.' },
-      { id: 'n3', ...RP[2], ...PRN, info: 'Bitta kanal uzilsa, trafik boshqa yoʻldan ketadi.' },
-      { id: 'n4', ...RP[3], ...CAM, info: 'Eng ishonchli, lekin eng qimmat yechim: 5 ta qurilma uchun 10 ta kanal kerak.' },
-      { id: 'n5', ...RP[4], ...AP, info: 'Qismiy (partial) toʻrda hamma emas, faqat muhim tugunlar oʻzaro bogʻlanadi.' },
+      { id: 'n1', ...RP[0], ...PC, info: 'Har qurilma qolganlarining hammasiga ulangan.' },
+      { id: 'n2', ...RP[1], ...SRV, info: 'Ikki qurilma orasida bir necha yoʻl bor.' },
+      { id: 'n3', ...RP[2], ...PRN, info: 'Bitta yoʻl uzilsa, maʼlumot boshqasidan ketadi.' },
+      { id: 'n4', ...RP[3], ...CAM, info: 'Eng ishonchli, lekin eng qimmat: 5 qurilma uchun 10 ta kabel.' },
+      { id: 'n5', ...RP[4], ...AP, info: 'Amalda faqat eng muhim qurilmalar shunday ulanadi.' },
     ].map((n, i) => ({ ...n, pos: RING_POS[i] })),
     links: [
       { a: 'n1', b: 'n2' }, { a: 'n1', b: 'n3' }, { a: 'n1', b: 'n4' }, { a: 'n1', b: 'n5' },
@@ -167,18 +162,16 @@ const TOPO: Record<TopoKey, Topo> = {
       { a: 'n3', b: 'n4' }, { a: 'n3', b: 'n5' }, { a: 'n4', b: 'n5' },
     ],
     breakIdx: 0,
-    breakMsg: 'Kompyuter va Server orasidagi kanal uzildi — hech kim aloqasiz qolmadi. Trafik muqobil yoʻl orqali davom etdi.',
-    why: 'Har bir juftlik orasida bir nechta yoʻl bor. Harakatlanayotgan yorqin chiziq — Kompyuter va Server orasidagi yangi, muqobil yoʻl (Printer orqali).',
+    breakMsg: 'Kompyuter va Server orasidagi kabel uzildi — hech kim aloqasiz qolmadi!',
+    why: 'Har juftlik orasida bir necha yoʻl bor. Harakatlanayotgan yorqin chiziq — yangi yoʻl (Printer orqali).',
     pros: [
-      'Eng yuqori nosozlikka chidamlilik',
-      'Muqobil yoʻl doim mavjud',
-      'Yuklama kanallar boʻylab taqsimlanadi',
-      'Muhim tugunlar (magistral, serverlar) uchun ideal',
+      'Uzilishga eng chidamli',
+      'Muqobil yoʻl doim bor',
+      'Serverlar va magistrallar uchun ideal',
     ],
     cons: [
-      'Koʻp kabel va port talab qiladi',
+      'Juda koʻp kabel kerak',
       'Eng qimmat yechim',
-      'Sozlash murakkab',
       'Kichik tarmoq uchun ortiqcha',
     ],
   },
@@ -248,9 +241,9 @@ function arrow(x: number, y: number, ang: number, size = 9) {
 }
 
 const LEGEND: { color: string; label: string; dashed?: boolean }[] = [
-  { color: C.stroke, label: 'ishlayotgan aloqa' },
-  { color: C.danger, label: 'uzilgan kabel / aloqasiz qurilma', dashed: true },
-  { color: C.accent, label: 'muqobil yoʻl' },
+  { color: C.stroke, label: 'ishlayotgan kabel' },
+  { color: C.danger, label: 'uzilgan — aloqasiz', dashed: true },
+  { color: C.accent, label: 'yangi yoʻl' },
   { color: C.amber, label: 'tanlangan qurilma' },
 ]
 
@@ -295,7 +288,7 @@ export default function TopologyExplorer() {
     <Stage
       title="Topologiya koʻrgazmasi"
       badge={badge}
-      hint={<><strong>Aloqani uzish</strong> — bitta kabelni uzadi va qaysi qurilmalar aloqasiz qolishini qizil rangda koʻrsatadi. <strong>Tiklash</strong> — tarmoqni asl holatiga qaytaradi. Qurilma ustiga bossangiz (yoki Tab va Enter), uning vazifasi ochiladi.</>}
+      hint={<><strong>Aloqani uzish</strong> — bitta kabelni uzadi; aloqasiz qolganlar qizil boʻladi. <strong>Tiklash</strong> — hammasini joyiga qaytaradi. Qurilmani bosib, vazifasini koʻring.</>}
     >
       <div className="mx-auto max-w-[70rem]">
         <div role="tablist" aria-label="Topologiya turini tanlash" className="mb-4 flex flex-wrap gap-2">
@@ -326,7 +319,7 @@ export default function TopologyExplorer() {
                     <rect x={836} y={149} width={14} height={22} rx={3} fill={C.sub} />
                     <text x={77} y={136} fill={C.sub} fontSize={12} textAnchor="middle">terminator</text>
                     <text x={843} y={136} fill={C.sub} fontSize={12} textAnchor="middle">terminator</text>
-                    <text x={450} y={136} fill={C.sub} fontSize={13} textAnchor="middle">magistral kabel</text>
+                    <text x={450} y={136} fill={C.sub} fontSize={13} textAnchor="middle">umumiy kabel</text>
                     {t.nodes.map(n => (
                       <line key={n.id} x1={n.x} y1={160} x2={n.x} y2={n.y - 27} stroke={C.stroke} strokeWidth={2} opacity={live.has(n.id) ? 1 : 0.35} />
                     ))}
@@ -426,7 +419,7 @@ export default function TopologyExplorer() {
                 <p className="mt-1.5 text-sm opacity-90">Nega shunday? {t.why}</p>
               </>
             ) : (
-              <p>{t.title} tanlandi. Tarmoq butun — barcha qurilmalar aloqada.</p>
+              <p>{t.title} tanlandi. Tarmoq butun — hamma aloqada.</p>
             )}
           </div>
 
@@ -450,7 +443,7 @@ export default function TopologyExplorer() {
               <>
                 <h4 className="text-base font-bold !text-white">{t.title}</h4>
                 <p className="mt-1.5 text-[0.95rem] leading-relaxed text-navy-100">
-                  Sxemadagi istalgan qurilmani bosib, uning vazifasini koʻring, soʻng <strong>«Aloqani uzish»</strong> tugmasi bilan topologiyaning nosozlikka chidamliligini sinab koʻring.
+                  Qurilmani bosib, vazifasini koʻring. Soʻng <strong>«Aloqani uzish»</strong> tugmasini bosib, nima boʻlishini kuzatib turing.
                 </p>
               </>
             )}
@@ -458,11 +451,11 @@ export default function TopologyExplorer() {
 
           <div className="mt-3 grid gap-3 md:grid-cols-2">
             <div className="rounded-xl border border-navy-700 bg-navy-900/70 p-4">
-              <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] !text-teal-300">Afzalliklari</h4>
+              <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] !text-teal-300">👍 Afzalliklari</h4>
               <div className="text-[0.95rem] leading-relaxed text-navy-100"><CheckList items={t.pros} /></div>
             </div>
             <div className="rounded-xl border border-navy-700 bg-navy-900/70 p-4">
-              <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] !text-rose-300">Cheklovlari</h4>
+              <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.12em] !text-rose-300">👎 Kamchiliklari</h4>
               <div className="text-[0.95rem] leading-relaxed text-navy-100"><CheckList kind="cross" items={t.cons} /></div>
             </div>
           </div>

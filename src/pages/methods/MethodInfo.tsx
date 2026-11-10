@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { ClipboardCheck, GraduationCap, Lightbulb, Pause, Play, RotateCcw, Target, Timer as TimerIcon, Trophy, UserRound, Workflow } from 'lucide-react'
+import { ChevronDown, ClipboardCheck, GraduationCap, Lightbulb, Pause, Play, RotateCcw, Target, Timer as TimerIcon, Trophy, UserRound, Workflow } from 'lucide-react'
 import { CheckList, cx } from '../../components/ui'
 
 export interface MethodMeta {
@@ -12,27 +12,51 @@ export interface MethodMeta {
   criteria: string[]
 }
 
-/** Har bir metod sahifasidagi yetti qismli pasport. */
+/** Metod pasporti. Oʻquvchiga qisqa «qanday ishlaydi» koʻrinadi,
+    toʻliq metodik tavsif esa oʻqituvchi uchun yigʻib qoʻyilgan. */
 export function MethodInfo({ m }: { m: MethodMeta }) {
+  const [ochiq, setOchiq] = useState(false)
   const Box = ({ icon: I, title, children, wide }: { icon: typeof Target; title: string; children: ReactNode; wide?: boolean }) => (
-    <section className={cx('rounded-2xl border border-slate-200 bg-white p-5 shadow-card', wide && 'md:col-span-2')}>
-      <h3 className="mb-2.5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-amber-700"><I size={17} />{title}</h3>
-      <div className="prose-uz text-[0.97rem] leading-relaxed text-slate-700">{children}</div>
+    <section className={cx('rounded-3xl border-2 border-slate-200 bg-white p-5 shadow-card', wide && 'md:col-span-2')}>
+      <h3 className="mb-2.5 flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.12em] text-amber-700"><I size={17} />{title}</h3>
+      <div className="prose-uz text-[0.98rem] leading-relaxed text-slate-700">{children}</div>
     </section>
   )
   return (
-    <div className="mb-12 grid gap-4 md:grid-cols-2">
-      <Box icon={Target} title="Metodning maqsadi" wide>{m.goal}</Box>
-      <Box icon={Workflow} title="Qanday ishlaydi" wide>
-        <ol className="grid gap-2 sm:grid-cols-2">
-          {m.how.map((h, i) => <li key={i} className="flex gap-2.5"><span className="grid h-6 w-6 flex-none place-items-center rounded-lg bg-amber-500 font-mono text-xs font-bold text-navy-950">{i + 1}</span><span>{h}</span></li>)}
+    <div className="mb-10">
+      {/* Oʻquvchi uchun — qisqa qadamlar */}
+      <section className="overflow-hidden rounded-4xl border-2 border-amber-200 bg-white shadow-card">
+        <div className="flex items-center gap-3 bg-gradient-to-r from-amber-400 to-orange-400 px-5 py-3.5">
+          <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-white/30 text-navy-900"><Workflow size={20} /></span>
+          <h2 className="font-display text-base font-extrabold !text-navy-900 sm:text-lg">Qanday ishlaymiz?</h2>
+        </div>
+        <ol className="grid gap-3 p-5 sm:grid-cols-2">
+          {m.how.map((h, i) => (
+            <li key={i} className="flex gap-3">
+              <span className="grid h-9 w-9 flex-none place-items-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-400 font-display text-sm font-extrabold text-navy-900">{i + 1}</span>
+              <span className="self-center text-[1rem] text-slate-700">{h}</span>
+            </li>
+          ))}
         </ol>
-      </Box>
-      <Box icon={GraduationCap} title="Oʻqituvchining vazifasi"><CheckList kind="dot" items={m.teacher} /></Box>
-      <Box icon={UserRound} title="Talabaning vazifasi"><CheckList kind="dot" items={m.student} /></Box>
-      <Box icon={Lightbulb} title="Mavzu boʻyicha real misol">{m.example}</Box>
-      <Box icon={Trophy} title="Kutiladigan taʼlimiy natija">{m.outcome}</Box>
-      <Box icon={ClipboardCheck} title="Baholash mezoni" wide><CheckList items={m.criteria} /></Box>
+      </section>
+
+      {/* Oʻqituvchi uchun — yigʻib qoʻyilgan */}
+      <button type="button" onClick={() => setOchiq(o => !o)} aria-expanded={ochiq}
+        className="no-print mt-3 inline-flex items-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-4 py-2.5 text-sm font-extrabold text-slate-600 transition hover:border-amber-400 hover:text-amber-700">
+        <GraduationCap size={17} />{ochiq ? 'Metodik tavsifni yopish' : 'Oʻqituvchi uchun metodik tavsif'}
+        <ChevronDown size={16} className={cx('transition-transform', ochiq && 'rotate-180')} />
+      </button>
+
+      {ochiq && (
+        <div className="anim-in mt-4 grid gap-4 md:grid-cols-2">
+          <Box icon={Target} title="Metodning maqsadi" wide>{m.goal}</Box>
+          <Box icon={GraduationCap} title="Oʻqituvchining vazifasi"><CheckList kind="dot" items={m.teacher} /></Box>
+          <Box icon={UserRound} title="Oʻquvchining vazifasi"><CheckList kind="dot" items={m.student} /></Box>
+          <Box icon={Lightbulb} title="Mavzu boʻyicha real misol">{m.example}</Box>
+          <Box icon={Trophy} title="Kutiladigan taʼlimiy natija">{m.outcome}</Box>
+          <Box icon={ClipboardCheck} title="Baholash mezoni" wide><CheckList items={m.criteria} /></Box>
+        </div>
+      )}
     </div>
   )
 }

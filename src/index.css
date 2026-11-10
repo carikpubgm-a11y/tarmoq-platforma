@@ -12,42 +12,69 @@
 @font-face { font-family: 'Plus Jakarta Sans Variable'; font-style: normal; font-display: swap; font-weight: 200 800;
   src: url('@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2-variations');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Plus Jakarta Sans Variable'; font-style: normal; font-display: swap; font-weight: 200 800;
+  src: url('@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-ext-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'JetBrains Mono Variable'; font-style: normal; font-display: swap; font-weight: 100 800;
   src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2-variations');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 @layer base {
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-  body { @apply bg-navy-50 text-slate-800 font-sans antialiased; font-feature-settings: 'cv11', 'ss01'; }
-  h1, h2, h3, h4 { @apply font-display text-navy-950 tracking-tight; }
-  :focus-visible { @apply outline-none ring-2 ring-teal-500 ring-offset-2 ring-offset-white; }
-  ::selection { @apply bg-teal-200 text-navy-950; }
-  /* Himoya rejimi: butun interfeys uzoqdan oʻqiladigan boʻlib kattalashadi (hamma oʻlcham rem asosida). */
-  html.defense { font-size: 118%; }
-  @media (min-width: 1500px) { html.defense { font-size: 128%; } }
+  html {
+    scroll-behavior: smooth; -webkit-text-size-adjust: 100%;
+    font-size: 17px;            /* maktab oʻquvchisi uchun yirikroq asos */
+  }
+  @media (max-width: 640px) { html { font-size: 16px; } }
+  body {
+    @apply text-slate-700 font-sans antialiased;
+    background:
+      radial-gradient(1100px 520px at 8% -8%, #EDE9FE 0%, transparent 58%),
+      radial-gradient(900px 480px at 100% 0%, #CFFAFE 0%, transparent 55%),
+      radial-gradient(800px 460px at 50% 102%, #FFE4E6 0%, transparent 52%),
+      #FAFAFF;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4 { @apply font-display text-navy-900 tracking-tight; }
+  h1 { @apply font-extrabold; }
+  :focus-visible { @apply outline-none ring-4 ring-brand-300 ring-offset-2 ring-offset-white; }
+  ::selection { @apply bg-brand-200 text-navy-900; }
+
+  /* Himoya rejimi: hamma narsa uzoqdan koʻrinadigan boʻlib kattalashadi */
+  html.defense { font-size: 20px; }
+  @media (min-width: 1500px) { html.defense { font-size: 22px; } }
   html.defense .defense-hide { display: none !important; }
   html:not(.defense) .defense-only { display: none !important; }
 }
 
 @layer components {
   .prose-uz p + p { @apply mt-3; }
-  .prose-uz a { @apply text-blue-700 underline decoration-blue-300 underline-offset-2 hover:decoration-blue-600; }
-  .prose-uz strong { @apply font-semibold text-navy-950; }
+  .prose-uz a { @apply font-semibold text-brand-700 underline decoration-brand-300 decoration-2 underline-offset-2 hover:decoration-brand-600; }
+  .prose-uz strong { @apply font-bold text-navy-900; }
   .stage-dark strong { @apply text-white; }
-  .stage-dark p a, .stage-dark li a { @apply text-teal-300 underline underline-offset-2; }
-  .field { @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-[0.95rem] text-navy-950 shadow-sm placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/30; }
-  .field-dark { @apply w-full rounded-lg border border-navy-600 bg-navy-900 px-3 py-2 text-sm text-white placeholder:text-navy-300 focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400/30; }
-  .label { @apply mb-1.5 block text-sm font-semibold text-slate-600; }
+  .stage-dark p a, .stage-dark li a { @apply text-cyan-300 underline underline-offset-2; }
+
+  .field { @apply w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3 text-[1rem] font-medium text-navy-900 shadow-sm transition placeholder:font-normal placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-200; }
+  .field-dark { @apply w-full rounded-xl border-2 border-navy-600 bg-navy-900 px-3 py-2 text-[0.95rem] font-medium text-white placeholder:text-navy-300 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/40; }
+  .label { @apply mb-1.5 block text-sm font-bold text-slate-600; }
+
+  /* Katta, bosiladigan "oʻyin" tugmasi */
+  .btn-pop { @apply active:translate-y-[3px] active:shadow-none; box-shadow: 0 4px 0 0 rgba(0, 0, 0, .13); }
 }
 
-@keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
-@keyframes dash { to { stroke-dashoffset: -24; } }
-.anim-in { animation: fade-up .45s cubic-bezier(.22,.7,.3,1) both; }
-.anim-dash { stroke-dasharray: 6 6; animation: dash 1s linear infinite; }
+/* Tailwind @keyframes ni faqat animate-* yordamchisi ishlatilganda chiqaradi,
+   shuning uchun quyidagisini qoʻlda yozamiz (u faqat CSS ichida ishlatiladi). */
+@keyframes dash-move { to { stroke-dashoffset: -24; } }
+
+@layer utilities {
+  .anim-in { @apply animate-fade-up; }
+  .anim-dash { stroke-dasharray: 6 6; animation: dash-move 1s linear infinite; }
+  .text-balance { text-wrap: balance; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
 }
 
 /* Chop etish: faqat ochiq sahifa mazmuni, oq fonda. */
@@ -56,10 +83,10 @@
   html, html.defense { font-size: 11pt; }
   body { background: #fff; }
   main { margin: 0 !important; padding: 0 !important; max-width: none !important; }
-  .print-plain, .shadow-card, .shadow-lift { box-shadow: none !important; }
-  .stage-dark { background: #fff !important; color: #0C1A35 !important; border: 1px solid #C5D1E8 !important; }
-  .stage-dark * { color: #0C1A35 !important; }
-  .stage-dark svg text { fill: #0C1A35 !important; }
+  .print-plain, .shadow-card, .shadow-lift, .btn-pop { box-shadow: none !important; }
+  .stage-dark { background: #fff !important; color: #1C2050 !important; border: 1px solid #CBD0F8 !important; }
+  .stage-dark * { color: #1C2050 !important; }
+  .stage-dark svg text { fill: #1C2050 !important; }
   a { text-decoration: underline; }
   section, article, table, figure { break-inside: avoid; }
 }

@@ -16,16 +16,16 @@ export default function Metodika() {
   return (
     <>
       <PageHeader no="12" tone="amber" eyebrow="Oʻqitish metodikasi" title="Darsni qanday tashkil qilish kerak?"
-        lead={<>Texnik mazmun tayyor. Endi asosiy savol — uni talabaga <strong>qanday yetkazish</strong>. Bu boʻlimda dars rejasi va platformaning oʻzida bajariladigan besh metod jamlangan.</>} />
+        lead={<>Texnik mazmun tayyor. Endi asosiy savol — uni oʻquvchiga <strong>qanday yetkazish</strong>. Bu boʻlimda dars rejasi va platformaning oʻzida bajariladigan besh metod jamlangan.</>} />
       <Goal items={[
         '45 daqiqalik darsni bosqichlarga boʻlib rejalashtirish',
         'Har bir bosqichga mos interaktiv metodni tanlash va amalda qoʻllash',
         'Formativ va summativ baholashni farqlab, ikkalasidan foydalanish',
-        'Talabalarning keng tarqalgan xato tasavvurlarini oldindan bartaraf etish',
+        'Oʻquvchilarning keng tarqalgan xato tasavvurlarini oldindan bartaraf etish',
       ]} />
 
       <Block title="45 daqiqalik dars rejasi" tone="amber" sub="Har bir bosqich platformaning muayyan boʻlimiga tayanadi.">
-        <DataTable head={['Vaqt', 'Bosqich', 'Oʻqituvchi nima qiladi', 'Talaba nima qiladi', 'Platformada']} rows={[
+        <DataTable head={['Vaqt', 'Bosqich', 'Oʻqituvchi nima qiladi', 'Oʻquvchi nima qiladi', 'Platformada']} rows={[
           [<span className="font-mono">0–5</span>, <strong>Kirish</strong>, 'Muammoli savol beradi: «20 kompyuter bir-birini qanday koʻradi?»', 'Taxmin qiladi, bahslashadi; jurnalning chap ustunini toʻldiradi', <Link to="/metodika/jurnal">Double-Entry Journal</Link>],
           [<span className="font-mono">5–15</span>, <strong>Yangi mavzu</strong>, 'Tushunchalarni tushuntiradi: asoslar, turlari, qurilmalar', 'Tinglaydi, yozadi, savol beradi', <Link to="/kirish">Nazariy boʻlimlar</Link>],
           [<span className="font-mono">15–25</span>, <strong>Namoyish</strong>, 'Topologiya va paket oqimini ekranda koʻrsatadi', 'Kuzatadi, «nima boʻladi?» deb bashorat qiladi', <Link to="/metodika/namoyish">Namoyish metodi</Link>],
@@ -33,7 +33,7 @@ export default function Metodika() {
           [<span className="font-mono">38–43</span>, <strong>Test</strong>, 'Vaziyatli testni oʻtkazadi', 'Mustaqil javob beradi, izohni oʻqiydi', <Link to="/test">Test markazi</Link>],
           [<span className="font-mono">43–45</span>, <strong>Refleksiya</strong>, '«Bugun nimani tushundingiz?» deb soʻraydi', 'Jurnalning oʻng ustunini toʻldiradi, xulosa yozadi', <Link to="/xulosa">3-2-1 refleksiya</Link>],
         ]} />
-        <Callout kind="note" title="80 daqiqalik universitet juftligi uchun" className="mt-4">
+        <Callout kind="note" title="80 daqiqalik maktab juftligi uchun" className="mt-4">
           Amaliyot bosqichi kengaytiriladi: <Link to="/metodika/muammoli">muammoli taʼlim</Link> (15 daqiqa) va <Link to="/metodika/snowball">Snowball</Link> (12 daqiqa) qoʻshiladi, laboratoriyada esa <Link to="/laboratoriya/firewall">firewall tajribasi</Link> bajariladi.
         </Callout>
       </Block>
@@ -66,10 +66,10 @@ export default function Metodika() {
         <Grid cols={3}>
           <Card tone="blue" title="Koʻrgazmalilik"><p>Animatsiya va sxema orqali koʻrsatish — ayniqsa paket oqimi va topologiyalar uchun. Mavhum narsa koʻrinadigan boʻladi.</p></Card>
           <Card tone="teal" title="Loyiha metodi"><p>Guruh tarmoq loyihasini tuzadi va himoya qiladi. Vaqt talab qiladi, lekin eng chuqur natija beradi.</p></Card>
-          <Card tone="violet" title="Keys-stadi"><p>Real vaziyat: «Internet ishlamayapti, sababini toping». Diagnostika koʻnikmasini beradi — universitet uchun juda mos.</p></Card>
+          <Card tone="violet" title="Keys-stadi"><p>Real vaziyat: «Internet ishlamayapti, sababini toping». Diagnostika koʻnikmasini beradi — maktab uchun juda mos.</p></Card>
           <Card tone="amber" title="Suhbat (dialog)"><p>Savol-javob orqali bilimni aniqlash. Har bir javobdan keyin «nega?» deb soʻrash — formativ baholashning asosi.</p></Card>
-          <Card tone="green" title="Juftlikda tekshirish"><p>Talabalar bir-birining sxemasini tekshiradi. Tushuntirish — eng yaxshi oʻrganish usuli; katta auditoriyada vaqtni tejaydi.</p></Card>
-          <Card tone="rose" title="Xato tahlili"><p>Ataylab notoʻgʻri sozlangan tarmoq beriladi: talaba xatoni topadi va sababini aytadi.</p></Card>
+          <Card tone="green" title="Juftlikda tekshirish"><p>Oʻquvchilar bir-birining sxemasini tekshiradi. Tushuntirish — eng yaxshi oʻrganish usuli; katta auditoriyada vaqtni tejaydi.</p></Card>
+          <Card tone="rose" title="Xato tahlili"><p>Ataylab notoʻgʻri sozlangan tarmoq beriladi: oʻquvchi xatoni topadi va sababini aytadi.</p></Card>
         </Grid>
       </Block>
 
@@ -80,7 +80,7 @@ export default function Metodika() {
               ['Formativ', <>Dars davomida — savol-javob, kuzatish, kichik topshiriq. Maqsad: <em>yoʻnaltirish</em>.</>],
               ['Summativ', <>Dars oxirida — test, loyiha himoyasi. Maqsad: <em>natijani oʻlchash</em>.</>],
             ]} />
-            <p className="mt-3 text-sm">Faqat summativ baholash — eng koʻp uchraydigan metodik xato: talaba xato qilib, uni tuzatish imkonini olmasa, baho oʻrganishga yordam bermaydi.</p>
+            <p className="mt-3 text-sm">Faqat summativ baholash — eng koʻp uchraydigan metodik xato: oʻquvchi xato qilib, uni tuzatish imkonini olmasa, baho oʻrganishga yordam bermaydi.</p>
           </Card>
           <Card tone="amber" title="Refleksiya usullari">
             <CheckList kind="dot" items={[
@@ -105,7 +105,7 @@ export default function Metodika() {
       </Block>
 
       <LifeExample>
-        Talaba «router — tarmoqlarni bogʻlaydigan qurilma» deb yodlab olgan, lekin «nega switch buni qila olmaydi?» degan savolga javob bera olmaydi. Oʻqituvchi taʼrifni takrorlamaydi — laboratoriyada ikki xil tarmoqni bitta switchga ulab, paket yuborishni soʻraydi. «Aloqa yoʻq» natijasi va uning izohi taʼrifdan koʻra koʻproq oʻrgatadi.
+        Oʻquvchi «router — tarmoqlarni bogʻlaydigan qurilma» deb yodlab olgan, lekin «nega switch buni qila olmaydi?» degan savolga javob bera olmaydi. Oʻqituvchi taʼrifni takrorlamaydi — laboratoriyada ikki xil tarmoqni bitta switchga ulab, paket yuborishni soʻraydi. «Aloqa yoʻq» natijasi va uning izohi taʼrifdan koʻra koʻproq oʻrgatadi.
       </LifeExample>
 
       <Takeaway items={[
@@ -116,11 +116,11 @@ export default function Metodika() {
 
       <MiniTask questions={[
         { q: 'Oʻqituvchi dars oxirida test oʻtkazdi va baho qoʻydi, lekin dars davomida hech kimdan savol soʻramadi. Bu qanday metodik xato?',
-          options: ['Summativ baholash yoʻq', 'Formativ baholash yoʻq — talaba xatosini tuzatish imkonini olmadi', 'Test savollari juda oson', 'Refleksiya ortiqcha oʻtkazildi'], correct: 1,
-          explain: 'Dars oxiridagi test — summativ baholash. Dars davomida yoʻnaltiruvchi (formativ) baholash boʻlmasa, talaba xatosini vaqtida tuzata olmaydi.' },
-        { q: 'Talabalar xavfsizlik choralarini bilishadi, lekin qaysi biri muhimroq ekanini asoslay olmaydi. Qaysi metod eng mos?',
+          options: ['Summativ baholash yoʻq', 'Formativ baholash yoʻq — oʻquvchi xatosini tuzatish imkonini olmadi', 'Test savollari juda oson', 'Refleksiya ortiqcha oʻtkazildi'], correct: 1,
+          explain: 'Dars oxiridagi test — summativ baholash. Dars davomida yoʻnaltiruvchi (formativ) baholash boʻlmasa, oʻquvchi xatosini vaqtida tuzata olmaydi.' },
+        { q: 'Oʻquvchilar xavfsizlik choralarini bilishadi, lekin qaysi biri muhimroq ekanini asoslay olmaydi. Qaysi metod eng mos?',
           options: ['Maʼruza oʻqish', 'Snowball: yakka → juftlik → guruhda saralash va asoslash', 'Taʼriflarni yozdirish', 'Uyga vazifa berish'], correct: 1,
-          explain: 'Snowball har bir bosqichda fikrlarni solishtirish va tanlashni talab qiladi — talaba ustuvorlikni asoslashga majbur boʻladi.' },
+          explain: 'Snowball har bir bosqichda fikrlarni solishtirish va tanlashni talab qiladi — oʻquvchi ustuvorlikni asoslashga majbur boʻladi.' },
       ]} />
     </>
   )

@@ -9,7 +9,10 @@
     "build": "tsc --noEmit && vite build",
     "build:offline": "tsc --noEmit && vite build --mode offline",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "start": "node server.js",
+    "serve": "npm run build && node server.js",
+    "dars": "npm run build && node server.js"
   },
   "dependencies": {
     "lucide-react": "^1.71.0",

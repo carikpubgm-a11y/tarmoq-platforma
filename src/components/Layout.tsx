@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   ArrowLeft, ArrowRight, Check, LayoutGrid, Maximize, Menu, NotebookText, Presentation, Printer, X, LogOut, Clock, Mic, MonitorPlay,
+  Trophy, UserRound, Users, EllipsisVertical,
 } from 'lucide-react'
 import { GROUPS, SECTIONS, COURSE, findSection, neighbours, type SectionDef } from '../data/sections'
 import { useDefense, toggleFullscreen } from '../lib/defense'
 import { useStored } from '../lib/storage'
+import { useOquvchi } from '../lib/student'
 import { TONE, cx } from './ui'
 
 function Brand() {
@@ -94,6 +96,8 @@ export default function Layout() {
   const section = findSection(pathname)
   const { index, prev, next } = neighbours(pathname)
   const [visited, setVisited] = useStored<string[]>('visited', [])
+  const { oquvchi, chiqish } = useOquvchi()
+  const [ustoz, setUstoz] = useState(false)
   const [drawer, setDrawer] = useState(false)
   const [grid, setGrid] = useState(false)
   const [notes, setNotes] = useState(false)
@@ -101,7 +105,7 @@ export default function Layout() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    setDrawer(false); setGrid(false)
+    setDrawer(false); setGrid(false); setUstoz(false)
     if (section) setVisited(v => (v.includes(section.path) ? v : [...v, section.path]))
     document.title = (section ? section.title + ' — ' : '') + 'Tarmoq platformasi'
   }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -167,10 +171,56 @@ export default function Layout() {
             <div className="truncate text-sm font-semibold text-navy-950">{section ? section.no + ' · ' + section.title : 'Tarmoq platformasi'}</div>
           </div>
           <span className="mr-auto lg:hidden" />
-          <Link to="/ssenariy" className="hidden items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 sm:inline-flex"><NotebookText size={17} /> Ssenariy</Link>
-          <button type="button" onClick={() => window.print()} aria-label="Sahifani chop etish yoki PDF sifatida saqlash" title="Chop etish / PDF"
-            className="hidden rounded-xl p-2 text-slate-600 hover:bg-slate-100 sm:inline-flex"><Printer size={18} /></button>
-          <Link to="/himoya" className="inline-flex items-center gap-2 rounded-xl bg-navy-950 px-3.5 py-2 text-sm font-semibold text-white hover:bg-navy-800"><Presentation size={17} /> Himoya rejimi</Link>
+
+          {/* Oʻquvchi: ism, ball va chiqish */}
+          {oquvchi ? (
+            <>
+              <Link to="/reyting" title="Sinf reytingi" className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-400 px-3.5 py-2 font-display text-sm font-extrabold text-navy-900 transition hover:brightness-105">
+                <Trophy size={17} />{oquvchi.jamiBall}<span className="hidden sm:inline">ball</span>
+              </Link>
+              <div className="flex items-center gap-2 rounded-2xl border-2 border-slate-200 bg-white py-1 pl-1 pr-2">
+                <span className="grid h-8 w-8 flex-none place-items-center rounded-xl bg-brand-600 font-display text-sm font-extrabold text-white">
+                  {(oquvchi.ism[0] || '?').toUpperCase()}
+                </span>
+                <span className="hidden min-w-0 sm:block">
+                  <span className="block max-w-[9rem] truncate text-sm font-extrabold leading-tight text-navy-900">{oquvchi.ism}</span>
+                  <span className="block text-[0.7rem] font-semibold leading-tight text-slate-500">{oquvchi.sinf}</span>
+                </span>
+                <button type="button" onClick={() => { chiqish(); navigate('/kirish-oquvchi') }} aria-label="Hisobdan chiqish" title="Chiqish"
+                  className="grid h-8 w-8 place-items-center rounded-xl text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"><LogOut size={16} /></button>
+              </div>
+            </>
+          ) : (
+            <Link to="/kirish-oquvchi" className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-b from-brand-500 to-brand-600 px-4 py-2.5 text-sm font-extrabold text-white btn-pop">
+              <UserRound size={17} /> Kirish
+            </Link>
+          )}
+
+          {/* Oʻqituvchi uchun — kichik menyu */}
+          <div className="relative">
+            <button type="button" onClick={() => setUstoz(u => !u)} aria-expanded={ustoz} aria-label="Oʻqituvchi menyusi"
+              className="grid h-10 w-10 place-items-center rounded-2xl border-2 border-slate-200 bg-white text-slate-500 transition hover:border-brand-400 hover:text-brand-700"><EllipsisVertical size={18} /></button>
+            {ustoz && (
+              <>
+                <button type="button" aria-label="Menyuni yopish" className="fixed inset-0 z-10 cursor-default" onClick={() => setUstoz(false)} />
+                <div className="anim-in absolute right-0 z-20 mt-2 w-60 overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-1.5 shadow-lift">
+                  <div className="px-3 py-1.5 text-[0.7rem] font-extrabold uppercase tracking-wider text-slate-400">Oʻqituvchi uchun</div>
+                  {[
+                    { to: '/oqituvchi', I: Users, t: 'Natijalar va baholar' },
+                    { to: '/himoya', I: Presentation, t: 'Himoya rejimi' },
+                    { to: '/ssenariy', I: NotebookText, t: 'Taqdimot ssenariysi' },
+                  ].map(x => (
+                    <Link key={x.to} to={x.to} onClick={() => setUstoz(false)} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold text-navy-900 hover:bg-brand-50">
+                      <x.I size={17} className="text-brand-600" />{x.t}
+                    </Link>
+                  ))}
+                  <button type="button" onClick={() => { setUstoz(false); window.print() }} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold text-navy-900 hover:bg-brand-50">
+                    <Printer size={17} className="text-brand-600" />Chop etish / PDF
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </header>
 

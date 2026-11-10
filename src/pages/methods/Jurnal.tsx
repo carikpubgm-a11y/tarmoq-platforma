@@ -5,12 +5,12 @@ import { saveResult, useStored } from '../../lib/storage'
 import { MethodInfo, type MethodMeta } from './MethodInfo'
 
 const META: MethodMeta = {
-  goal: <>Talaba yangi bilimni <strong>avvalgi tasavvuri bilan yonma-yon</strong> qoʻyadi. Ikki ustun orasidagi farq — oʻrganishning oʻzi: nima toʻgʻrilandi, nima chuqurlashdi, nima butunlay yangi.</>,
+  goal: <>Oʻquvchi yangi bilimni <strong>avvalgi tasavvuri bilan yonma-yon</strong> qoʻyadi. Ikki ustun orasidagi farq — oʻrganishning oʻzi: nima toʻgʻrilandi, nima chuqurlashdi, nima butunlay yangi.</>,
   how: ['Dars boshida chap ustun toʻldiriladi: «Men bilgan maʼlumot»', 'Mavzu oʻrganiladi (nazariya, laboratoriya)', 'Dars oxirida oʻng ustun toʻldiriladi: «Yangi oʻrgangan maʼlumot»', 'Ikki ustun taqqoslanadi va xulosa yoziladi'],
   teacher: ['Tushunchalar roʻyxatini tayyorlaydi', 'Chap ustunni baholamaydi — u faqat boshlangʻich nuqta', 'Taqqoslash bosqichida xato tasavvurlarni muhokama qiladi'],
   student: ['Avvalgi bilimini halol yozadi', 'Yangi bilimni oʻz soʻzi bilan ifodalaydi', 'Fikri qanday oʻzgarganini izohlaydi'],
   example: <>Chap ustun: «Firewall — bu antivirus». Oʻng ustun: «Firewall trafikni qoidalar boʻyicha filtrlaydi; fayl ichidagi virusni tekshirmaydi». Farq yaqqol koʻrinadi va esda qoladi.</>,
-  outcome: <>Talaba tushunchani oʻz soʻzi bilan izohlaydi, xato tasavvurini oʻzi topadi va refleksiya qiladi (metakognitiv koʻnikma).</>,
+  outcome: <>Oʻquvchi tushunchani oʻz soʻzi bilan izohlaydi, xato tasavvurini oʻzi topadi va refleksiya qiladi (metakognitiv koʻnikma).</>,
   criteria: ['Har bir tushuncha uchun ikkala ustun toʻldirilgan', 'Oʻng ustun koʻchirma emas — oʻz soʻzi bilan yozilgan', 'Yangi bilim avvalgisidan mazmunan boyroq', 'Yakuniy refleksiya yozilgan'],
 }
 
@@ -28,9 +28,9 @@ const REF: Record<string, string> = {
 const SAMPLE: State = {
   rows: [
     { id: 'firewall', term: 'Firewall', before: 'Firewall — bu antivirusga oʻxshagan dastur, viruslarni ushlaydi.', after: 'Firewall viruslarni emas, trafikni tekshiradi: qoidalar yuqoridan pastga oʻqiladi, birinchi mos kelgani ishlaydi, oxirida standart taqiq turadi. Fishingni toʻxtata olmaydi.' },
-    { id: 'vlan', term: 'VLAN', before: 'Eshitganman, lekin nima ekanini bilmayman.', after: 'VLAN bitta switchni bir nechta mantiqiy tarmoqqa boʻladi. Talabalar va maʼmuriyat bitta qurilmaga ulansa ham bir-birini koʻrmaydi; ular orasida router kerak.' },
+    { id: 'vlan', term: 'VLAN', before: 'Eshitganman, lekin nima ekanini bilmayman.', after: 'VLAN bitta switchni bir nechta mantiqiy tarmoqqa boʻladi. Oʻquvchilar va maʼmuriyat bitta qurilmaga ulansa ham bir-birini koʻrmaydi; ular orasida router kerak.' },
     { id: 'dhcp', term: 'DHCP', before: 'Wi-Fi ga ulanganda internet oʻzi ishlab ketadi.', after: 'Aslida DHCP serveri manzil, maska, shlyuz va DNS ni toʻrt qadamda beradi. Manzil ololmagan kompyuter 169.254.x.x manzilini oladi — bu diagnostika belgisi.' },
-    { id: 'vpn', term: 'VPN', before: 'Bloklangan saytlarni ochish uchun ishlatiladi.', after: 'VPN ning asosiy vazifasi — ochiq tarmoqda shifrlangan tunnel qurish. Masofadan ishlaganda universitet tarmogʻiga xavfsiz ulanish uchun kerak.' },
+    { id: 'vpn', term: 'VPN', before: 'Bloklangan saytlarni ochish uchun ishlatiladi.', after: 'VPN ning asosiy vazifasi — ochiq tarmoqda shifrlangan tunnel qurish. Masofadan ishlaganda maktab tarmogʻiga xavfsiz ulanish uchun kerak.' },
   ],
   reflection: 'Eng koʻp oʻzgargani — firewall haqidagi fikrim: uni antivirus deb oʻylar edim. Endi ular turli qatlamlar ekanini va bir-birini almashtirmasligini tushundim.',
 }

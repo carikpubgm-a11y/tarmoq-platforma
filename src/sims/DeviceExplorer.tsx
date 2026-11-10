@@ -34,91 +34,91 @@ interface Device {
 const DEV: Device[] = [
   {
     k: 'pc', name: 'Kompyuter', icon: Monitor, layer: 'oxirgi qurilma', x: 735, y: 122, side: true,
-    role: 'Maʼlumot manbasi va qabul qiluvchisi',
+    role: 'Maʼlumot shundan chiqadi va shunga keladi',
     body: (
       <>
-        <p>Tarmoqning maqsadi — oxirgi qurilmalarga xizmat qilish. Kompyuter, noutbuk, telefon, printer, kamera — bularning barchasi <strong>oxirgi qurilma</strong> (end device) hisoblanadi: maʼlumot ulardan chiqadi va ularga keladi.</p>
-        <p>Har biriga tarmoqda <strong>manzil</strong> kerak. Manzil qoʻlda yoziladi yoki <Link to="/ip">DHCP</Link> orqali avtomatik beriladi.</p>
+        <p>Tarmoq aynan shunday qurilmalar uchun quriladi: kompyuter, telefon, printer, kamera.</p>
+        <p>Har biriga tarmoqda <strong>manzil</strong> kerak. Manzil qoʻlda yoziladi yoki <Link to="/ip">avtomatik</Link> beriladi.</p>
       </>
     ),
   },
   {
-    k: 'laptop', name: 'Noutbuk', icon: Laptop, layer: 'oxirgi qurilma · simsiz', x: 850, y: 276,
-    role: 'Koʻchma oxirgi qurilma',
+    k: 'laptop', name: 'Noutbuk', icon: Laptop, layer: 'simsiz ulanadi', x: 850, y: 276,
+    role: 'Koʻchib yuradigan qurilma',
     body: (
       <>
-        <p>Noutbuk ham <strong>oxirgi qurilma</strong>, lekin u tarmoqqa odatda kabel bilan emas, Wi-Fi orqali — <strong>access point</strong> yordamida ulanadi. Shu sababli u binoning signal yetadigan istalgan joyida ishlay oladi.</p>
-        <p><strong>Muhim:</strong> simsiz signal havoda tarqaladi, shuning uchun tarmoq WPA2 yoki WPA3 shifrlash va kuchli parol bilan himoyalanishi shart. Barqaror tezlik zarur boʻlganda (masalan, onlayn imtihonda) noutbukni kabel orqali ulash afzal.</p>
+        <p>Noutbuk tarmoqqa Wi-Fi orqali ulanadi, shuning uchun uni istalgan joyga olib yurish mumkin.</p>
+        <p><strong>Diqqat:</strong> simsiz signal havoda tarqaladi. Shuning uchun Wi-Fi albatta kuchli parol bilan yopiladi.</p>
       </>
     ),
   },
   {
-    k: 'server', name: 'Server', icon: Server, layer: 'xizmat koʻrsatuvchi', x: 735, y: 45, side: true,
-    role: 'Umumiy xizmatlarni taqdim etadi',
+    k: 'server', name: 'Server', icon: Server, layer: 'xizmat koʻrsatadi', x: 735, y: 45, side: true,
+    role: 'Hamma foydalanadigan fayl va xizmatlarni saqlaydi',
     body: (
       <>
-        <p>Server — <em>alohida qurilma turi emas, balki rol</em>. U fayl saqlash, veb-sayt, pochta, DNS yoki DHCP xizmatini koʻrsatadi.</p>
-        <p>Maktab tarmogʻida odatda bitta fayl serveri boʻladi — oʻquv materiallari, hujjatlar va zaxira nusxalar shunda saqlanadi.</p>
+        <p>Server — alohida qurilma turi emas, <strong>rol</strong>. Boshqalarga xizmat qilsa, oddiy kompyuter ham server boʻladi.</p>
+        <p>Maktabda odatda bitta fayl serveri boʻladi: dars materiallari va zaxira nusxalar shunda turadi.</p>
       </>
     ),
   },
   {
-    k: 'switch', name: 'Switch', icon: Network, layer: 'OSI 2-qatlam · MAC', x: 587, y: 150,
-    role: 'Bitta tarmoq ichida ramkalarni uzatadi',
+    k: 'switch', name: 'Switch', icon: Network, layer: 'MAC-manzil boʻyicha', x: 587, y: 150,
+    role: 'Bitta tarmoq ichidagi qurilmalarni ulaydi',
     body: (
       <>
-        <p>Switch <strong>MAC-manzil</strong> boʻyicha ishlaydi va faqat <em>bitta</em> tarmoq ichida ramkalarni (frame) kerakli portga uzatadi. U qaysi MAC-manzil qaysi portda ekanini oʻzi oʻrganib, jadval tuzadi.</p>
-        <p><strong>Muhim:</strong> oddiy (2-qatlamli) switch IP-manzilga qaramaydi va turli IP-tarmoqlarni bogʻlay olmaydi — bu routerning vazifasi.</p>
+        <p>Switch qurilmalarni <strong>MAC-manzil</strong> boʻyicha topadi va maʼlumotni faqat kerakli portga yuboradi. Qaysi qurilma qaysi portda — oʻzi oʻrganib oladi.</p>
+        <p><strong>Diqqat:</strong> switch faqat bitta tarmoq ichida ishlaydi. Boshqa tarmoqqa chiqish — routerning ishi.</p>
       </>
     ),
   },
   {
-    k: 'router', name: 'Router', icon: Router, layer: 'OSI 3-qatlam · IP', x: 452, y: 150,
-    role: 'Turli tarmoqlar orasida yoʻnaltiradi',
+    k: 'router', name: 'Router', icon: Router, layer: 'IP-manzil boʻyicha', x: 452, y: 150,
+    role: 'Tarmoqlar orasida yoʻl koʻrsatadi',
     body: (
       <>
-        <p>Router <strong>IP-manzil</strong> boʻyicha ishlaydi va <em>turli</em> tarmoqlarni bogʻlaydi. U yoʻnaltirish jadvaliga (routing table) qarab, paketni manzilga olib boradigan eng maʼqul yoʻlni tanlaydi.</p>
-        <p>Koʻpincha <strong>NAT</strong> ham shu yerda bajariladi — ichki (xususiy) manzillar bitta tashqi manzilga almashtiriladi.</p>
+        <p>Router <strong>IP-manzil</strong> ga qaraydi va ikki xil tarmoqni bogʻlaydi. Paket uchun eng qisqa yoʻlni tanlaydi.</p>
+        <p>Maktab tarmogʻini internetga chiqaradigan qurilma — aynan router.</p>
       </>
     ),
   },
   {
-    k: 'ap', name: 'Access point', icon: Wifi, layer: 'simsiz ulanish nuqtasi', x: 735, y: 276,
-    role: 'Simsiz mijozlarni simli tarmoqqa ulaydi',
+    k: 'ap', name: 'Wi-Fi nuqtasi', icon: Wifi, layer: 'simsiz ulanish', x: 735, y: 276,
+    role: 'Simsiz qurilmalarni simli tarmoqqa ulaydi',
     body: (
       <>
-        <p>Access point simsiz qurilmalarni (telefon, noutbuk) <strong>simli tarmoqqa</strong> ulaydi. U yoʻnaltirish bilan shugʻullanmaydi.</p>
-        <p><strong>Chalkashlik:</strong> uydagi «Wi-Fi router» — bu bitta qutiga joylashtirilgan router + switch + access point + firewall. Shuning uchun ularni koʻpincha bitta narsa deb oʻylashadi.</p>
+        <p>Wi-Fi nuqtasi (access point) telefon va noutbukni simli tarmoqqa ulaydi. Yoʻl koʻrsatish bilan shugʻullanmaydi.</p>
+        <p><strong>Chalkashlik:</strong> uydagi «Wi-Fi router» — bitta qutidagi router, switch va Wi-Fi nuqtasi.</p>
       </>
     ),
   },
   {
     k: 'modem', name: 'Modem / ONT', icon: Cable, layer: 'operator liniyasi', x: 192, y: 150,
-    role: 'Operator signalini Ethernet signaliga aylantiradi',
+    role: 'Operator signalini tarmoq signaliga oʻgiradi',
     body: (
       <>
-        <p>Modem provayder liniyasidagi signalni (telefon liniyasi, koaksial kabel yoki optik tola) <strong>Ethernet</strong> signaliga aylantiradi. Optik liniyalarda bu qurilma <span className="font-mono text-teal-300">ONT</span> deb ataladi.</p>
-        <p><strong>Chalkashlik:</strong> modem va router bir xil narsa emas. Modem signalni aylantiradi, router esa paketlarni yoʻnaltiradi.</p>
+        <p>Modem provayder kabelidagi signalni kompyuter tushunadigan signalga oʻgiradi. Optik kabelda bu qurilma <span className="font-mono text-teal-300">ONT</span> deb ataladi.</p>
+        <p><strong>Chalkashlik:</strong> modem signalni oʻgiradi, router esa yoʻl koʻrsatadi — bu ikki xil ish.</p>
       </>
     ),
   },
   {
     k: 'fw', name: 'Firewall', icon: BrickWall, layer: 'chegara himoyasi', x: 322, y: 150,
-    role: 'Trafikni qoidalar boʻyicha filtrlaydi',
+    role: 'Kimni oʻtkazishni qoida boʻyicha hal qiladi',
     body: (
       <>
-        <p>Firewall tarmoq chegarasida ham, ayrim qurilmalarning oʻzida ham joylashishi mumkin. U trafikni <strong>qoidalar</strong> boʻyicha tekshiradi: manba, nishon, port va protokol.</p>
-        <p>Qoidalar odatda «birinchi mos kelgani qoʻllanadi» tartibida ishlaydi, oxirida esa <em>standart taqiq</em> turadi. Buni <Link to="/laboratoriya/firewall">firewall laboratoriyasida</Link> sinab koʻring.</p>
+        <p>Firewall tarmoq chegarasidagi qorovul. Har bir soʻrovni qoidalar boʻyicha tekshiradi: kim, kimga va qaysi xizmatga.</p>
+        <p>Qoidalar yuqoridan pastga oʻqiladi, oxirida esa «ruxsat yoʻq» turadi. <Link to="/laboratoriya/firewall">Laboratoriyada</Link> sinab koʻring.</p>
       </>
     ),
   },
   {
     k: 'printer', name: 'Printer', icon: Printer, layer: 'umumiy resurs', x: 735, y: 199, side: true,
-    role: 'Tarmoq orqali boʻlishiladigan qurilma',
+    role: 'Butun sinf birga ishlatadigan qurilma',
     body: (
       <>
-        <p>Umumiy resursning eng oddiy misoli. Bitta printer butun sinfga xizmat qiladi — tarmoqning asosiy gʻoyasi aynan shu.</p>
-        <p>Printerga odatda <strong>statik manzil</strong> beriladi. Aks holda DHCP unga boshqa manzil berib qoʻyishi va kompyuterlar printerni «yoʻqotib qoʻyishi» mumkin.</p>
+        <p>Bitta printer butun sinfga xizmat qiladi. Tarmoqning asosiy foydasi aynan shu.</p>
+        <p>Printerga odatda <strong>doimiy manzil</strong> beriladi. Aks holda kompyuterlar uni «yoʻqotib qoʻyishi» mumkin.</p>
       </>
     ),
   },
@@ -158,7 +158,7 @@ export default function DeviceExplorer() {
     <Stage
       title="Qurilma eksploreri"
       badge={`${DEV.length} qurilma · ${d.name}`}
-      hint={<>Maktab tarmogʻini loyihalashda shu qurilmalarning deyarli barchasi kerak boʻladi. Muhim savol: <strong>qaysi biri qaysi vazifani bajaradi?</strong> Sxemadagi qurilmani yoki pastdagi kartani bosing.</>}
+      hint={<>Maktab tarmogʻi uchun shu qurilmalarning deyarli hammasi kerak. Savol bitta: <strong>qaysi biri nima qiladi?</strong> Sxemadagi qurilmani yoki pastdagi kartani bosing.</>}
     >
       <div className="mx-auto max-w-[70rem]">
         <div className="overflow-x-auto rounded-xl border border-navy-800 bg-navy-900/40">
@@ -167,7 +167,7 @@ export default function DeviceExplorer() {
               <g aria-hidden="true">
                 <text x={127} y={98} fill={C.sub} fontSize={13} textAnchor="middle">tashqi tarmoq</text>
                 <text x={322} y={98} fill={C.sub} fontSize={13} textAnchor="middle">chegara</text>
-                <text x={519} y={98} fill={C.sub} fontSize={13} textAnchor="middle">ichki (lokal) tarmoq</text>
+                <text x={519} y={98} fill={C.sub} fontSize={13} textAnchor="middle">maktab tarmogʻi</text>
                 <text x={792} y={264} fill={C.amber} fontSize={12.5} textAnchor="middle">Wi-Fi</text>
               </g>
 

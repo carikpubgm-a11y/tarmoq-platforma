@@ -12,25 +12,25 @@ interface Packet {
 interface Rule { id: string; action: 'allow' | 'deny'; text: string; test: (p: Packet) => boolean }
 
 const RULES: Rule[] = [
-  { id: 'R1B', action: 'deny', text: '192.168.10.26 (karantindagi kompyuter) → server 192.168.40.5, port 445', test: p => p.src === '192.168.10.26' && p.dst === '192.168.40.5' && p.port === 445 },
-  { id: 'R1', action: 'allow', text: 'VLAN 10 (oʻquv) → server 192.168.40.5, port 445', test: p => p.vlan === 10 && p.dst === '192.168.40.5' && p.port === 445 },
-  { id: 'R2', action: 'allow', text: 'VLAN 10 → Internet, port 443 va 80', test: p => p.vlan === 10 && p.zone === 'wan' && (p.port === 443 || p.port === 80) },
-  { id: 'R3', action: 'allow', text: 'VLAN 20 (maʼmuriyat) → ichki tarmoq, istalgan port', test: p => p.vlan === 20 && p.zone === 'lan' },
-  { id: 'R4', action: 'deny', text: 'VLAN 10 → VLAN 20 (maʼmuriyat tarmogʻi)', test: p => p.vlan === 10 && p.toVlan === 20 },
-  { id: 'R5', action: 'deny', text: 'Internetdan → ichki tarmoqqa kiruvchi ulanish', test: p => p.inbound === true },
-  { id: 'R6', action: 'deny', text: 'istalgan → istalgan, port 23 (Telnet)', test: p => p.port === 23 },
+  { id: 'R1B', action: 'deny', text: 'Karantindagi kompyuter 192.168.10.26 → fayl serveri', test: p => p.src === '192.168.10.26' && p.dst === '192.168.40.5' && p.port === 445 },
+  { id: 'R1', action: 'allow', text: 'Oʻquv xonasi (VLAN 10) → fayl serveri', test: p => p.vlan === 10 && p.dst === '192.168.40.5' && p.port === 445 },
+  { id: 'R2', action: 'allow', text: 'Oʻquv xonasi → Internet, faqat sayt portlari (80, 443)', test: p => p.vlan === 10 && p.zone === 'wan' && (p.port === 443 || p.port === 80) },
+  { id: 'R3', action: 'allow', text: 'Oʻqituvchilar (VLAN 20) → ichki tarmoqning hamma joyiga', test: p => p.vlan === 20 && p.zone === 'lan' },
+  { id: 'R4', action: 'deny', text: 'Oʻquv xonasi → oʻqituvchilar tarmogʻi (VLAN 20)', test: p => p.vlan === 10 && p.toVlan === 20 },
+  { id: 'R5', action: 'deny', text: 'Internetdan ichkariga kirish urinishi', test: p => p.inbound === true },
+  { id: 'R6', action: 'deny', text: 'Telnet (eski, xavfli protokol) — hamma joyda', test: p => p.port === 23 },
 ]
-const STD = { id: 'STD', text: 'Standart qoida: qolgan barcha trafik taqiqlanadi' }
+const STD = { id: 'STD', text: 'Oxirgi qoida: qolgan hamma narsa taqiqlanadi' }
 
 const PACKETS: Packet[] = [
-  { src: '192.168.10.25', sport: 51234, dst: '192.168.40.5', port: 445, proto: 'TCP', vlan: 10, toVlan: 40, zone: 'lan', why: 'Oʻquvchi kompyuteri fayl serveriga ulanmoqchi.' },
-  { src: '192.168.10.26', sport: 51236, dst: '192.168.40.5', port: 445, proto: 'TCP', vlan: 10, toVlan: 40, zone: 'lan', why: 'Karantindagi kompyuter fayl serveriga ulanmoqchi. Aniqroq qoida (R1B) umumiy ruxsatdan (R1) oldin turgani uchun birinchi boʻlib mos keladi.' },
-  { src: '192.168.10.25', sport: 51235, dst: '192.168.20.5', port: 445, proto: 'TCP', vlan: 10, toVlan: 20, zone: 'lan', why: 'Oʻquvchi maʼmuriyat serveriga ulanmoqchi.' },
-  { src: '198.51.100.7', sport: 44321, dst: '192.168.40.5', port: 3389, proto: 'TCP', vlan: 0, toVlan: 40, zone: 'lan', inbound: true, why: 'Internetdan ichki serverga kiruvchi ulanish urinishi.' },
-  { src: '192.168.20.30', sport: 49001, dst: '192.168.40.5', port: 445, proto: 'TCP', vlan: 20, toVlan: 40, zone: 'lan', why: 'Oʻqituvchi kompyuteri fayl serveriga ulanmoqchi.' },
-  { src: '192.168.10.40', sport: 41122, dst: '203.0.113.10', port: 443, proto: 'TCP', vlan: 10, toVlan: 0, zone: 'wan', why: 'Oʻquvchi xavfsiz veb-saytga kirmoqchi.' },
-  { src: '192.168.10.40', sport: 41123, dst: '192.168.40.5', port: 23, proto: 'TCP', vlan: 10, toVlan: 40, zone: 'lan', why: 'Telnet orqali ulanish urinishi (eski, shifrlanmagan protokol).' },
-  { src: '192.168.10.40', sport: 41124, dst: '203.0.113.10', port: 8080, proto: 'TCP', vlan: 10, toVlan: 0, zone: 'wan', why: 'Oʻquvchi noodatiy portga murojaat qilmoqchi.' },
+  { src: '192.168.10.25', sport: 51234, dst: '192.168.40.5', port: 445, proto: 'TCP', vlan: 10, toVlan: 40, zone: 'lan', why: 'Oʻquvchi fayl serveriga ulanmoqchi.' },
+  { src: '192.168.10.26', sport: 51236, dst: '192.168.40.5', port: 445, proto: 'TCP', vlan: 10, toVlan: 40, zone: 'lan', why: 'Karantindagi kompyuter ulanmoqchi. Aniq qoida (R1B) umumiy ruxsatdan (R1) yuqorida turadi.' },
+  { src: '192.168.10.25', sport: 51235, dst: '192.168.20.5', port: 445, proto: 'TCP', vlan: 10, toVlan: 20, zone: 'lan', why: 'Oʻquvchi oʻqituvchilar serveriga ulanmoqchi.' },
+  { src: '198.51.100.7', sport: 44321, dst: '192.168.40.5', port: 3389, proto: 'TCP', vlan: 0, toVlan: 40, zone: 'lan', inbound: true, why: 'Internetdan ichki serverga kirish urinishi.' },
+  { src: '192.168.20.30', sport: 49001, dst: '192.168.40.5', port: 445, proto: 'TCP', vlan: 20, toVlan: 40, zone: 'lan', why: 'Oʻqituvchi fayl serveriga ulanmoqchi.' },
+  { src: '192.168.10.40', sport: 41122, dst: '203.0.113.10', port: 443, proto: 'TCP', vlan: 10, toVlan: 0, zone: 'wan', why: 'Oʻquvchi xavfsiz saytga kirmoqchi.' },
+  { src: '192.168.10.40', sport: 41123, dst: '192.168.40.5', port: 23, proto: 'TCP', vlan: 10, toVlan: 40, zone: 'lan', why: 'Telnet orqali ulanish urinishi.' },
+  { src: '192.168.10.40', sport: 41124, dst: '203.0.113.10', port: 8080, proto: 'TCP', vlan: 10, toVlan: 0, zone: 'wan', why: 'Oʻquvchi gʻalati portga murojaat qilmoqchi.' },
 ]
 
 /** Birinchi mos kelgan qoida qoʻllanadi; hech biri mos kelmasa — standart taqiq. */
@@ -81,9 +81,9 @@ export default function TrafficFilter() {
 
   return (
     <Stage
-      title="Trafik filtri simulyatori"
+      title="Firewall qanday ishlaydi?"
       badge={`${sent} / ${total} paket`}
-      hint={<>Har bir paket qoidalar boʻyicha yuqoridan pastga tekshiriladi. Mos kelgan qoida <strong className="!text-emerald-300">yashil</strong> (ruxsat) yoki <strong className="!text-rose-300">qizil</strong> (taqiq) rangda ajratiladi. Hech bir qoida mos kelmasa, standart qoida ishlaydi: <strong>hammasi taqiqlanadi</strong>.</>}
+      hint={<>Mos kelgan qoida <strong className="!text-emerald-300">yashil</strong> (ruxsat) yoki <strong className="!text-rose-300">qizil</strong> (taqiq) boʻlib yonadi. Hech biri mos kelmasa — hammasi taqiqlanadi.</>}
     >
       <div className="mb-2.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
         <h4 className="text-[0.95rem] font-bold !text-white">Qoidalar roʻyxati</h4>
@@ -113,8 +113,8 @@ export default function TrafficFilter() {
       </ol>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <Btn variant="primary" icon={Play} disabled={finished || running} onClick={sendOne}>Keyingi paketni yuborish</Btn>
-        <Btn variant="dark" icon={FastForward} disabled={finished || running} onClick={runAll}>Barchasini ishga tushirish</Btn>
+        <Btn variant="primary" icon={Play} disabled={finished || running} onClick={sendOne}>Paket yuborish</Btn>
+        <Btn variant="dark" icon={FastForward} disabled={finished || running} onClick={runAll}>Hammasini yuborish</Btn>
         <Btn variant="dark" icon={Eraser} disabled={sent === 0} onClick={reset}>Tozalash</Btn>
         {sent > 0 && (
           <span className="ml-auto flex flex-wrap gap-2 font-mono text-xs font-bold">
@@ -127,7 +127,7 @@ export default function TrafficFilter() {
       <div role="status" aria-live="polite" className="mt-3">
         {sent === 0 ? (
           <p className="rounded-xl border border-navy-700 bg-navy-900 px-4 py-3 text-[0.94rem] text-navy-100">
-            Jurnal boʻsh. <strong>«Keyingi paketni yuborish»</strong> tugmasini bosing — paket qaysi qoidaga mos kelishini kuzating.
+            Jurnal boʻsh. <strong>«Paket yuborish»</strong> tugmasini bosing va paket qaysi qoidaga tushishini kuzating. 👀
           </p>
         ) : (
           <ol className="space-y-1.5" aria-label="Paketlar jurnali, eng yangisi yuqorida">
@@ -152,7 +152,7 @@ export default function TrafficFilter() {
 
       {finished && (
         <p className="mt-3 rounded-xl border border-teal-500/40 bg-teal-500/10 px-4 py-3 text-[0.94rem] text-navy-100">
-          Barcha {total} ta paket tekshirildi: {allowed} tasi oʻtkazildi, {blocked} tasi bloklandi. Oxirgi paket hech bir qoidaga mos kelmadi — uni <strong>standart taqiq</strong> toʻxtatdi.
+          {total} ta paket tekshirildi: {allowed} tasi oʻtdi, {blocked} tasi bloklandi. Oxirgi paket hech bir qoidaga tushmadi — uni <strong>oxirgi qoida</strong> toʻxtatdi. ✅
         </p>
       )}
     </Stage>

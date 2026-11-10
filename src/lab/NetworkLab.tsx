@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import {
-  Monitor, Laptop, Printer, Server, Network, Router, Wifi, BrickWall, MousePointer2, Cable, Wand2, LayoutDashboard, RotateCcw,
-  Send, Trash2, Unplug, PlugZap, CircleCheck, CircleX, TriangleAlert, Info, Plus, type LucideIcon,
+  Monitor, Laptop, Printer, Server, Network, Router, Wifi, BrickWall, Cable, LayoutDashboard,
+  Send, Trash2, Unplug, PlugZap, CircleCheck, CircleX, TriangleAlert, Info, Plus, ChevronDown, type LucideIcon,
 } from 'lucide-react'
 import { Btn, Stage, cx } from '../components/ui'
 import {
@@ -13,6 +13,26 @@ import { EMPTY, PRESETS, type PresetKey } from './presets'
 const W = 960, H = 540, R = 30
 const ICON: Record<DeviceKind, LucideIcon> = { pc: Monitor, laptop: Laptop, printer: Printer, server: Server, switch: Network, router: Router, ap: Wifi, firewall: BrickWall }
 const COLOR: Record<DeviceKind, string> = { pc: '#93C5FD', laptop: '#93C5FD', printer: '#FCD34D', server: '#C4B5FD', switch: '#2DD4BF', router: '#60A5FA', ap: '#A78BFA', firewall: '#FB923C' }
+
+/** Har bir qurilma — bitta qator tushuntirish (oʻquvchi uchun). */
+const DESC: Record<DeviceKind, string> = {
+  pc: 'Kompyuter — xabarni yuboradi va qabul qiladi.',
+  laptop: 'Noutbuk — koʻpincha Wi-Fi orqali ulanadi.',
+  printer: 'Printer — hamma shu qurilmaga chop etadi.',
+  server: 'Server — fayl va xizmatlarni boshqalarga beradi.',
+  switch: 'Switch — bitta tarmoq ichidagi qurilmalarni birlashtiradi.',
+  router: 'Router — ikki xil tarmoqni bir-biriga bogʻlaydi.',
+  ap: 'Wi-Fi nuqtasi — simsiz qurilmalarni tarmoqqa qoʻshadi.',
+  firewall: 'Firewall — keraksiz xabarlarni toʻxtatadi.',
+}
+
+/** «Nima qilaman?» — birinchi 30 soniya uchun yoʻl xaritasi. */
+const STEPS: { e: string; t: string; d: string }[] = [
+  { e: '➕', t: 'Qurilma qoʻshing', d: 'Kompyuter, switch yoki router — bittasini bosing.' },
+  { e: '🔌', t: 'Sim ulang', d: '«Sim ulash»ni bosib, ikki qurilmani ketma-ket bosing.' },
+  { e: '⚡', t: 'Avto IP bosing', d: 'Har bir qurilma oʻz manzilini oladi.' },
+  { e: '📨', t: 'Xabar yuboring', d: 'Xabar yetib bordimi — shu yerda koʻrasiz.' },
+]
 
 interface Props {
   value: LabState
@@ -37,6 +57,22 @@ function Field({ label, value, onChange, error, placeholder }: { label: string; 
   )
 }
 
+/** Toʻq fonda yirik asosiy tugma. */
+function BigBtn({ label, onClick, active, disabled, tone = 'dark' }: {
+  label: string; onClick: () => void; active?: boolean; disabled?: boolean; tone?: 'dark' | 'main' | 'warm'
+}) {
+  return (
+    <button type="button" onClick={onClick} disabled={disabled} aria-pressed={active}
+      className={cx('inline-flex items-center gap-2 rounded-2xl border-2 px-4 py-3.5 text-[1.02rem] font-extrabold transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-40 sm:px-5',
+        active ? 'border-teal-300 bg-teal-400 text-navy-950'
+          : tone === 'main' ? 'border-teal-400 bg-teal-500 text-navy-950 hover:bg-teal-400'
+            : tone === 'warm' ? 'border-navy-600 bg-navy-900 text-rose-200 hover:border-rose-400'
+              : 'border-navy-600 bg-navy-900 text-white hover:border-teal-400 hover:bg-navy-800')}>
+      {label}
+    </button>
+  )
+}
+
 export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstruktori', presetKeys = ['star', 'bus', 'ring', 'mesh', 'office', 'twoNets'], extraPresets = [], onPing, onCut, hint }: Props) {
   const [mode, setMode] = useState<'select' | 'connect'>('select')
   const [sel, setSel] = useState<{ t: 'device' | 'link'; id: string } | null>(null)
@@ -45,7 +81,10 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
   const [dst, setDst] = useState('')
   const [run, setRun] = useState<{ res: PingResult; step: number } | null>(null)
   const [tab, setTab] = useState<'ping' | 'topo' | 'check'>('ping')
-  const [msg, setMsg] = useState('Qurilma qoʻshing yoki tayyor andozani yuklang.')
+  const [msg, setMsg] = useState('Boshlash uchun «Qurilma qoʻshish»ni bosing.')
+  const [showAdd, setShowAdd] = useState(false)
+  const [showMore, setShowMore] = useState(false)
+  const [detail, setDetail] = useState(false)
   const svgRef = useRef<SVGSVGElement>(null)
   const drag = useRef<{ id: string; dx: number; dy: number; moved: boolean } | null>(null)
   const reported = useRef<PingResult | null>(null)
@@ -94,44 +133,58 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
     const d: Device = { id: uid('d'), kind, name: nextName(s, kind), ...spot }
     commit({ ...s, devices: [...s.devices, d] })
     setSel({ t: 'device', id: d.id })
-    setMsg(`${d.name} qoʻshildi. Uni surib joylashtiring, soʻng «Kabel ulash» rejimida boshqa qurilmaga ulang.`)
+    setMsg(`${d.name} qoʻshildi. Endi «Sim ulash»ni bosib, uni boshqa qurilmaga ulang.`)
   }
   function addLink(a: string, b: string) {
     if (a === b) return
-    if (s.links.some(l => (l.a === a && l.b === b) || (l.a === b && l.b === a))) { setMsg('Bu ikki qurilma allaqachon ulangan.'); return }
+    if (s.links.some(l => (l.a === a && l.b === b) || (l.a === b && l.b === a))) { setMsg('Bu ikkisi allaqachon ulangan — boshqa qurilmani tanlang.'); return }
     commit({ ...s, links: [...s.links, { id: uid('l'), a, b }] })
-    setMsg(`${byId.get(a)!.name} ↔ ${byId.get(b)!.name} ulandi. Yana kabel tortish uchun keyingi qurilmani bosing.`)
+    setMsg(`${byId.get(a)!.name} va ${byId.get(b)!.name} ulandi. Yana sim tortish uchun keyingi qurilmani bosing.`)
   }
   function patch(id: string, p: Partial<Device>) {
     commit({ ...s, devices: s.devices.map(d => (d.id === id ? { ...d, ...p } : d)) })
   }
   function removeDevice(id: string) {
     commit({ devices: s.devices.filter(d => d.id !== id), links: s.links.filter(l => l.a !== id && l.b !== id) })
-    setSel(null); setMsg('Qurilma va unga ulangan kabellar oʻchirildi.')
+    setSel(null); setMsg('Qurilma oʻchirildi.')
   }
   function toggleLink(id: string) {
     const l = s.links.find(x => x.id === id)!
     commit({ ...s, links: s.links.map(x => (x.id === id ? { ...x, down: !x.down } : x)) })
     if (!l.down) onCut?.()
-    setMsg(l.down ? 'Kabel tiklandi.' : 'Kabel uzildi — qaysi qurilmalar aloqasiz qolganiga qarang va paketni qayta yuboring.')
+    setMsg(l.down ? 'Sim yana ulandi.' : 'Sim uzildi — endi xabar yuborib koʻring, nima oʻzgaradi?')
   }
-  function removeLink(id: string) { commit({ ...s, links: s.links.filter(l => l.id !== id) }); setSel(null); setMsg('Kabel olib tashlandi.') }
+  function removeLink(id: string) { commit({ ...s, links: s.links.filter(l => l.id !== id) }); setSel(null); setMsg('Sim olib tashlandi.') }
   function load(state: LabState, label: string) {
-    if (s.devices.length && !window.confirm('Joriy sxema almashtiriladi. Davom etasizmi?')) return
+    if (s.devices.length && !window.confirm('Hozirgi sxema oʻrniga tayyor namuna qoʻyiladi. Davom etamizmi?')) return
     commit(JSON.parse(JSON.stringify(state)) as LabState)
     setSel(null); setPending(null); setSrc(''); setDst(''); setMode('select')
-    setMsg(`«${label}» andozasi yuklandi.`)
+    setMsg(`«${label}» namunasi yuklandi. Xabar yuborib sinab koʻring.`)
   }
   function reset() {
-    if (s.devices.length && !window.confirm('Barcha qurilma va kabellar oʻchiriladi. Qayta boshlaysizmi?')) return
+    if (s.devices.length && !window.confirm('Hamma qurilma va sim oʻchiriladi. Boshidan boshlaymizmi?')) return
     commit(EMPTY); setSel(null); setPending(null); setSrc(''); setDst(''); setMode('select')
-    setMsg('Ish maydoni tozalandi. Qaytadan boshlang.')
+    setMsg('Maydon boʻsh. «Qurilma qoʻshish»ni bosing.')
+  }
+  function fire(a: string, b: string) {
+    reported.current = null
+    setDetail(false)
+    setRun({ res: ping(s, a, b), step: 0 })
+    setTab('ping')
   }
   function send() {
-    if (!src || !dst) { setMsg('Avval manba va qabul qiluvchi qurilmani tanlang.'); return }
-    reported.current = null
-    setRun({ res: ping(s, src, dst), step: 0 })
+    if (!src || !dst) { setMsg('Avval kimdan va kimga yuborishni tanlang.'); return }
+    fire(src, dst)
+    setMsg('Xabar yoʻlga chiqdi — pastda natijani kuzating.')
+  }
+  /** Katta «Xabar yuborish» tugmasi: tanlov boʻlmasa, oʻzi ikkita qurilmani oladi. */
+  function quickSend() {
     setTab('ping')
+    if (l3.length < 2) { setMsg('Xabar yuborish uchun kamida ikkita kompyuter kerak — «Qurilma qoʻshish»ni bosing.'); return }
+    let a = src, b = dst
+    if (!a || !b || a === b) { a = l3[0].id; b = l3[1].id; setSrc(a); setDst(b) }
+    fire(a, b)
+    setMsg(`Xabar ${byId.get(a)!.name} dan ${byId.get(b)!.name} ga ketdi.`)
   }
 
   /* ---- sichqoncha / sensor bilan surish ---- */
@@ -144,7 +197,7 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
   }
   function activate(id: string) {
     if (mode === 'connect') {
-      if (!pending) { setPending(id); setMsg(`${byId.get(id)!.name} tanlandi. Endi ulanadigan ikkinchi qurilmani bosing.`) }
+      if (!pending) { setPending(id); setMsg(`${byId.get(id)!.name} tanlandi. Endi ikkinchi qurilmani bosing.`) }
       else if (pending === id) { setPending(null); setMsg('Tanlov bekor qilindi.') }
       else { addLink(pending, id); setPending(null) }
     } else {
@@ -196,46 +249,75 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
   const facts = topo.key === 'star' || topo.key === 'bus' || topo.key === 'ring' || topo.key === 'mesh' ? TOPO_FACTS[topo.key] : null
 
   return (
-    <Stage title={title} badge={`${s.devices.length} qurilma · ${s.links.length} kabel · ${topo.name}`}
-      hint={hint ?? <>Bu — oʻquv simulyatsiyasi: haqiqiy tarmoq boshqarilmaydi. Loyiha shu brauzerda avtomatik saqlanadi.</>}>
-      {/* ---- qurilmalar palitrasi ---- */}
-      <div className="no-print mb-3 flex flex-wrap gap-2" role="group" aria-label="Qurilma qoʻshish">
-        {KIND_ORDER.map(k => {
-          const I = ICON[k]
-          return (
-            <button key={k} type="button" onClick={() => addDevice(k)} title={KIND[k].desc}
-              className="inline-flex items-center gap-2 rounded-xl border border-navy-600 bg-navy-900 px-3 py-2 text-sm font-semibold text-white transition hover:border-teal-400 hover:bg-navy-800">
-              <I size={17} style={{ color: COLOR[k] }} /><span>{KIND[k].label}</span><Plus size={14} className="text-navy-300" />
-            </button>
-          )
-        })}
+    <Stage title={title} badge={`${s.devices.length} qurilma · ${s.links.length} sim`}
+      hint={hint ?? <>Bu — oʻyin-simulyator: haqiqiy tarmoq oʻzgarmaydi. Ishingiz shu brauzerda oʻzi saqlanadi.</>}>
+      {/* ---- «Nima qilaman?» ---- */}
+      <ol className="no-print mb-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4" aria-label="Nima qilaman?">
+        {STEPS.map((st, i) => (
+          <li key={st.t} className="flex items-start gap-2.5 rounded-2xl border-2 border-navy-700 bg-navy-900/70 p-3">
+            <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-teal-500 font-display text-base font-extrabold text-navy-950">{i + 1}</span>
+            <span className="min-w-0">
+              <span className="block text-[0.98rem] font-extrabold text-white">{st.e} {st.t}</span>
+              <span className="block text-[0.85rem] leading-snug text-navy-300">{st.d}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      {/* ---- asosiy tugmalar ---- */}
+      <div className="no-print mb-3 flex flex-wrap gap-2.5">
+        <BigBtn tone="main" label="➕ Qurilma qoʻshish" active={showAdd} onClick={() => { setShowAdd(v => !v); setMsg('Qoʻshmoqchi boʻlgan qurilmani tanlang.') }} />
+        <BigBtn label="🔌 Sim ulash" active={mode === 'connect'}
+          onClick={() => {
+            const on = mode !== 'connect'
+            setMode(on ? 'connect' : 'select'); setPending(null)
+            setMsg(on ? 'Sim ulash yoniq: avval bitta qurilmani, keyin ikkinchisini bosing.' : 'Sim ulash oʻchdi: qurilmani bosib tanlash yoki surish mumkin.')
+          }} />
+        <BigBtn label="⚡ Avto IP" disabled={!s.devices.some(d => KIND[d.kind].l3)}
+          onClick={() => { commit(autoAddress(s)); setMsg('Manzillar tarqatildi: router — 192.168.1.1, qolganlar 192.168.1.10 dan boshlab.') }} />
+        <BigBtn label="📨 Xabar yuborish" onClick={quickSend} />
+        <BigBtn tone="warm" label="🔄 Boshidan" onClick={reset} />
+        <button type="button" onClick={() => setShowMore(v => !v)} aria-expanded={showMore}
+          className="ml-auto inline-flex items-center gap-1.5 rounded-2xl border-2 border-navy-700 px-3.5 py-3 text-sm font-bold text-navy-200 transition hover:border-teal-400 hover:text-white">
+          Yana <ChevronDown size={16} className={cx('transition-transform', showMore && 'rotate-180')} />
+        </button>
       </div>
 
-      {/* ---- rejim va amallar ---- */}
-      <div className="no-print mb-3 flex flex-wrap items-center gap-2">
-        <div className="inline-flex overflow-hidden rounded-xl border border-navy-600" role="group" aria-label="Ish rejimi">
-          <button type="button" aria-pressed={mode === 'select'} onClick={() => { setMode('select'); setPending(null); setMsg('Tanlash rejimi: qurilmani bosib tanlang, surib joyini oʻzgartiring.') }}
-            className={cx('inline-flex items-center gap-2 px-3.5 py-2 text-sm font-semibold', mode === 'select' ? 'bg-teal-500 text-navy-950' : 'bg-navy-900 text-white hover:bg-navy-800')}><MousePointer2 size={16} /> Tanlash va surish</button>
-          <button type="button" aria-pressed={mode === 'connect'} onClick={() => { setMode('connect'); setPending(null); setMsg('Kabel ulash rejimi: avval birinchi, keyin ikkinchi qurilmani bosing.') }}
-            className={cx('inline-flex items-center gap-2 px-3.5 py-2 text-sm font-semibold', mode === 'connect' ? 'bg-teal-500 text-navy-950' : 'bg-navy-900 text-white hover:bg-navy-800')}><Cable size={16} /> Kabel ulash</button>
+      {/* ---- qurilmalar palitrasi ---- */}
+      {showAdd && (
+        <div className="no-print anim-in mb-3 flex flex-wrap gap-2 rounded-2xl border-2 border-navy-700 bg-navy-900/60 p-2.5" role="group" aria-label="Qurilma qoʻshish">
+          {KIND_ORDER.map(k => {
+            const I = ICON[k]
+            return (
+              <button key={k} type="button" onClick={() => addDevice(k)} title={DESC[k]}
+                className="inline-flex items-center gap-2 rounded-xl border border-navy-600 bg-navy-900 px-3 py-2.5 text-sm font-bold text-white transition hover:border-teal-400 hover:bg-navy-800">
+                <I size={18} style={{ color: COLOR[k] }} /><span>{KIND[k].label}</span><Plus size={14} className="text-navy-300" />
+              </button>
+            )
+          })}
         </div>
-        <Btn variant="dark" size="sm" icon={Wand2} disabled={!s.devices.some(d => KIND[d.kind].l3)} onClick={() => { commit(autoAddress(s)); setMsg('IP manzillar avtomatik berildi: router — 192.168.1.1, qolganlar — 192.168.1.10 dan boshlab (DHCP kabi).') }}>Avto IP</Btn>
-        <Btn variant="dark" size="sm" icon={LayoutDashboard} disabled={!s.devices.length} onClick={() => { commit(arrange(s)); setMsg('Qurilmalar tartibga solindi.') }}>Tartibga solish</Btn>
-        <label className="inline-flex items-center gap-2 text-sm text-navy-300">
-          <span className="sr-only sm:not-sr-only">Andoza:</span>
-          <select className="field-dark !w-auto !py-1.5" value="" aria-label="Tayyor andozani yuklash"
-            onChange={e => {
-              const v = e.target.value
-              if (v.startsWith('x')) { const p = extraPresets[Number(v.slice(1))]; if (p) load(p.state, p.label) }
-              else if (v) load(PRESETS[v as PresetKey].state, PRESETS[v as PresetKey].label)
-            }}>
-            <option value="">Tayyor andoza…</option>
-            {presetKeys.map(k => <option key={k} value={k}>{PRESETS[k].label}</option>)}
-            {extraPresets.map((p, i) => <option key={i} value={'x' + i}>{p.label}</option>)}
-          </select>
-        </label>
-        <Btn variant="dark" size="sm" icon={RotateCcw} className="ml-auto !text-rose-200" onClick={reset}>Qayta boshlash</Btn>
-      </div>
+      )}
+
+      {/* ---- kamdan-kam kerak boʻladigan vositalar ---- */}
+      {showMore && (
+        <div className="no-print anim-in mb-3 flex flex-wrap items-center gap-2 rounded-2xl border-2 border-navy-700 bg-navy-900/60 p-2.5">
+          <Btn variant="dark" size="sm" icon={LayoutDashboard} disabled={!s.devices.length} onClick={() => { commit(arrange(s)); setMsg('Qurilmalar chiroyli joylashtirildi.') }}>Tartibga solish</Btn>
+          <label className="inline-flex items-center gap-2 text-sm text-navy-300">
+            <span className="sr-only sm:not-sr-only">Tayyor namuna:</span>
+            <select className="field-dark !w-auto !py-1.5" value="" aria-label="Tayyor namunani yuklash"
+              onChange={e => {
+                const v = e.target.value
+                if (v.startsWith('x')) { const p = extraPresets[Number(v.slice(1))]; if (p) load(p.state, p.label) }
+                else if (v) load(PRESETS[v as PresetKey].state, PRESETS[v as PresetKey].label)
+              }}>
+              <option value="">Tanlang…</option>
+              {presetKeys.map(k => <option key={k} value={k}>{PRESETS[k].label}</option>)}
+              {extraPresets.map((p, i) => <option key={i} value={'x' + i}>{p.label}</option>)}
+            </select>
+          </label>
+          <p className="text-xs text-navy-300">Klaviatura: Tab — qurilmalar boʻylab, strelkalar — surish, Enter — tanlash, Delete — oʻchirish.</p>
+        </div>
+      )}
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_19rem]">
         {/* ---- ish maydoni ---- */}
@@ -248,10 +330,10 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
               </defs>
               <rect width={W} height={H} fill="url(#labgrid)" />
               {!s.devices.length && (
-                <text x={W / 2} y={H / 2} textAnchor="middle" fill="#6682B5" fontSize="18" fontWeight="600">Yuqoridagi tugmalar bilan qurilma qoʻshing yoki «Tayyor andoza»ni tanlang</text>
+                <text x={W / 2} y={H / 2} textAnchor="middle" fill="#6682B5" fontSize="19" fontWeight="700">Maydon boʻsh — «➕ Qurilma qoʻshish»ni bosing</text>
               )}
 
-              {/* kabellar */}
+              {/* simlar */}
               {s.links.map(l => {
                 const a = byId.get(l.a), b = byId.get(l.b)
                 if (!a || !b) return null
@@ -265,7 +347,7 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
                       strokeWidth={hot || on ? 4 : 2.5} strokeDasharray={l.down ? '4 9' : wifi ? '7 6' : undefined} className={hot && !done ? 'anim-dash' : undefined} />
                     {l.down && <text x={mx} y={my + 6} textAnchor="middle" fontSize="18" fontWeight="800" fill="#FB7185">✕</text>}
                     <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="transparent" strokeWidth="18" style={{ cursor: 'pointer' }} tabIndex={0} role="button"
-                      aria-label={`${a.name} va ${b.name} orasidagi kabel${l.down ? ' (uzilgan)' : ''}`}
+                      aria-label={`${a.name} va ${b.name} orasidagi sim${l.down ? ' (uzilgan)' : ''}`}
                       onPointerDown={e => { e.stopPropagation(); setSel({ t: 'link', id: l.id }) }}
                       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSel({ t: 'link', id: l.id }) } else if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removeLink(l.id) } }} />
                   </g>
@@ -293,7 +375,7 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
                 )
               })}
 
-              {/* paket */}
+              {/* xabar (paket) */}
               {run && pktAt && (
                 <g style={{ transform: `translate(${pktAt.x}px, ${pktAt.y - R - 14}px)`, transition: 'transform .58s cubic-bezier(.4,0,.2,1)' }} pointerEvents="none">
                   <circle r="11" fill={done ? (run.res.ok ? '#34D399' : '#FB7185') : '#FBBF24'} stroke="#081229" strokeWidth="3" />
@@ -302,16 +384,16 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
               )}
             </svg>
           </div>
-          <p className="mt-2 min-h-[1.5rem] text-sm text-teal-200" role="status" aria-live="polite">{msg}</p>
+          <p className="mt-2 min-h-[1.5rem] text-[0.95rem] font-semibold text-teal-200" role="status" aria-live="polite">{msg}</p>
         </div>
 
         {/* ---- sozlamalar paneli ---- */}
-        <aside className="rounded-xl border border-navy-700 bg-navy-900 p-4" aria-label="Tanlangan element sozlamalari">
+        <aside className="rounded-xl border border-navy-700 bg-navy-900 p-4" aria-label="Tanlangan qurilma sozlamalari">
           {selDev ? (
             <div className="space-y-3">
               <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-teal-300">{KIND[selDev.kind].label} · {KIND[selDev.kind].layer}</div>
-                <p className="mt-1 text-sm leading-snug text-navy-200">{KIND[selDev.kind].desc}</p>
+                <div className="text-xs font-bold uppercase tracking-wider text-teal-300">{KIND[selDev.kind].label}</div>
+                <p className="mt-1 text-sm leading-snug text-navy-200">{DESC[selDev.kind]}</p>
               </div>
               <label className="block">
                 <span className="mb-1 block text-xs font-semibold text-navy-300">Nomi</span>
@@ -319,40 +401,40 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
               </label>
               {KIND[selDev.kind].l3 ? (
                 <>
-                  <Field label={selDev.kind === 'router' ? '1-interfeys: IP manzil' : 'IP manzil'} value={selDev.ip ?? ''} placeholder="192.168.1.10" onChange={v => patch(selDev.id, { ip: v })} error={fieldError('ip', selDev.ip, selDev)} />
-                  <Field label="Subnet maska" value={selDev.mask ?? ''} placeholder="255.255.255.0" onChange={v => patch(selDev.id, { mask: v })} error={fieldError('mask', selDev.mask)} />
+                  <Field label={selDev.kind === 'router' ? '1-chiqish: IP manzil' : 'IP manzil (qurilmaning raqami)'} value={selDev.ip ?? ''} placeholder="192.168.1.10" onChange={v => patch(selDev.id, { ip: v })} error={fieldError('ip', selDev.ip, selDev)} />
+                  <Field label="Maska (tarmoqning chegarasi)" value={selDev.mask ?? ''} placeholder="255.255.255.0" onChange={v => patch(selDev.id, { mask: v })} error={fieldError('mask', selDev.mask)} />
                   {selDev.kind === 'router' ? (
                     <>
-                      <Field label="2-interfeys: IP manzil (ixtiyoriy)" value={selDev.ip2 ?? ''} placeholder="192.168.2.1" onChange={v => patch(selDev.id, { ip2: v })} error={fieldError('ip', selDev.ip2)} />
-                      <Field label="2-interfeys: maska" value={selDev.mask2 ?? ''} placeholder="255.255.255.0" onChange={v => patch(selDev.id, { mask2: v })} error={fieldError('mask', selDev.mask2)} />
+                      <Field label="2-chiqish: IP manzil (ixtiyoriy)" value={selDev.ip2 ?? ''} placeholder="192.168.2.1" onChange={v => patch(selDev.id, { ip2: v })} error={fieldError('ip', selDev.ip2)} />
+                      <Field label="2-chiqish: maska" value={selDev.mask2 ?? ''} placeholder="255.255.255.0" onChange={v => patch(selDev.id, { mask2: v })} error={fieldError('mask', selDev.mask2)} />
                     </>
                   ) : (
-                    <Field label="Shlyuz (gateway)" value={selDev.gateway ?? ''} placeholder="192.168.1.1" onChange={v => patch(selDev.id, { gateway: v })} error={fieldError('gateway', selDev.gateway, selDev)} />
+                    <Field label="Shlyuz (chiqish eshigi — router manzili)" value={selDev.gateway ?? ''} placeholder="192.168.1.1" onChange={v => patch(selDev.id, { gateway: v })} error={fieldError('gateway', selDev.gateway, selDev)} />
                   )}
                 </>
               ) : selDev.kind === 'firewall' ? (
                 <label className="flex items-start gap-2.5 rounded-lg border border-navy-700 p-3 text-sm text-navy-100">
                   <input type="checkbox" className="mt-0.5 h-4 w-4 accent-teal-500" checked={!!selDev.blockPing} onChange={e => patch(selDev.id, { blockPing: e.target.checked })} />
-                  <span>Ping (ICMP) paketlarini bloklash<span className="mt-0.5 block text-xs text-navy-300">Yoqilsa, shu firewall orqali oʻtadigan sinov paketi toʻxtatiladi.</span></span>
+                  <span>Sinov xabarlarini toʻxtatish<span className="mt-0.5 block text-xs text-navy-300">Belgilansa, shu firewall orqali oʻtadigan xabar toʻxtaydi.</span></span>
                 </label>
               ) : (
-                <p className="rounded-lg border border-navy-700 p-3 text-sm leading-snug text-navy-200">Bu 2-qatlam qurilmasi — ishlashi uchun IP manzil shart emas. Unga faqat kabel ulang.</p>
+                <p className="rounded-lg border border-navy-700 p-3 text-sm leading-snug text-navy-200">Bu qurilmaga IP manzil kerak emas — unga faqat sim ulanadi.</p>
               )}
               <div className="flex flex-wrap gap-2 pt-1">
-                <Btn variant="dark" size="sm" icon={Cable} onClick={() => { setMode('connect'); setPending(selDev.id); setMsg(`${selDev.name} dan kabel tortilmoqda — ikkinchi qurilmani bosing.`) }}>Kabel tortish</Btn>
+                <Btn variant="dark" size="sm" icon={Cable} onClick={() => { setMode('connect'); setPending(selDev.id); setMsg(`${selDev.name} dan sim tortilyapti — ikkinchi qurilmani bosing.`) }}>Sim tortish</Btn>
                 <Btn variant="dark" size="sm" icon={Trash2} className="!text-rose-200" onClick={() => removeDevice(selDev.id)}>Oʻchirish</Btn>
               </div>
               {s.links.some(l => l.a === selDev.id || l.b === selDev.id) && (
                 <div>
-                  <div className="mb-1.5 text-xs font-semibold text-navy-300">Ulangan kabellar</div>
+                  <div className="mb-1.5 text-xs font-semibold text-navy-300">Ulangan simlar</div>
                   <ul className="space-y-1.5">
                     {s.links.filter(l => l.a === selDev.id || l.b === selDev.id).map(l => {
                       const o = byId.get(l.a === selDev.id ? l.b : l.a)
                       return (
                         <li key={l.id} className="flex items-center gap-2 text-sm">
                           <span className={cx('flex-1 truncate', l.down ? 'text-rose-300 line-through' : 'text-navy-100')}>↔ {o?.name}</span>
-                          <button type="button" onClick={() => toggleLink(l.id)} className="rounded-md border border-navy-600 px-2 py-1 text-xs font-semibold text-navy-100 hover:border-teal-400">{l.down ? 'Tiklash' : 'Uzish'}</button>
-                          <button type="button" onClick={() => removeLink(l.id)} aria-label={`${o?.name} bilan kabelni olib tashlash`} className="rounded-md border border-navy-600 p-1 text-rose-200 hover:border-rose-400"><Trash2 size={13} /></button>
+                          <button type="button" onClick={() => toggleLink(l.id)} className="rounded-md border border-navy-600 px-2 py-1 text-xs font-semibold text-navy-100 hover:border-teal-400">{l.down ? 'Ulash' : 'Uzish'}</button>
+                          <button type="button" onClick={() => removeLink(l.id)} aria-label={`${o?.name} bilan simni olib tashlash`} className="rounded-md border border-navy-600 p-1 text-rose-200 hover:border-rose-400"><Trash2 size={13} /></button>
                         </li>
                       )
                     })}
@@ -362,75 +444,88 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
             </div>
           ) : selLink ? (
             <div className="space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-teal-300">Kabel</div>
+              <div className="text-xs font-bold uppercase tracking-wider text-teal-300">Sim</div>
               <p className="font-display text-base font-bold text-white">{byId.get(selLink.a)?.name} ↔ {byId.get(selLink.b)?.name}</p>
-              <p className="text-sm text-navy-200">Holati: {selLink.down ? <span className="font-semibold text-rose-300">uzilgan</span> : <span className="font-semibold text-emerald-300">ishlayapti</span>}. Kabelni uzib, topologiya nosozlikka qanchalik chidamli ekanini sinab koʻring.</p>
+              <p className="text-sm text-navy-200">Holati: {selLink.down ? <span className="font-semibold text-rose-300">uzilgan</span> : <span className="font-semibold text-emerald-300">ishlayapti</span>}. Simni uzib koʻring — tarmoq buzilmaydimi?</p>
               <div className="flex flex-wrap gap-2">
-                <Btn variant="dark" size="sm" icon={selLink.down ? PlugZap : Unplug} onClick={() => toggleLink(selLink.id)}>{selLink.down ? 'Tiklash' : 'Kabelni uzish'}</Btn>
+                <Btn variant="dark" size="sm" icon={selLink.down ? PlugZap : Unplug} onClick={() => toggleLink(selLink.id)}>{selLink.down ? 'Qayta ulash' : 'Simni uzish'}</Btn>
                 <Btn variant="dark" size="sm" icon={Trash2} className="!text-rose-200" onClick={() => removeLink(selLink.id)}>Olib tashlash</Btn>
               </div>
             </div>
           ) : (
             <div className="text-sm leading-relaxed text-navy-200">
-              <div className="mb-2 text-xs font-bold uppercase tracking-wider text-teal-300">Qanday ishlatiladi</div>
-              <ol className="list-decimal space-y-1.5 pl-4">
-                <li>Yuqoridan qurilma qoʻshing va surib joylashtiring.</li>
-                <li>«Kabel ulash» rejimida ikkita qurilmani ketma-ket bosing.</li>
-                <li>Qurilmani tanlab IP, maska va shlyuzni kiriting (yoki «Avto IP»).</li>
-                <li>Pastda manba va qabul qiluvchini tanlab, paket yuboring.</li>
-                <li>Kabelni bosib «Uzish» — nosozlikni sinang.</li>
-              </ol>
-              <p className="mt-3 text-xs text-navy-300">Klaviatura: Tab — qurilmalar orasida, strelkalar — surish, Enter — tanlash, Delete — oʻchirish.</p>
+              <div className="mb-2 text-xs font-bold uppercase tracking-wider text-teal-300">Yordam</div>
+              <p>Qurilmani bosing — shu yerda uning sozlamalari chiqadi.</p>
+              <ul className="mt-2.5 space-y-1.5">
+                <li>🖱️ Qurilmani surib joyini oʻzgartirasiz.</li>
+                <li>🔌 «Sim ulash» — ikki qurilmani ketma-ket bosing.</li>
+                <li>⚡ «Avto IP» — manzillarni oʻzi tarqatadi.</li>
+                <li>✂️ Simni bosib «Uzish» — nima boʻlishini koʻring.</li>
+              </ul>
             </div>
           )}
         </aside>
       </div>
 
-      {/* ---- pastki panel: paket / topologiya / diagnostika ---- */}
+      {/* ---- pastki panel ---- */}
       <div className="mt-4 rounded-xl border border-navy-700 bg-navy-900">
         <div className="flex flex-wrap gap-1 border-b border-navy-700 p-1.5" role="tablist" aria-label="Laboratoriya vositalari">
-          {([['ping', 'Paket yuborish'], ['topo', 'Topologiya'], ['check', `Diagnostika${errors ? ' · ' + errors + ' xato' : ''}`]] as const).map(([k, label]) => (
+          {([['ping', '📨 Xabar yuborish'], ['topo', '🔺 Tarmoq shakli'], ['check', `🔍 Xatolarni tekshirish${errors ? ' · ' + errors : ''}`]] as const).map(([k, label]) => (
             <button key={k} type="button" role="tab" aria-selected={tab === k} onClick={() => setTab(k)}
-              className={cx('rounded-lg px-3.5 py-2 text-sm font-semibold', tab === k ? 'bg-teal-500 text-navy-950' : k === 'check' && errors ? 'text-rose-200 hover:bg-navy-800' : 'text-navy-100 hover:bg-navy-800')}>{label}</button>
+              className={cx('rounded-lg px-3.5 py-2.5 text-sm font-bold', tab === k ? 'bg-teal-500 text-navy-950' : k === 'check' && errors ? 'text-rose-200 hover:bg-navy-800' : 'text-navy-100 hover:bg-navy-800')}>{label}</button>
           ))}
         </div>
 
         {tab === 'ping' && (
           <div className="p-4" role="tabpanel">
             <div className="flex flex-wrap items-end gap-3">
-              <label className="min-w-[10rem] flex-1"><span className="mb-1 block text-xs font-semibold text-navy-300">1. Manba (kimdan)</span>
+              <label className="min-w-[10rem] flex-1"><span className="mb-1 block text-xs font-semibold text-navy-300">1. Kimdan</span>
                 <select className="field-dark" value={src} onChange={e => { setSrc(e.target.value); setRun(null) }}>
                   <option value="">Tanlang…</option>
                   {l3.map(d => <option key={d.id} value={d.id}>{d.name}{d.ip ? ' — ' + d.ip : ''}</option>)}
                 </select></label>
-              <label className="min-w-[10rem] flex-1"><span className="mb-1 block text-xs font-semibold text-navy-300">2. Qabul qiluvchi (kimga)</span>
+              <label className="min-w-[10rem] flex-1"><span className="mb-1 block text-xs font-semibold text-navy-300">2. Kimga</span>
                 <select className="field-dark" value={dst} onChange={e => { setDst(e.target.value); setRun(null) }}>
                   <option value="">Tanlang…</option>
                   {l3.filter(d => d.id !== src).map(d => <option key={d.id} value={d.id}>{d.name}{d.ip ? ' — ' + d.ip : ''}</option>)}
                 </select></label>
-              <Btn variant="primary" icon={Send} disabled={!src || !dst || (!!run && !done)} onClick={send}>3. Paket yuborish</Btn>
+              <Btn variant="primary" size="lg" icon={Send} disabled={!src || !dst || (!!run && !done)} onClick={send}>3. Yuborish</Btn>
             </div>
             <div className="mt-4" role="status" aria-live="polite">
-              {!run && <p className="text-sm text-navy-300">{l3.length < 2 ? 'Paket yuborish uchun kamida ikkita IP manzilli qurilma (kompyuter, server, printer) kerak.' : 'Manba va qabul qiluvchini tanlab, «Paket yuborish» tugmasini bosing — paket sxemada harakatlanadi.'}</p>}
-              {run && !done && <p className="text-sm font-semibold text-amber-300">Paket yoʻlda: {pktAt?.name}…</p>}
+              {!run && <p className="text-sm text-navy-300">{l3.length < 2 ? 'Avval kamida ikkita kompyuter qoʻshing — xabar shular orasida yuriladi.' : 'Kimdan va kimga tanlab, «Yuborish»ni bosing — xabar sxemada yuradi.'}</p>}
+              {run && !done && <p className="text-sm font-bold text-amber-300">Xabar yoʻlda: {pktAt?.name}…</p>}
               {run && done && (
                 <div className="anim-in">
-                  <div className={cx('flex items-start gap-3 rounded-xl border p-3.5', run.res.ok ? 'border-emerald-400/50 bg-emerald-500/10' : 'border-rose-400/50 bg-rose-500/10')}>
-                    {run.res.ok ? <CircleCheck className="mt-0.5 flex-none text-emerald-300" size={22} /> : <CircleX className="mt-0.5 flex-none text-rose-300" size={22} />}
-                    <div>
-                      <div className={cx('font-display font-bold', run.res.ok ? 'text-emerald-200' : 'text-rose-200')}>{run.res.ok ? 'Aloqa bor — paket yetib bordi' : 'Aloqa yoʻq — paket yetib bormadi'}</div>
-                      <p className="mt-0.5 text-sm text-navy-100">{run.res.reason}</p>
-                      {run.res.fix && <p className="mt-1.5 text-sm text-amber-200"><strong className="!text-amber-300">Qanday tuzatiladi: </strong>{run.res.fix}</p>}
+                  <div className={cx('flex items-start gap-3 rounded-xl border-2 p-4', run.res.ok ? 'border-emerald-400/60 bg-emerald-500/10' : 'border-rose-400/60 bg-rose-500/10')}>
+                    <span className="text-2xl" aria-hidden="true">{run.res.ok ? '🎉' : '🛠️'}</span>
+                    <div className="min-w-0">
+                      <div className={cx('font-display text-[1.1rem] font-extrabold', run.res.ok ? 'text-emerald-200' : 'text-rose-200')}>
+                        {run.res.ok ? 'Xabar yetib bordi!' : 'Xabar yetib bormadi'}
+                      </div>
+                      <p className="mt-1 text-[0.98rem] leading-relaxed text-navy-100">
+                        {run.res.ok
+                          ? 'Tarmoq ishlayapti. Endi bitta simni uzib koʻring — yana yetib boradimi?'
+                          : run.res.fix ?? 'Simlarni va IP manzillarni tekshirib, yana yuboring.'}
+                      </p>
                     </div>
                   </div>
-                  <ol className="mt-3 space-y-1.5 text-sm">
-                    {run.res.hops.map((h, i) => (
-                      <li key={i} className="flex gap-2.5">
-                        <span className={cx('mt-0.5 grid h-5 w-5 flex-none place-items-center rounded-full font-mono text-[0.68rem] font-bold', h.state === 'fail' ? 'bg-rose-400 text-navy-950' : h.state === 'ok' ? 'bg-emerald-400 text-navy-950' : 'bg-navy-700 text-navy-100')}>{i + 1}</span>
-                        <span className={h.state === 'fail' ? 'text-rose-200' : 'text-navy-100'}>{h.text}</span>
-                      </li>
-                    ))}
-                  </ol>
+                  <button type="button" onClick={() => setDetail(d => !d)} aria-expanded={detail}
+                    className="mt-2.5 inline-flex items-center gap-1.5 rounded-xl border border-navy-600 px-3 py-2 text-sm font-bold text-navy-100 hover:border-teal-400">
+                    {detail ? 'Izohni yashirish' : 'Nega shunday boʻldi?'}<ChevronDown size={15} className={cx('transition-transform', detail && 'rotate-180')} />
+                  </button>
+                  {detail && (
+                    <div className="anim-in mt-2.5">
+                      <p className="text-sm leading-relaxed text-navy-200">{run.res.reason}</p>
+                      <ol className="mt-3 space-y-1.5 text-sm">
+                        {run.res.hops.map((h, i) => (
+                          <li key={i} className="flex gap-2.5">
+                            <span className={cx('mt-0.5 grid h-5 w-5 flex-none place-items-center rounded-full font-mono text-[0.68rem] font-bold', h.state === 'fail' ? 'bg-rose-400 text-navy-950' : h.state === 'ok' ? 'bg-emerald-400 text-navy-950' : 'bg-navy-700 text-navy-100')}>{i + 1}</span>
+                            <span className={h.state === 'fail' ? 'text-rose-200' : 'text-navy-100'}>{h.text}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -441,20 +536,20 @@ export default function NetworkLab({ value: s, onChange, title = 'Tarmoq konstru
           <div className="p-4" role="tabpanel">
             <div className="flex flex-wrap items-center gap-3">
               <span className="rounded-lg bg-teal-500 px-3 py-1.5 font-display text-sm font-extrabold text-navy-950" role="status" aria-live="polite">{topo.name}</span>
-              <span className="text-sm text-navy-200">{comps.length > 1 ? `Tarmoq ${comps.length} qismga boʻlingan` : s.devices.length > 1 ? 'Barcha qurilmalar bogʻlangan' : ''}</span>
+              <span className="text-sm text-navy-200">{comps.length > 1 ? `Tarmoq ${comps.length} boʻlakka boʻlinib qolgan` : s.devices.length > 1 ? 'Hamma qurilma bir-biri bilan bogʻlangan' : ''}</span>
             </div>
             <p className="mt-2 text-sm leading-relaxed text-navy-100">{topo.note}</p>
             {facts && (
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-lg border border-emerald-400/30 bg-emerald-500/5 p-3"><div className="mb-1.5 text-xs font-bold uppercase tracking-wider text-emerald-300">Afzalliklari</div><ul className="space-y-1 text-sm text-navy-100">{facts.pros.map(p => <li key={p}>+ {p}</li>)}</ul></div>
-                <div className="rounded-lg border border-rose-400/30 bg-rose-500/5 p-3"><div className="mb-1.5 text-xs font-bold uppercase tracking-wider text-rose-300">Kamchiliklari</div><ul className="space-y-1 text-sm text-navy-100">{facts.cons.map(p => <li key={p}>− {p}</li>)}</ul></div>
+                <div className="rounded-lg border border-emerald-400/30 bg-emerald-500/5 p-3"><div className="mb-1.5 text-xs font-bold uppercase tracking-wider text-emerald-300">Yaxshi tomoni</div><ul className="space-y-1 text-sm text-navy-100">{facts.pros.slice(0, 2).map(p => <li key={p}>+ {p}</li>)}</ul></div>
+                <div className="rounded-lg border border-rose-400/30 bg-rose-500/5 p-3"><div className="mb-1.5 text-xs font-bold uppercase tracking-wider text-rose-300">Kamchiligi</div><ul className="space-y-1 text-sm text-navy-100">{facts.cons.slice(0, 2).map(p => <li key={p}>− {p}</li>)}</ul></div>
               </div>
             )}
             <div className="mt-4 flex flex-wrap items-center gap-2">
               <span className="text-xs font-semibold text-navy-300">Taqqoslash uchun yuklang:</span>
               {(['star', 'bus', 'ring', 'mesh'] as PresetKey[]).map(k => <Btn key={k} variant="dark" size="sm" onClick={() => load(PRESETS[k].state, PRESETS[k].label)}>{PRESETS[k].label}</Btn>)}
             </div>
-            <p className="mt-3 text-xs text-navy-300">Sinov: sxemadagi kabelni bosing → «Kabelni uzish». Yulduzda bitta qurilma, shinada tarmoqning yarmi aloqasiz qoladi, toʻrda esa hech narsa oʻzgarmaydi.</p>
+            <p className="mt-3 text-xs text-navy-300">Sinab koʻring: simni bosing → «Simni uzish». Yulduzda bitta qurilma, shinada yarmi aloqasiz qoladi, toʻrda esa hech narsa oʻzgarmaydi.</p>
           </div>
         )}
 

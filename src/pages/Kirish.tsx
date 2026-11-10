@@ -1,47 +1,40 @@
 import { Repeat, Users } from 'lucide-react'
 import {
-  PageHeader, Goal, Block, Grid, Card, Callout, Term, Mono, DataTable, Accordion, LifeExample, Takeaway, MiniTask, cx,
+  PageHeader, Goal, Block, Grid, Card, Callout, Term, Mono, DataTable, Accordion, LifeExample, Takeaway, MiniTask,
 } from '../components/ui'
 
-/* Inkapsulyatsiya: har bir qatlam yuqoridan kelgan maʼlumot oldiga oʻz sarlavhasini qoʻshadi. */
-const PART: Record<string, string> = {
-  data: 'border-amber-300 bg-amber-100 text-amber-900',
-  tcp: 'border-teal-300 bg-teal-100 text-teal-900',
-  ip: 'border-blue-300 bg-blue-100 text-blue-900',
-  eth: 'border-violet-300 bg-violet-100 text-violet-900',
-}
-const ENCAP: { layer: string; unit: string; parts: [keyof typeof PART, string][] }[] = [
-  { layer: 'Amaliy', unit: 'maʼlumot', parts: [['data', 'HTTP soʻrovi']] },
-  { layer: 'Transport', unit: 'segment', parts: [['tcp', 'TCP'], ['data', 'HTTP soʻrovi']] },
-  { layer: 'Internet', unit: 'paket', parts: [['ip', 'IP'], ['tcp', 'TCP'], ['data', 'HTTP soʻrovi']] },
-  { layer: 'Kanal', unit: 'ramka', parts: [['eth', 'Ethernet'], ['ip', 'IP'], ['tcp', 'TCP'], ['data', 'HTTP soʻrovi']] },
-]
-
-function Encapsulation() {
+/* Katta fayl kichik boʻlaklarga — paketlarga — boʻlinib yuboriladi. */
+function PaketChizma() {
+  const konvert = [0, 1, 2, 3]
   return (
-    <figure className="rounded-2xl border border-slate-200 bg-white p-4 shadow-card sm:p-6">
-      <div className="overflow-x-auto">
-        <div className="min-w-[40rem] space-y-2.5">
-          {ENCAP.map(row => (
-            <div key={row.layer} className="grid grid-cols-[8.5rem_1fr] items-center gap-3">
-              <div>
-                <div className="font-display text-[0.95rem] font-bold text-navy-950">{row.layer}</div>
-                <div className="font-mono text-xs text-slate-500">{row.unit}</div>
-              </div>
-              <div className="flex justify-end gap-1">
-                {row.parts.map(([kind, label]) => (
-                  <span key={kind}
-                    className={cx('rounded-lg border px-3 py-2 text-center font-mono text-xs font-bold', PART[kind], kind === 'data' ? 'w-44 flex-none' : 'w-24 flex-none')}>
-                    {label}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <figcaption className="mt-4 border-t border-slate-100 pt-3 text-sm leading-relaxed text-slate-600">
-        Yuborishda maʼlumot yuqoridan pastga tushadi va har bir qatlam uning oldiga oʻz sarlavhasini qoʻshadi. Qabul qiluvchi tomonda sarlavhalar teskari tartibda — pastdan yuqoriga — ochiladi.
+    <figure className="rounded-3xl border-2 border-slate-200 bg-white p-5 shadow-card sm:p-6">
+      <svg viewBox="0 0 620 160" className="h-auto w-full" role="img"
+        aria-label="Katta rasm toʻrtta kichik konvertga boʻlinadi, konvertlar bittalab yuboriladi va oxirida yana bitta rasm boʻlib yigʻiladi">
+        <rect x={10} y={42} width={110} height={76} rx={14} fill="#CCFBF1" stroke="#14B8A6" strokeWidth={2.5} />
+        <text x={65} y={75} textAnchor="middle" fontSize={26}>🖼️</text>
+        <text x={65} y={102} textAnchor="middle" fontSize={13} fontWeight={700} fill="#0C1A35">1 ta rasm</text>
+
+        <path d="M128 80 L166 80" stroke="#94A3B8" strokeWidth={3} strokeLinecap="round" />
+        <polygon points="178,80 164,73 164,87" fill="#94A3B8" />
+
+        {konvert.map(i => (
+          <g key={i}>
+            <rect x={192 + i * 62} y={52} width={52} height={56} rx={10} fill="#FEF3C7" stroke="#F59E0B" strokeWidth={2.5} />
+            <text x={218 + i * 62} y={82} textAnchor="middle" fontSize={20}>✉️</text>
+            <text x={218 + i * 62} y={100} textAnchor="middle" fontSize={11} fontWeight={700} fill="#0C1A35">{i + 1}</text>
+          </g>
+        ))}
+        <text x={316} y={38} textAnchor="middle" fontSize={13} fontWeight={700} fill="#1D335F">4 ta paket</text>
+
+        <path d="M452 80 L490 80" stroke="#94A3B8" strokeWidth={3} strokeLinecap="round" />
+        <polygon points="502,80 488,73 488,87" fill="#94A3B8" />
+
+        <rect x={500} y={42} width={110} height={76} rx={14} fill="#CCFBF1" stroke="#14B8A6" strokeWidth={2.5} />
+        <text x={555} y={75} textAnchor="middle" fontSize={26}>🖼️</text>
+        <text x={555} y={102} textAnchor="middle" fontSize={13} fontWeight={700} fill="#0C1A35">yana 1 ta rasm</text>
+      </svg>
+      <figcaption className="mt-4 border-t-2 border-slate-100 pt-3 text-[0.95rem] leading-relaxed text-slate-600">
+        Katta fayl kichik boʻlaklarga boʻlinib yuboriladi. Har bir boʻlak — <strong>paket</strong>. Oxirida ular yana bir butun boʻlib yigʻiladi.
       </figcaption>
     </figure>
   )
@@ -54,72 +47,59 @@ export default function Kirish() {
         no="03"
         tone="blue"
         eyebrow="Asoslar"
-        title="Kompyuter tarmoqlariga kirish"
-        lead={<>Bitta kompyuter — alohida olam. Ikkinchisi qoʻshilganda esa savol tugʻiladi: ular qanday qilib bir-birini tushunadi? Bu boʻlimda tarmoq nima ekani, u nima berishi va qanday qoidalar asosida ishlashi tushuntiriladi.</>}
+        title="Tarmoq nima?"
+        lead={<>Bitta kompyuter — yolgʻiz. Ikkitasi ulansa, savol tugʻiladi: ular bir-birini qanday tushunadi?</>}
       />
 
       <Goal
         items={[
-          'Kompyuter tarmogʻiga taʼrif berish va u taqdim etadigan toʻrt imkoniyatni sanash',
-          'Tugun, kanal, paket va protokol atamalarini toʻgʻri qoʻllash',
-          'TCP/IP modelining toʻrt qatlamini va inkapsulyatsiyani tushuntirish',
-          'TCP bilan UDP, mijoz–server bilan tengdosh tarmoq farqini misolda koʻrsatish',
+          'Tarmoq nima ekanini oʻz soʻzim bilan aytib beraman',
+          'Tugun, kanal, paket va protokolga misol keltiraman',
+          'TCP bilan UDP qachon ishlatilishini ayta olaman',
         ]}
       />
 
-      <Block tone="blue" title="Kompyuter tarmogʻi nima va u nima uchun kerak?">
-        <Callout kind="note" title="Taʼrif">
-          <strong>Kompyuter tarmogʻi</strong> — maʼlumot va resurslarni (fayl, printer, internet, dastur) almashish uchun qurilmalarni aloqa kanallari orqali bogʻlovchi tizim. Tarmoqning qiymati qurilmalar sonida emas, ularning <strong>kelishilgan qoidalar</strong> asosida «gaplasha olishida».
+      <Block tone="blue" title="Tarmoq — nima?">
+        <Callout kind="note" title="Qisqa taʼrif">
+          <strong>Tarmoq</strong> — bir-biriga ulangan va bir tilda «gaplashadigan» qurilmalar. Shu til — kelishilgan qoidalar, yaʼni <Term en="protocol">protokol</Term>.
         </Callout>
       </Block>
 
-      <Block
-        tone="blue"
-        title="Bir tushuncha — toʻrt qatlamda"
-        sub="Qatlamlarni birma-bir oching: har biri oldingisini chuqurlashtiradi — kundalik oʻxshatishdan universitet darajasidagi modelgacha."
-      >
+      <Block tone="blue" title="Tarmoq bizga nima beradi?">
+        <Grid cols={4}>
+          <Card tone="teal" emoji="🖨️" title="Birga ishlatish">
+            Bitta printer — butun sinf uchun.
+          </Card>
+          <Card tone="blue" emoji="📂" title="Fayl almashish">
+            Oʻqituvchi faylni bir joyga qoʻyadi, hamma oladi.
+          </Card>
+          <Card tone="violet" emoji="🔑" title="Bitta joydan boshqarish">
+            Login, parol va ruxsatlar bir joyda saqlanadi.
+          </Card>
+          <Card tone="amber" emoji="🌐" title="Umumiy xizmatlar">
+            Sayt, pochta, bulut — hammasi tarmoq orqali.
+          </Card>
+        </Grid>
+      </Block>
+
+      <Block tone="blue" title="Ikki daraja: oʻxshatish va haqiqat" sub="Avval kundalik misol, keyin esa aslida nima boʻlayotgani.">
         <Accordion
           items={[
             {
-              tag: '1-QATLAM',
-              title: 'Kundalik hayotdan: sinfdagi suhbat',
+              tag: '1-DARAJA',
+              title: '🗣️ Sinfdagi suhbat',
               content: (
                 <>
-                  <p>Sinfda 30 oʻquvchi bir vaqtda gapirsa, hech kim hech narsani eshitmaydi. Gaplashish uchun uch narsa kelishilishi kerak: <strong>kimga</strong> aytayotganingiz, <strong>navbat</strong> qanday va <strong>qaysi tilda</strong>.</p>
-                  <p>Tarmoqda ham xuddi shunday. Kompyuterlar bir-biriga maʼlumot yuborishi uchun manzil, navbat va til — yaʼni <strong>protokol</strong> boʻyicha kelishishi shart.</p>
+                  <p>30 oʻquvchi bir vaqtda gapirsa, hech kim hech narsani eshitmaydi. Gaplashish uchun uch narsa kerak: <strong>kimga</strong> aytyapsiz, <strong>navbat</strong> kimda va <strong>qaysi tilda</strong> gapirasiz.</p>
                 </>
               ),
             },
             {
-              tag: '2-QATLAM',
-              title: 'Asosiy tushuncha: tarmoq nima beradi',
+              tag: '2-DARAJA',
+              title: '💡 Aslida nima boʻladi',
               content: (
                 <>
-                  <p>Tarmoq toʻrt asosiy imkoniyat beradi: <strong>resurs boʻlishish</strong> (bitta printer — hamma uchun), <strong>maʼlumot almashish</strong> (fayl, xabar), <strong>markazlashgan boshqaruv</strong> (hisoblar, huquqlar) va <strong>umumiy xizmatlar</strong> (veb, pochta, bulut).</p>
-                  <p>Shu sababli maktab tarmogʻi — shunchaki kabellar emas, balki oʻquv jarayonining infratuzilmasi.</p>
-                </>
-              ),
-            },
-            {
-              tag: '3-QATLAM',
-              title: 'Texnik: tugun, kanal, paket, protokol',
-              content: (
-                <>
-                  <p><Term en="node">Tugun</Term> — tarmoqqa ulangan har qanday qurilma: kompyuter, printer, telefon, kamera, server.</p>
-                  <p><Term en="link">Kanal</Term> — tugunlarni bogʻlovchi simli yoki simsiz muhit: UTP kabel, optik tola, radiotoʻlqin.</p>
-                  <p><Term en="packet">Paket</Term> — uzatiladigan maʼlumotning kichik boʻlagi. Uning <em>sarlavhasi</em> (header) yuboruvchi va qabul qiluvchi manzilini, <em>yuki</em> (payload) esa foydali maʼlumotni saqlaydi. Katta fayl yuzlab paketlarga boʻlinib yuboriladi.</p>
-                  <p><Term en="protocol">Protokol</Term> — qurilmalar kelishgan qoidalar toʻplami. Eng keng tarqalgan protokollar oilasi — <Mono>TCP/IP</Mono>.</p>
-                </>
-              ),
-            },
-            {
-              tag: '4-QATLAM',
-              title: 'Universitet darajasi: qatlamli model',
-              content: (
-                <>
-                  <p>Aloqa masalasi bir yoʻla hal qilinmaydi — u <strong>qatlamlarga</strong> boʻlinadi. Har bir qatlam faqat oʻz vazifasini bajaradi va quyi qatlamga tayanadi. Bu — murakkablikni boshqarish usuli.</p>
-                  <p>Amaliyotda <Mono>TCP/IP</Mono> modeli ishlatiladi: <em>Kanal</em> (Ethernet, Wi-Fi) → <em>Internet</em> (IP) → <em>Transport</em> (TCP, UDP) → <em>Amaliy</em> (HTTP, DNS). Oʻquv maqsadida koʻpincha yetti qatlamli <Mono>OSI</Mono> modeli ham tushuntiriladi — u batafsilroq va nosozlikni qidirishda qulay.</p>
-                  <p>Toʻrt qatlamning vazifasi va bitta paket ichida qanday joylashishi quyidagi jadval va chizmada koʻrsatilgan.</p>
+                  <p>Kompyuterlarda ham xuddi shunday: manzil, navbat va til kerak. Bu uchtasi protokolda yozilgan. Eng koʻp ishlatiladigan protokollar oilasi — <Mono>TCP/IP</Mono>.</p>
                 </>
               ),
             },
@@ -127,94 +107,101 @@ export default function Kirish() {
         />
       </Block>
 
-      <Block
-        tone="blue"
-        title="TCP/IP modeli va inkapsulyatsiya"
-        sub="Har bir qatlam bitta savolga javob beradi: qaysi xizmat, qaysi dastur, qaysi tarmoq va qaysi qoʻshni qurilma."
-      >
+      <Block tone="blue" title="Toʻrtta tayanch soʻz">
         <DataTable
-          head={['TCP/IP qatlami', 'Vazifasi', 'Misol']}
+          head={['Soʻz', 'Nimani bildiradi', 'Maktabdagi misol']}
           rows={[
-            [<strong>Amaliy</strong>, 'Foydalanuvchi xizmatlari', 'HTTP, DNS, SMTP'],
-            [<strong>Transport</strong>, 'Dasturdan dasturgacha yetkazish: portlar, ishonchlilik', 'TCP, UDP'],
-            [<strong>Internet</strong>, 'Manzillash va tarmoqlar orasida yoʻnaltirish', 'IP, ICMP'],
-            [<strong>Kanal</strong>, 'Bitta tarmoq ichida qoʻshni qurilmaga jismoniy uzatish', 'Ethernet, Wi-Fi'],
+            [<strong>Tugun</strong>, 'Tarmoqqa ulangan har qanday qurilma', 'Kompyuter, printer, kamera, telefon'],
+            [<strong>Kanal</strong>, 'Qurilmalarni bogʻlovchi yoʻl', 'Tarmoq kabeli yoki Wi-Fi'],
+            [<strong>Paket</strong>, 'Maʼlumotning kichik boʻlagi', 'Rasm 4 ta paketga boʻlinib ketadi'],
+            [<Term en="protocol">Protokol</Term>, 'Qurilmalar kelishgan qoidalar', 'TCP/IP — eng keng tarqalgani'],
           ]}
         />
         <div className="mt-4">
-          <Encapsulation />
+          <PaketChizma />
         </div>
-        <Callout kind="info" title="Muhim aniqlik" className="mt-4">
-          Qatlamlar — ketma-ket «bosqichlar» emas, balki bitta paket ichida <em>bir vaqtda mavjud</em> sarlavhalar. Paket yuborilganda har bir qatlam oʻz sarlavhasini qoʻshadi — bu <Term en="encapsulation">inkapsulyatsiya</Term>; qabul qilinganda esa sarlavhalar navbat bilan ochiladi.
-        </Callout>
       </Block>
 
-      <Block tone="blue" title="TCP yoki UDP — qaysi biri?" sub="Ikkalasi ham transport qatlami protokoli. Tanlov bitta savolga bogʻliq: toʻliqlik muhimmi yoki tezlik?">
+      <Block tone="blue" title="Paket toʻrt bosqichdan oʻtadi" sub="Pochta bilan taqqoslang — tartib bir xil.">
         <DataTable
-          head={['Xususiyat', 'TCP', 'UDP']}
+          head={['Bosqich', 'Nima qiladi', 'Pochtaga oʻxshatsak']}
           rows={[
-            [<strong>Yetkazish</strong>, 'Ishonchli: yoʻqolgan paket qayta yuboriladi, tartib saqlanadi', 'Kafolatsiz: yoʻqolgan paket qayta yuborilmaydi'],
-            [<strong>Ulanish</strong>, 'Avval ulanish oʻrnatiladi', 'Ulanish oʻrnatilmaydi — darhol yuboriladi'],
-            [<strong>Tezlik</strong>, 'Sekinroq, tekshiruvlar qoʻshimcha vaqt oladi', 'Tez va yengil'],
-            [<strong>Qayerda</strong>, 'Veb-sahifa, fayl, elektron pochta', 'Jonli video va ovozli qoʻngʻiroq, onlayn oʻyin, DNS soʻrovi'],
+            [<strong>Amaliy</strong>, 'Dastur maʼlumotni tayyorlaydi', 'Xatni yozyapsiz'],
+            [<strong>Transport</strong>, 'Qaysi dasturga borishini belgilaydi', 'Kimga: «9-A sinf, Ali»'],
+            [<strong>Internet</strong>, 'Manzilni yozadi va yoʻlni topadi', 'Konvertdagi shahar va uy manzili'],
+            [<strong>Kanal</strong>, 'Keyingi qurilmaga jismonan uzatadi', 'Pochtachi xatni qoʻlga oladi'],
           ]}
         />
-        <Callout kind="note" title="Oʻquvchiga qanday tushuntiriladi" className="mt-4">
-          TCP — buyurtma xat: yetib borgani tasdiqlanadi, yoʻqolsa qayta joʻnatiladi. UDP — otilgan qogʻoz samolyotcha: tez uchadi, lekin yetib borgani nomaʼlum.
+        <Callout kind="info" title="Esda tuting" className="mt-4">
+          Har bir bosqich paketga oʻz yozuvini qoʻshadi. Qabul qiluvchi tomonda bu yozuvlar teskari tartibda ochiladi.
         </Callout>
       </Block>
 
-      <Block tone="blue" title="Mijoz–server va tengdosh tarmoq" sub="Tarmoqdagi qurilmalar oʻzaro rollarni ikki xil taqsimlashi mumkin.">
+      <Block tone="blue" title="TCP yoki UDP?" sub="Savol bitta: toʻliqlik muhimmi yoki tezlik?">
+        <DataTable
+          head={['Savol', 'TCP', 'UDP']}
+          rows={[
+            [<strong>Paket yoʻqolsa?</strong>, 'Qayta yuboriladi ✅', 'Qayta yuborilmaydi ❌'],
+            [<strong>Tezligi?</strong>, 'Sekinroq — tekshiradi', 'Juda tez'],
+            [<strong>Qayerda?</strong>, 'Sayt, fayl, pochta', 'Video, qoʻngʻiroq, oʻyin'],
+          ]}
+        />
+        <Callout kind="note" title="Oson eslash" className="mt-4">
+          TCP — buyurtma xat: yetib borgani tasdiqlanadi. UDP — otilgan qogʻoz samolyotcha: tez uchadi, lekin yetib bordimi — bilinmaydi.
+        </Callout>
+      </Block>
+
+      <Block tone="blue" title="Mijoz–server va tengdosh tarmoq">
         <Grid cols={2}>
-          <Card tone="blue" icon={Users} title="Mijoz–server">
-            Bitta kompyuter (server) xizmat koʻrsatadi, qolganlari (mijozlar) unga soʻrov yuboradi. Boshqaruv va maʼlumot bir joyda toʻplanadi. Maktab tarmogʻi odatda shunday quriladi.
+          <Card tone="blue" icon={Users} title="🏪 Mijoz–server">
+            Bitta kompyuter xizmat koʻrsatadi (server), qolganlari soʻraydi (mijoz). Maktab tarmogʻi odatda shunday.
           </Card>
-          <Card tone="teal" icon={Repeat} title="Tengdosh (P2P)">
-            Barcha qurilmalar teng huquqli: har biri ham soʻraydi, ham xizmat koʻrsatadi. Markaziy server shart emas. Misol: fayl almashish tarmoqlari, torrent.
+          <Card tone="teal" icon={Repeat} title="🤝 Tengdosh (P2P)">
+            Hamma teng: har biri ham soʻraydi, ham beradi. Markaziy server shart emas.
           </Card>
         </Grid>
-        <Callout kind="success" title="Muhim xulosa" className="mt-4">
-          Server — <em>alohida qurilma turi</em> emas, balki <em>rol</em>. Oddiy kompyuter ham boshqalarga xizmat koʻrsatsa, server boʻladi.
+        <Callout kind="success" title="Muhim" className="mt-4">
+          Server — alohida qurilma turi emas, <strong>rol</strong>. Boshqalarga xizmat qilsa, oddiy kompyuter ham server boʻladi.
         </Callout>
       </Block>
 
       <LifeExample>
-        Universitet kutubxonasida talaba noutbukidan elektron katalogni ochadi. Noutbuk (<strong>tugun</strong>) Wi-Fi (<strong>kanal</strong>) orqali soʻrovni <strong>paketlarga</strong> boʻlib yuboradi; paketlar TCP/IP <strong>protokollari</strong> boʻyicha katalog serveriga yetib boradi — bu mijoz–server aloqasi. Sahifa TCP orqali keladi, chunki u toʻliq va xatosiz yetishi shart. Yonidagi talaba esa videoqoʻngʻiroq orqali maʼruza tinglayapti: bir-ikki paket yoʻqolsa, tasvir bir lahza qotadi-yu, suhbat davom etaveradi — bu UDP.
+        Kutubxonada noutbukdan kitob katalogini ochdingiz. Noutbuk (<strong>tugun</strong>) Wi-Fi (<strong>kanal</strong>) orqali soʻrovni <strong>paketlarga</strong> boʻlib yuboradi — sahifa toʻliq kelishi kerak, shuning uchun TCP ishlaydi. Yoningizdagi oʻquvchi videoqoʻngʻiroqda: tasvir bir lahza qotadi-yu, suhbat davom etadi — bu UDP.
       </LifeExample>
 
       <Takeaway
         items={[
-          'Tarmoq — qurilmalar yigʻindisi emas, kelishilgan qoidalar (protokollar) asosida ishlaydigan aloqa tizimi.',
-          'Toʻrt tayanch atama: tugun, kanal, paket va protokol.',
-          'TCP/IP toʻrt qatlamdan iborat; har bir qatlam paketga oʻz sarlavhasini qoʻshadi — bu inkapsulyatsiya.',
-          'TCP — ishonchli, UDP — tez. Server esa qurilma turi emas, rol.',
+          'Tarmoq — shunchaki kabellar emas, umumiy qoidalar boʻyicha ishlaydigan aloqa.',
+          'Toʻrtta tayanch soʻz: tugun, kanal, paket, protokol.',
+          'Katta fayl kichik paketlarga boʻlinib yuboriladi.',
+          'TCP — ishonchli, UDP — tez. Server esa qurilma emas, rol.',
         ]}
       />
 
       <MiniTask
         questions={[
           {
-            q: 'Onlayn dars paytida tasvir bir lahza qotdi va davom etdi — yoʻqolgan qism qayta koʻrsatilmadi. Bu qaysi protokolga xos va nima uchun?',
+            q: 'Onlayn darsda tasvir bir lahza qotdi va davom etdi. Yoʻqolgan qism qayta koʻrsatilmadi. Bu qaysi protokol?',
             options: [
-              'TCP — chunki u yoʻqolgan paketni qayta yuboradi',
-              'UDP — tezlik muhim, yoʻqolgan paket qayta yuborilmaydi',
-              'DNS — chunki sayt nomi topilmadi',
-              'Ethernet — chunki kabel uzilib qoldi',
+              'TCP — yoʻqolgan paketni qayta yuboradi',
+              'UDP — tezlik muhim, yoʻqolgani qayta yuborilmaydi',
+              'DNS — sayt nomi topilmadi',
+              'Wi-Fi — kabel uzildi',
             ],
             correct: 1,
-            explain: 'Jonli videoda kechikkan paketning foydasi yoʻq, shuning uchun UDP ishlatiladi: u tez, lekin yoʻqolgan paketni qayta yubormaydi. TCP boʻlganda tasvir toʻxtab, yoʻqolgan qismni kutib turardi.',
+            explain: 'Jonli videoda kechikkan paketning foydasi yoʻq, shuning uchun UDP ishlatiladi. TCP boʻlsa, tasvir toʻxtab, yoʻqolgan qismni kutib turardi.',
           },
           {
-            q: 'Oʻqituvchi oddiy kompyuterda umumiy papka ochib, dars fayllarini joyladi; oʻquvchilar oʻz kompyuterlaridan shu papkadan fayl olishadi. Oʻqituvchi kompyuteri qanday rol bajaryapti?',
-            options: ['Mijoz', 'Router', 'Server', 'Access point'],
+            q: 'Oʻqituvchi oddiy kompyuterda umumiy papka ochdi, sinf esa undan fayl oladi. Oʻqituvchi kompyuteri qanday rolda?',
+            options: ['Mijoz', 'Router', 'Server', 'Wi-Fi nuqtasi'],
             correct: 2,
-            explain: 'Server — qurilma turi emas, rol. Boshqalarga xizmat (bu yerda — fayl saqlash) koʻrsatayotgan har qanday kompyuter server vazifasini bajaradi; oʻquvchilar kompyuterlari esa mijoz.',
+            explain: 'Server — rol, qurilma turi emas. Boshqalarga xizmat qilayotgan har qanday kompyuter server boʻladi.',
           },
           {
-            q: 'Brauzer sahifa soʻraganda HTTP soʻrovi oldiga navbat bilan TCP, IP va Ethernet sarlavhalari qoʻshiladi. Bu jarayon nima deb ataladi?',
-            options: ['Inkapsulyatsiya', 'Yoʻnaltirish', 'Shifrlash', 'Autentifikatsiya'],
+            q: 'Katta rasmni doʻstingizga yubordingiz. U yoʻlda nimaga boʻlinadi?',
+            options: ['Paketlarga', 'Kanallarga', 'Tugunlarga', 'Protokollarga'],
             correct: 0,
-            explain: 'Har bir qatlam yuqoridan kelgan maʼlumotga oʻz sarlavhasini qoʻshadi — bu inkapsulyatsiya. Qabul qiluvchi tomonda sarlavhalar teskari tartibda ochiladi.',
+            explain: 'Katta fayl kichik paketlarga boʻlinib yuboriladi va qabul qiluvchida yana bir butun boʻlib yigʻiladi.',
           },
         ]}
       />

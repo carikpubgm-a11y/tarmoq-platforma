@@ -5,12 +5,12 @@ import { saveResult, useStored } from '../../lib/storage'
 import { MethodInfo, Stepper, StageTimer, type MethodMeta } from './MethodInfo'
 
 const META: MethodMeta = {
-  goal: <>Tayyor bilim berilmaydi — avval <strong>muammo</strong> qoʻyiladi. Talaba uni tahlil qilib, yechimni oʻzi loyihalaydi va asoslaydi. Shu tariqa bilim yodlanmaydi, balki «kashf qilinadi».</>,
-  how: ['Muammoli vaziyat eʼlon qilinadi', 'Talaba shartni tahlil qilib, kichik muammolarga ajratadi', 'Qurilma, topologiya va himoya choralarini tanlaydi', 'Yechimini izohlaydi; platforma mezon boʻyicha tekshiradi'],
+  goal: <>Tayyor bilim berilmaydi — avval <strong>muammo</strong> qoʻyiladi. Oʻquvchi uni tahlil qilib, yechimni oʻzi loyihalaydi va asoslaydi. Shu tariqa bilim yodlanmaydi, balki «kashf qilinadi».</>,
+  how: ['Muammoli vaziyat eʼlon qilinadi', 'Oʻquvchi shartni tahlil qilib, kichik muammolarga ajratadi', 'Qurilma, topologiya va himoya choralarini tanlaydi', 'Yechimini izohlaydi; platforma mezon boʻyicha tekshiradi'],
   teacher: ['Muammoni aniq va hayotiy shaklda qoʻyadi', 'Tayyor javob bermaydi — yoʻnaltiruvchi savol beradi', 'Yechimlarni mezon asosida muhokama qiladi'],
   student: ['Shartdagi maʼlumot va cheklovlarni ajratadi', 'Bir nechta variantni solishtiradi', 'Tanlovini «nima uchun» bilan asoslaydi'],
-  example: <>Universitet kafedrasiga 20 ta kompyuter, 2 ta printer va 1 ta server uchun xavfsiz va barqaror tarmoq kerak. «Bitta 24 portli switch yetadimi?» degan savolning oʻzi talabani portlarni sanashga majbur qiladi.</>,
-  outcome: <>Talaba tarmoq loyihasini talabdan boshlab tuzadi, qurilmani vazifasiga qarab tanlaydi va qarorini yozma asoslaydi (Blum taksonomiyasida — tahlil va baholash darajasi).</>,
+  example: <>Maktabning kompyuter xonasiga 20 ta kompyuter, 2 ta printer va 1 ta server uchun xavfsiz va barqaror tarmoq kerak. «Bitta 24 portli switch yetadimi?» degan savolning oʻzi oʻquvchini portlarni sanashga majbur qiladi.</>,
+  outcome: <>Oʻquvchi tarmoq loyihasini talabdan boshlab tuzadi, qurilmani vazifasiga qarab tanlaydi va qarorini yozma asoslaydi (Blum taksonomiyasida — tahlil va baholash darajasi).</>,
   criteria: ['Shartdagi maʼlumotlar toʻgʻri ajratilgan', 'Asosiy kichik muammolar aniqlangan', 'Qurilmalar soni va turi asosli', 'Topologiya vaziyatga mos', 'IP rejasi va himoya choralari toʻliq', 'Yechim izohlangan'],
 }
 
@@ -129,12 +129,12 @@ export default function Muammoli() {
   return (
     <>
       <PageHeader no="12.1" tone="amber" eyebrow="Pedagogik metod" title="Muammoli taʼlim metodi"
-        lead="Bilim tayyor holda berilmaydi: talaba real vaziyatni tahlil qiladi, yechim taklif etadi va uni himoya qiladi." />
+        lead="Bilim tayyor holda berilmaydi: oʻquvchi real vaziyatni tahlil qiladi, yechim taklif etadi va uni himoya qiladi." />
       <MethodInfo m={META} />
 
       <Block title="Mashgʻulot: muammoni yeching" tone="amber" sub="Olti bosqichni ketma-ket bajaring. Javoblar shu brauzerda saqlanadi.">
         <Callout kind="warn" title="Muammoli vaziyat" className="mb-5">
-          <p className="text-[1.05rem] font-semibold text-navy-950">«Universitetda 20 ta kompyuter, 2 ta printer va 1 ta serverdan iborat tarmoq yaratish kerak. Tarmoq xavfsiz va barqaror boʻlishi lozim. Qanday loyihalaysiz?»</p>
+          <p className="text-[1.05rem] font-semibold text-navy-950">«Maktabda 20 ta kompyuter, 2 ta printer va 1 ta serverdan iborat tarmoq yaratish kerak. Tarmoq xavfsiz va barqaror boʻlishi lozim. Qanday loyihalaysiz?»</p>
         </Callout>
 
         <div className="mb-4 flex flex-wrap items-center gap-3">
@@ -254,7 +254,7 @@ export default function Muammoli() {
       <Takeaway items={[
         'Muammoli taʼlimda oʻqituvchi javob bermaydi — savol beradi.',
         'Yaxshi muammo bir nechta toʻgʻri yechimga ega: baholanadigani — asos.',
-        'Mezonlar oldindan maʼlum boʻlsa, talaba oʻz yechimini oʻzi tekshira oladi.',
+        'Mezonlar oldindan maʼlum boʻlsa, oʻquvchi oʻz yechimini oʻzi tekshira oladi.',
       ]} />
     </>
   )

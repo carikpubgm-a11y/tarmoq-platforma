@@ -10,203 +10,172 @@ export default function Kurs() {
         no="02"
         tone="blue"
         eyebrow="Kirish"
-        title="Kurs haqida va oʻquv maqsadlari"
-        lead={<>Bugun maktab, shifoxona va uyda koʻplab xizmatlar tarmoqqa bogʻliq. Tarmoq toʻgʻri loyihalanmasa, oddiy kabel uzilishi yoki zaif parol ham darsga, ishga va maʼlumotlar xavfsizligiga taʼsir qiladi. Bu boʻlim kurs nima uchun kerakligini va undan qanday natija kutilishini belgilaydi.</>}
+        title="Bu kursda nima oʻrganamiz?"
+        lead={<>Maktabdagi elektron jurnal, Wi-Fi va kameralar — hammasi bitta tarmoqda ishlaydi. Shu tarmoq qanday qurilishini va qanday himoyalanishini oʻrganamiz.</>}
       />
 
       <Goal
         items={[
-          'Mavzuning dolzarbligini uchta aniq sabab bilan asoslab berish',
-          'Dars maqsadini taʼlimiy, tarbiyaviy va rivojlantiruvchi qismlarga ajratib yozish',
-          'Har bir kutilayotgan natijani uni tekshiradigan mashq bilan bogʻlash',
+          'Tarmoq nega kerakligini ikki misol bilan aytib beraman',
+          'Bu kursda nimani oʻrganishimni bilaman',
+          'Dars oxirida oʻzimni qanday sinashimni bilaman',
         ]}
       />
 
-      <Block
-        tone="blue"
-        title="Nega bu mavzu bugun dolzarb?"
-        sub="Uchta sabab: maktab tarmoqqa tayanadi, himoyasiz qurilma butun tarmoqqa xavf soladi, yodlashga asoslangan dars esa tushunish bermaydi."
-      >
+      <Block tone="blue" title="Nega bu mavzu kerak?">
         <Grid cols={3}>
-          <Card tone="teal" icon={School} title="Maktablar raqamlashtirilmoqda">
-            Elektron jurnal, onlayn darslik, videokonferensiya, kameralar va Wi-Fi — bularning barchasi bitta maktab tarmogʻida ishlaydi. Buni kimdir <strong>loyihalashi</strong> kerak.
+          <Card tone="teal" icon={School} title="🏫 Maktab tarmoqqa bogʻlangan">
+            Elektron jurnal, onlayn darslik, Wi-Fi — barchasi tarmoq orqali ishlaydi. Tarmoq oʻchsa, dars ham toʻxtaydi.
           </Card>
-          <Card tone="blue" icon={Target} title="Hujumlar oson nishonni tanlaydi">
-            Tajovuzkor odatda eng himoyasiz joyni qidiradi. Kichik tashkilotda himoyasiz qolgan bitta qurilma — butun tarmoq uchun ochiq eshik.
+          <Card tone="blue" icon={Target} title="🔓 Bitta zaif joy — hammaga xavf">
+            Parolsiz qolgan bitta kompyuter butun tarmoqqa ochiq eshik boʻladi.
           </Card>
-          <Card tone="amber" icon={Brain} title="Oʻqitish metodi oʻzgaradi">
-            «Taʼrifni yodla» yondashuvi tarmoqni tushuntirmaydi. Sabab–natija zanjirini koʻrsatadigan <strong>model va simulyatsiya</strong> kerak.
+          <Card tone="amber" icon={Brain} title="🧠 Yodlash yetarli emas">
+            Taʼrifni yodlash oson. Qiyini — kerakli qurilmani oʻzingiz tanlay olish.
           </Card>
         </Grid>
 
-        <Callout kind="warn" title="Pedagogik muammo" className="mt-4">
-          Oʻquvchi «router — bu tarmoqlarni bogʻlaydigan qurilma» deb yodlaydi, lekin <em>nega</em> switch buni qila olmasligini tushunmaydi. Natijada yangi vaziyat uchun qurilmani tanlay olmaydi. Kursning asosiy maqsadi — <strong>yodlashdan tushunishga</strong> oʻtish.
+        <Callout kind="warn" title="Asosiy gʻoya" className="mt-4">
+          Biz taʼrif yodlamaymiz. Avval muammoni koʻramiz, keyin yechimni topamiz.
         </Callout>
       </Block>
 
-      <Block
-        tone="blue"
-        title="Anʼanaviy dars va ushbu kurs yondashuvi"
-        sub="Farq mavzuda emas, tartibda: avval muammo qoʻyiladi, bilim esa uni yechish jarayonida beriladi."
-      >
+      <Block tone="blue" title="Darsni qanday oʻtamiz?">
         <Grid cols={2}>
-          <Card tone="rose" title="Anʼanaviy dars">
+          <Card tone="rose" title="😴 Oddiy usul">
             <CheckList
               kind="cross"
               items={[
-                'Taʼrif aytiladi va yozdiriladi',
-                'Qurilmalar rasmi koʻrsatiladi',
-                'Uyga «mavzuni oʻqish» beriladi',
-                'Nazorat: taʼrifni soʻrash',
+                'Taʼrif aytiladi va yoziladi',
+                'Rasm koʻrsatiladi',
+                'Uyga «oʻqib kelish» beriladi',
               ]}
             />
           </Card>
-          <Card tone="green" title="Ushbu platformadagi yondashuv">
+          <Card tone="green" title="🚀 Bizning usul">
             <CheckList
               items={[
-                'Avval muammo qoʻyiladi, keyin qurilma tanishtiriladi',
-                <>Har bir qurilma <strong>tanlanadi</strong> va vazifasi ochiladi</>,
-                'Paket harakati simulyatsiyada koʻz bilan kuzatiladi',
-                'Nazorat: vaziyatni tahlil qilib, yechim tanlash',
+                'Avval savol: «Bu yerga nima kerak?»',
+                'Qurilmani oʻzingiz bosib sinab koʻrasiz',
+                'Paket harakatini ekranda kuzatasiz',
               ]}
             />
           </Card>
         </Grid>
       </Block>
 
-      <Block
-        tone="blue"
-        title="Darsning maqsadi: uch yoʻnalish"
-        sub="Maqsad uch qismga boʻlinadi: bilim (taʼlimiy), munosabat (tarbiyaviy) va fikrlash qobiliyati (rivojlantiruvchi). Faqat birinchisini yozib qoʻyish — eng koʻp uchraydigan xato."
-      >
+      <Block tone="blue" title="Darsning uch maqsadi" sub="Faqat bilim emas — munosabat va fikrlash ham muhim.">
         <Grid cols={3}>
-          <Card tone="blue" icon={BookOpen} title="Taʼlimiy">
-            <p className="mb-3">Oʻquvchi biladi va tushuntira oladi:</p>
+          <Card tone="blue" icon={BookOpen} title="📘 Bilim">
             <CheckList
               kind="dot"
               items={[
-                'tarmoq nima va uning vazifasi',
+                'tarmoq nima',
                 'LAN va WAN farqi',
-                'switch, router, access point vazifalari',
-                'IP-manzil va quyi tarmoq (subnet) tushunchasi',
-                'asosiy xavfsizlik choralari',
+                'switch, router, Wi-Fi nuqtasi',
+                'IP-manzil nima',
               ]}
             />
           </Card>
-          <Card tone="amber" icon={Handshake} title="Tarbiyaviy">
-            <p className="mb-3">Oʻquvchida shakllanadi:</p>
+          <Card tone="amber" icon={Handshake} title="🤝 Munosabat">
             <CheckList
               kind="dot"
               items={[
-                'raqamli masʼuliyat hissi',
-                'oʻzining va boshqalarning maʼlumotini himoya qilish',
-                'qonunga rioya qilish (shaxsiy maʼlumotlar)',
-                'jamoada ishlash madaniyati',
-                'tanqidiy va halol munosabat',
+                'oʻz maʼlumotimni himoya qilaman',
+                'boshqaning maʼlumotiga tegmayman',
+                'jamoada ishlayman',
               ]}
             />
           </Card>
-          <Card tone="teal" icon={Cog} title="Rivojlantiruvchi">
-            <p className="mb-3">Oʻquvchi qila oladi:</p>
+          <Card tone="teal" icon={Cog} title="🛠 Koʻnikma">
             <CheckList
               kind="dot"
               items={[
-                'vaziyatni tahlil qilib, yechim tanlash',
-                'qurilmani vazifasiga qarab tanlash',
-                'sxemani oʻqish va tuzish',
-                'xatoni topish va sababini aytish',
-                'oʻz yechimini asoslab berish',
+                'qurilmani vazifasiga qarab tanlayman',
+                'sxemani oʻqiyman va tuzaman',
+                'xatoni topib, sababini aytaman',
               ]}
             />
           </Card>
         </Grid>
       </Block>
 
-      <Block
-        tone="blue"
-        title="Kutilayotgan oʻquv natijalari"
-        sub={<>Dars oxirida oʻquvchi quyidagi amallarni <strong>mustaqil</strong> bajara olishi kerak. Roʻyxat oddiydan murakkabga qarab tuzilgan va baholash mezonlari sifatida ham ishlatiladi.</>}
-      >
+      <Block tone="blue" title="Dars oxirida nima qila olaman?" sub="Oddiydan qiyinga qarab — oʻzingizni shu jadval boʻyicha sinang.">
         <DataTable
-          head={['Daraja', 'Natija', 'Qanday tekshiriladi']}
+          head={['Daraja', 'Nima qila olaman', 'Qanday tekshiraman']}
           rows={[
-            [<Pill tone="green">Bilish</Pill>, 'Tarmoq qurilmalarini nomlaydi va vazifasini aytadi', 'Ogʻzaki soʻrov, «qurilmani top» mashqi'],
-            [<Pill tone="blue">Tushunish</Pill>, <>Switch va router farqini <em>sababi</em> bilan tushuntiradi</>, 'Paket oqimi simulyatoridan keyingi savol'],
-            [<Pill tone="amber">Qoʻllash</Pill>, 'Berilgan bino uchun tarmoq sxemasini tuzadi', 'Amaliy mashq: maktab tarmogʻi loyihasi'],
-            [<Pill tone="violet">Tahlil</Pill>, 'Xavfsizlik zaifligini topadi va yechim taklif qiladi', 'Vaziyatli test, firewall simulyatori'],
+            [<Pill tone="green">Bilaman</Pill>, 'Qurilmalarni nomlab, vazifasini aytaman', 'Savol-javob'],
+            [<Pill tone="blue">Tushunaman</Pill>, 'Switch bilan routerning farqini sababi bilan aytaman', 'Simulyatordan keyingi savol'],
+            [<Pill tone="amber">Qoʻllayman</Pill>, 'Sinf uchun tarmoq sxemasini tuzaman', 'Amaliy mashq'],
+            [<Pill tone="violet">Tahlil qilaman</Pill>, 'Xavfsizlik xatosini topib, yechim taklif qilaman', 'Firewall laboratoriyasi'],
           ]}
         />
       </Block>
 
-      <Block tone="blue" title="Jihozlar va muvaffaqiyat mezoni" sub="Dars eng oddiy sharoitda ham oʻtkazilishi mumkin: barcha simulyatsiyalar platformaning oʻzida.">
+      <Block tone="blue" title="Nima kerak boʻladi?">
         <Grid cols={2}>
-          <Card title="Zarur jihozlar">
+          <Card title="💻 Jihozlar">
             <KV
               items={[
-                ['Asosiy', 'Kompyuter yoki planshet, proyektor, internet'],
-                ['Ideal', '1 ta switch, 2–3 ta router yoki access point, tarmoq kabellari'],
-                ['Minimal', 'Faqat proyektor va shu platforma — barcha simulyatsiyalar ichida'],
-                ['Dasturiy', 'Brauzer; ixtiyoriy — Cisco Packet Tracer'],
+                ['Eng kami', 'Proyektor va shu sayt — barcha simulyatsiyalar ichida'],
+                ['Yaxshisi', 'Har oʻquvchiga kompyuter yoki planshet'],
+                ['Boʻlsa, zoʻr', '1 ta switch, 1–2 ta router, tarmoq kabellari'],
               ]}
             />
           </Card>
-          <Card tone="amber" title="Muvaffaqiyat mezoni">
+          <Card tone="amber" title="🏆 Dars muvaffaqiyatli, agar...">
             <CheckList
               items={[
-                <>Oʻquvchilarning kamida <strong>80 foizi</strong> testdan oʻtadi</>,
-                <>Har bir guruh oʻz sxemasini <strong>asoslab</strong> bera oladi</>,
-                'Kamida bitta xavfsizlik xatosini mustaqil topadi',
+                <>sinfning koʻp qismi testdan <strong>oʻtsa</strong></>,
+                <>har bir guruh oʻz sxemasini <strong>tushuntirib</strong> bersa</>,
+                'kamida bitta xavfsizlik xatosi topilsa',
               ]}
             />
-            <p className="mt-4 text-sm text-slate-500">
-              Bu raqamlar maktab darajasi uchun. Universitetda asosiy mezon — yechimni asoslab berish.
-            </p>
           </Card>
         </Grid>
       </Block>
 
       <LifeExample>
-        Tasavvur qiling: informatika oʻqituvchisi 9-sinfga «router — tarmoqlarni bogʻlaydigan qurilma» taʼrifini yozdirdi va hamma uni yoddan aytib berdi. Bir hafta oʻtib maktab kutubxonasiga oltita kompyuter keltirildi va oʻquvchilardan «bu yerga switch kerakmi yoki router?» deb soʻraldi — koʻpchilik javob bera olmadi. Ikkinchi sinfda esa dars aynan shu savoldan boshlandi: oʻquvchilar avval oʻzlari yechim taklif qilishdi, soʻng simulyatsiyada tekshirishdi. Ular taʼrifni yodlashmadi, lekin qurilmani <strong>nima uchun</strong> tanlaganini tushuntirib bera olishdi.
+        Bir sinfda oʻquvchilar «router — tarmoqlarni bogʻlaydigan qurilma» degan taʼrifni yoddan aytib berdi. Bir hafta oʻtib kutubxonaga 6 ta kompyuter keltirildi va «bu yerga switch kerakmi yoki router?» deb soʻrashdi — javob berilmadi. Ikkinchi sinf esa aynan shu savoldan boshlab, simulyatorda sinab koʻrdi — va tanlovini asoslab berdi.
       </LifeExample>
 
       <Takeaway
         items={[
-          'Tarmoq — oʻquv jarayonining infratuzilmasi: uni loyihalash va himoya qilishni oʻrgatish zarur.',
-          'Dars maqsadi uch qismli: taʼlimiy, tarbiyaviy va rivojlantiruvchi — uchalasi ham yoziladi.',
-          'Har bir natija oʻlchanadigan boʻlishi va aniq mashq bilan tekshirilishi kerak.',
-          'Asosiy gʻoya — yodlashdan tushunishga oʻtish: avval muammo, keyin qurilma.',
+          'Maktab tarmogʻi — darsning bir qismi, shuning uchun uni tushunish kerak.',
+          'Maqsad uchta: bilim, munosabat va koʻnikma.',
+          'Yodlash emas — tanlovingizni asoslab berish muhim.',
         ]}
       />
 
       <MiniTask
         questions={[
           {
-            q: 'Oʻqituvchi dars rejasiga faqat «Oʻquvchi switch va router taʼrifini biladi» deb yozdi. Bu maqsadda nima yetishmaydi?',
+            q: 'Oʻqituvchi dars maqsadiga faqat «switch va router taʼrifini biladi» deb yozdi. Nima yetishmaydi?',
             options: [
-              'Hech narsa — maqsad toʻliq yozilgan',
-              'Qurilmalarning narxi va modeli',
-              'Tarbiyaviy va rivojlantiruvchi qismlar',
-              'Darsning sanasi va vaqti',
+              'Hech narsa, hammasi joyida',
+              'Qurilmalar narxi',
+              'Munosabat va koʻnikma qismlari',
+              'Dars sanasi',
             ],
             correct: 2,
-            explain: 'Maqsad uch qismdan iborat: bilim (taʼlimiy), munosabat (tarbiyaviy) va fikrlash qobiliyati (rivojlantiruvchi). Faqat taʼlimiy qismni yozish — eng koʻp uchraydigan xato.',
+            explain: 'Maqsad uch qismdan iborat: bilim, munosabat va koʻnikma. Faqat bilimni yozish — eng koʻp uchraydigan xato.',
           },
           {
-            q: 'Oʻquvchi «router tarmoqlarni bogʻlaydi» deb aytadi, ammo yangi kompyuter xonasi uchun qaysi qurilma kerakligini tanlay olmaydi. U qaysi darajada toʻxtab qolgan?',
-            options: ['Bilish', 'Tushunish', 'Qoʻllash', 'Tahlil'],
+            q: 'Oʻquvchi taʼrifni aytadi, lekin yangi sinf uchun qaysi qurilma kerakligini tanlay olmaydi. U qaysi darajada toʻxtab qolgan?',
+            options: ['Bilaman', 'Tushunaman', 'Qoʻllayman', 'Tahlil qilaman'],
             correct: 0,
-            explain: 'U taʼrifni biladi, lekin sababini tushuntira olmaydi va bilimini yangi vaziyatga qoʻllay olmaydi. Demak, «bilish» darajasidan nariga oʻtmagan.',
+            explain: 'U taʼrifni biladi, ammo bilimini yangi vaziyatga qoʻllay olmaydi. Demak, «bilaman» darajasidan nariga oʻtmagan.',
           },
           {
-            q: '«Berilgan bino uchun tarmoq sxemasini tuzadi» degan natijaga erishilganini qaysi usul eng toʻgʻri tekshiradi?',
+            q: '«Sinf uchun tarmoq sxemasini tuzadi» — buni qanday tekshirish toʻgʻri?',
             options: [
               'Taʼrifni ogʻzaki soʻrash',
-              'Amaliy mashq: maktab tarmogʻi loyihasini tuzish',
-              'Qurilmalar rasmini koʻrsatib, nomini soʻrash',
-              'Uyga mavzuni oʻqib kelishni berish',
+              'Oʻquvchi sxemani oʻzi chizib, tushuntirib bersin',
+              'Qurilma rasmini koʻrsatib, nomini soʻrash',
+              'Uyga oʻqishga berish',
             ],
             correct: 1,
-            explain: 'Bu «qoʻllash» darajasidagi natija, shuning uchun u faqat amalda — oʻquvchi sxemani oʻzi tuzganda — tekshiriladi. Ogʻzaki soʻrov faqat «bilish» darajasini oʻlchaydi.',
+            explain: 'Sxema tuzish — amaliy koʻnikma. U faqat amalda, oʻquvchining oʻz ishida koʻrinadi.',
           },
         ]}
       />

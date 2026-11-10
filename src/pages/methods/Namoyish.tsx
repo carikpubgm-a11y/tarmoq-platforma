@@ -5,13 +5,13 @@ import { saveResult } from '../../lib/storage'
 import { MethodInfo, Stepper, type MethodMeta } from './MethodInfo'
 
 const META: MethodMeta = {
-  goal: <>Mavhum jarayonni <strong>koʻz oldida</strong> sodir qilish: oʻqituvchi ekranda tarmoqni bosqichma-bosqich quradi, har qadamda toʻxtab savol beradi. Talaba «qanday» va «nima uchun»ni bir vaqtda koʻradi.</>,
+  goal: <>Mavhum jarayonni <strong>koʻz oldida</strong> sodir qilish: oʻqituvchi ekranda tarmoqni bosqichma-bosqich quradi, har qadamda toʻxtab savol beradi. Oʻquvchi «qanday» va «nima uchun»ni bir vaqtda koʻradi.</>,
   how: ['Oʻqituvchi qurilmani tanlab, vazifasini koʻrsatadi', 'Qurilmalarni ketma-ket ulaydi', 'IP manzillarni sozlaydi', 'Paket yuborib, yoʻlini kuzatadi', 'Firewall orqali xavfsizlikni tekshiradi'],
   teacher: ['Har qadamdan oldin «nima boʻladi deb oʻylaysiz?» deb soʻraydi', 'Qadamni bajaradi va qisqa izohlaydi', 'Bitta narsani ataylab notoʻgʻri qilib, xatoni birga topadi'],
   student: ['Bashorat qiladi, soʻng natija bilan solishtiradi', 'Kuzatganini daftarga qayd etadi', 'Xuddi shu ketma-ketlikni laboratoriyada mustaqil takrorlaydi'],
-  example: <>Oʻqituvchi kompyuterlarni switchga ulab boʻlgach soʻraydi: «Endi Internet ishlaydimi?» Talabalar «ha» deydi. Paket yuboriladi — yoʻq, chunki router hali ulanmagan. Shu lahza qoidadan koʻra yaxshiroq esda qoladi.</>,
-  outcome: <>Talaba tarmoqni qurish ketma-ketligini (qurilma → ulash → IP → tekshirish → himoya) aytib bera oladi va har bir qadamning sababini tushuntiradi.</>,
-  criteria: ['Namoyishning besh qadami toʻliq koʻrsatilgan', 'Har qadamda auditoriyaga savol berilgan', 'Talabalar ketma-ketlikni mustaqil takrorlay oladi'],
+  example: <>Oʻqituvchi kompyuterlarni switchga ulab boʻlgach soʻraydi: «Endi Internet ishlaydimi?» Oʻquvchilar «ha» deydi. Paket yuboriladi — yoʻq, chunki router hali ulanmagan. Shu lahza qoidadan koʻra yaxshiroq esda qoladi.</>,
+  outcome: <>Oʻquvchi tarmoqni qurish ketma-ketligini (qurilma → ulash → IP → tekshirish → himoya) aytib bera oladi va har bir qadamning sababini tushuntiradi.</>,
+  criteria: ['Namoyishning besh qadami toʻliq koʻrsatilgan', 'Har qadamda auditoriyaga savol berilgan', 'Oʻquvchilar ketma-ketlikni mustaqil takrorlay oladi'],
 }
 
 type NodeId = 'net' | 'rtr' | 'fw' | 'sw' | 'pc1' | 'pc2' | 'pc3' | 'prn'
@@ -166,7 +166,7 @@ export default function Namoyish() {
       <Takeaway items={[
         'Namoyish — shunchaki koʻrsatish emas: har qadamdan oldin savol, keyin harakat, soʻng izoh.',
         'Ketma-ketlik: qurilma → ulash → IP → tekshirish → himoya.',
-        'Namoyishdan keyin talaba xuddi shu ishni laboratoriyada mustaqil bajaradi.',
+        'Namoyishdan keyin oʻquvchi xuddi shu ishni laboratoriyada mustaqil bajaradi.',
       ]} />
     </>
   )

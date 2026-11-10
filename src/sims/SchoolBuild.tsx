@@ -39,21 +39,21 @@ const LINKS: { d: string; step: number }[] = [
 
 const GROUPS = [
   { x: 125, label: 'Kompyuter xonasi', sub: '20 kompyuter + printer', vlan: 'VLAN 10', color: '#2DD4BF' },
-  { x: 355, label: 'Oʻqituvchi / direktor', sub: '5 kompyuter', vlan: 'VLAN 20', color: '#FBBF24' },
-  { x: 585, label: 'Wi-Fi hududi', sub: '2 access point, kutubxona', vlan: 'VLAN 30', color: '#60A5FA' },
+  { x: 355, label: 'Oʻqituvchilar', sub: '5 kompyuter', vlan: 'VLAN 20', color: '#FBBF24' },
+  { x: 585, label: 'Wi-Fi va kutubxona', sub: '2 ta Wi-Fi nuqtasi', vlan: 'VLAN 30', color: '#60A5FA' },
   { x: 815, label: 'Server xonasi', sub: 'Fayl serveri, kamera', vlan: 'VLAN 40', color: '#A78BFA' },
 ]
 
-const STEP_NAMES = ['Internet', 'Modem', 'Firewall', 'Router', 'Asosiy switch', 'VLAN segmentlari']
+const STEP_NAMES = ['Internet', 'Modem', 'Firewall', 'Router', 'Asosiy switch', 'Boʻlaklar']
 
 const LOG: ReactNode[] = [
-  <>Tayyor. <strong>«Keyingi qadam»</strong> tugmasini bosing — tarmoq qurilishi boshlanadi.</>,
-  <><strong>Provayder liniyasi</strong> binoga kirdi (optik kabel). Bu — tashqi dunyoga chiqish nuqtasi; qolgan uskunaning joyi shu nuqtaga qarab belgilanadi.</>,
-  <><strong>Modem</strong> (optik liniyada — ONT) provayder signalini Ethernet signaliga aylantiradi. Endi keyingi qurilma oddiy tarmoq kabeli bilan ishlay oladi.</>,
-  <><strong>Firewall</strong> oʻrnatildi. U xavfsizlik siyosatini tarmoq <em>chegarasida</em> qoʻllaydi. Bu sxemada u routerdan oldin koʻrsatilgan; amalda ikkalasi koʻpincha bitta qurilmada birlashadi.</>,
-  <><strong>Router</strong> qoʻshildi. U ichki tarmoqni tashqi tarmoqdan ajratadi va manzil tarjimasini (NAT) bajaradi.</>,
-  <><strong>Asosiy switch</strong> ulandi. Magistral tayyor — barcha boʻlimlar shu qurilmaga keladi.</>,
-  <>Boʻlimlar <strong>VLAN</strong> segmentlariga ajratildi. Oʻquv tarmogʻi, maʼmuriyat, Wi-Fi va server xonasi bir-biridan mantiqiy izolyatsiya qilindi — bitta boʻlimdagi muammo boshqalarga oʻtmaydi.</>,
+  <>Tayyormisiz? <strong>«Keyingi qadam»</strong> tugmasini bosing. 🚀</>,
+  <><strong>Internet kabeli</strong> binoga kirdi. Bu — tashqi dunyoga chiqish nuqtasi. Qolgan qurilmalar shunga qarab joylashadi.</>,
+  <><strong>Modem</strong> provayder signalini oddiy tarmoq signaliga aylantiradi. Endi oddiy tarmoq kabeli ishlaydi.</>,
+  <><strong>Firewall</strong> oʻrnatildi — tarmoqning qorovuli. 🚪 U darvozada turadi: trafikni ichkariga kiritishdan oldin tekshiradi.</>,
+  <><strong>Router</strong> qoʻshildi. U ichki tarmoqni Internetdan ajratadi va paketlarga yoʻl koʻrsatadi.</>,
+  <><strong>Asosiy switch</strong> ulandi. Bu — tarmoqning markazi. Barcha xonalar shu qurilmaga keladi.</>,
+  <>Tarmoq <strong>boʻlaklarga</strong> ajratildi (VLAN). Kompyuter xonasi, oʻqituvchilar, Wi-Fi va serverlar alohida turadi — birining muammosi boshqasiga oʻtmaydi. ✅</>,
 ]
 
 export default function SchoolBuild() {
@@ -62,9 +62,9 @@ export default function SchoolBuild() {
 
   return (
     <Stage
-      title="Maktab tarmogʻi: loyiha qurilishi"
+      title="Maktab tarmogʻini quramiz"
       badge={`${step} / ${TOTAL} qadam`}
-      hint={<>Tarmoq pastdan yuqoriga emas, <strong>provayderdan boshlab</strong> quriladi. Xira konturlar — hali oʻrnatilmagan qurilmalar (loyiha), yorqinlari — qurib boʻlingan qism.</>}
+      hint={<>Xira chiziqlar — hali oʻrnatilmagan qurilmalar. Yorqinlari — tayyor boʻlgan qism.</>}
     >
       <div className="overflow-x-auto">
         <div className="min-w-[640px]">

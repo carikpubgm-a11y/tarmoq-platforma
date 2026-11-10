@@ -1,140 +1,117 @@
 import { Link } from 'react-router-dom'
-import { Cloud, PencilRuler, ShieldCheck, Split, TriangleAlert } from 'lucide-react'
-import { PageHeader, Goal, Block, Grid, Card, Callout, StepList, LifeExample, Takeaway, MiniTask } from '../components/ui'
+import { Cloud, ShieldCheck, Split, TriangleAlert } from 'lucide-react'
+import { PageHeader, Goal, Block, Grid, Card, Callout, StepList, DataTable, LifeExample, Takeaway, MiniTask } from '../components/ui'
 import SchoolBuild from '../sims/SchoolBuild'
 
 export default function Loyihalash() {
   return (
     <>
       <PageHeader no="07" tone="teal" eyebrow="Nazariya" title="Tarmoqni loyihalash bosqichlari"
-        lead={<>Tarmoq «kabel tortishdan» boshlanmaydi — u <strong>talablarni aniqlashdan</strong> boshlanadi. Yetti bosqichning har biri yozma natija bilan yakunlanadi, shunda har bir qaror asoslangan boʻladi.</>} />
+        lead={<>Tarmoq kabel tortishdan boshlanmaydi. Avval <strong>nima kerakligi</strong> yozib olinadi. Keyin qurilma tanlanadi. 🧰</>} />
 
       <Goal items={[
-        'Tarmoqni loyihalashning yetti bosqichini toʻgʻri ketma-ketlikda aytib berish',
-        'Har bir bosqich qanday yozma hujjat bilan yakunlanishini bilish',
-        'Maktab tarmogʻi misolida qurilmalar va segmentlar joylashuvini asoslash',
-        'Nega xavfsizlik oxirida emas, har bir bosqichda hisobga olinishini tushuntirish',
+        'Loyihaning 7 qadamini tartib bilan aytib bera olasiz',
+        'Maktab tarmogʻini qaysi qurilmadan boshlab qurishni koʻrsatasiz',
+        'Nega xavfsizlik birinchi kundan oʻylanishini tushuntirasiz',
       ]} />
 
-      <Block title="Yetti bosqich — yetti hujjat" tone="teal"
-        sub={<>Ketma-ketlik aynan shu tartibda oʻrgatiladi. Aks holda oʻquvchi qurilmani ehtiyojga qarab emas, «chiroyli koʻringani» uchun tanlaydi.</>}>
+      <Block title="7 qadam — 7 ta tayyor hujjat" tone="teal"
+        sub={<>Tartib muhim. Har qadam oxirida kichik bir hujjat (jadval yoki chizma) qoladi.</>}>
         <StepList tone="teal" items={[
-          {
-            title: 'Talablarni aniqlash',
-            text: <>Nechta foydalanuvchi boʻladi? Qanday xizmatlar kerak: fayl almashish, printer, Internet, kamera, elektron jurnal? Qanday oʻsish kutiladi? Xavfsizlik talablari qanday?</>,
-            result: 'Natija: yozma texnik topshiriq',
-          },
-          {
-            title: 'Hududni oʻrganish',
-            text: <>Bino plani olinadi: xonalar, qavatlar, devor materiali, kabel yoʻllari, elektr nuqtalari. Simsiz qamrov uchun toʻsiqlar hisobga olinadi.</>,
-            result: 'Natija: kabel va qamrov xaritasi',
-          },
-          {
-            title: 'Topologiya va arxitekturani tanlash',
-            text: <>Yulduz, halqa yoki aralash topologiyami? Bitta qavatmi yoki magistral bilan bogʻlangan bir necha qavatmi? Qaysi qismlar ajratilishi kerak (VLAN)? Nosozlikka chidamlilik darajasi qanday boʻlishi kerak?</>,
-            result: 'Natija: mantiqiy va jismoniy sxema',
-          },
-          {
-            title: 'Uskunani tanlash va hisoblash',
-            text: <>Portlar soni, tezlik (1G/10G), PoE ehtiyoji (kamera va access point uchun), boshqariladigan (managed) switch kerakmi, zaxira quvvat (UPS) kerakmi? Har bir hisob-kitob yozma asoslanadi.</>,
-            result: 'Natija: uskunalar roʻyxati va byudjet',
-          },
-          {
-            title: 'IP manzillash va xizmatlarni rejalash',
-            text: <>Manzil diapazonlari, subnetlar, VLAN raqamlari, DHCP doirasi, DNS, band qilingan manzillar (printer, kamera, server uchun). Bu bosqich koʻpincha eʼtibordan chetda qoladi — keyin manzillar «konflikti» koʻrinishida qaytadi. Batafsil: <Link to="/ip">IP manzillash va tarmoq xizmatlari</Link>.</>,
-            result: 'Natija: IP reja jadvali',
-          },
-          {
-            title: 'Xavfsizlikni loyihalash',
-            text: <>Segmentatsiya, firewall qoidalari, foydalanuvchi huquqlari, Wi-Fi shifrlash, mehmon tarmogʻini ajratish, zaxira va monitoring rejasi.</>,
-            result: 'Natija: xavfsizlik siyosati (yozma hujjat)',
-          },
-          {
-            title: 'Oʻrnatish, sinov va hujjatlashtirish',
-            text: <>Kabel tortiladi, qurilmalar ulanadi va sozlanadi, soʻng tekshiriladi: har bir nuqtadan ulanish, tezlik, Wi-Fi qamrovi, xavfsizlik qoidalari ishlayaptimi. Oxirida hujjatlar tayyorlanadi: sxema, IP jadval, parollarni saqlash tartibi, xizmat koʻrsatish rejasi.</>,
-            result: 'Natija: ishlaydigan tarmoq va hujjatlar toʻplami',
-          },
+          { title: 'Nima kerakligini yozamiz', text: <>Nechta kompyuter? Printer, Wi-Fi, Internet kerakmi? 📝</>, result: 'Natija: talablar roʻyxati' },
+          { title: 'Binoni oʻrganamiz', text: <>Xonalar, qavatlar, kabel oʻtadigan yoʻllar, rozetkalar.</>, result: 'Natija: bino chizmasi' },
+          { title: 'Sxemani tanlaymiz', text: <>Qanday ulaymiz (koʻpincha yulduz) va tarmoqni qanday boʻlaklarga ajratamiz.</>, result: 'Natija: tarmoq sxemasi' },
+          { title: 'Qurilma tanlaymiz', text: <>Switchda nechta port kerak? Tezlik qancha? Narxi qancha?</>, result: 'Natija: xarid roʻyxati' },
+          { title: 'Manzillarni rejalaymiz', text: <>Kimga qanday IP manzil beriladi. Batafsil: <Link to="/ip">IP manzillash</Link>.</>, result: 'Natija: IP reja jadvali' },
+          { title: 'Himoyani rejalaymiz', text: <>Firewall qoidalari, Wi-Fi paroli, zaxira nusxa, kim nimaga ruxsatli.</>, result: 'Natija: xavfsizlik rejasi' },
+          { title: 'Oʻrnatamiz va sinab koʻramiz', text: <>Kabel tortiladi, qurilma sozlanadi, har nuqta tekshiriladi. Oxirida hujjatlar saqlanadi.</>, result: 'Natija: ishlaydigan tarmoq' },
         ]} />
 
         <Grid cols={2} className="mt-6">
-          <Card tone="amber" icon={TriangleAlert} title="Loyihalashdagi eng qimmat xato">
-            <p>Xavfsizlikni <strong>oxirida</strong> qoʻshishga urinish. Tarmoq segmentlarga boʻlinmagan boʻlsa, keyinchalik firewall qoʻshish koʻp joyni qayta qurishni talab qiladi.</p>
-            <p>Xavfsizlik — faqat 6-bosqich emas, <strong>barcha bosqichlardagi shart</strong>.</p>
+          <Card tone="amber" icon={TriangleAlert} title="Eng qimmat xato">
+            <p>Xavfsizlikni <strong>eng oxirida</strong> qoʻshish. Tarmoq boʻlaklarga ajratilmagan boʻlsa, keyin hammasini qaytadan qurish kerak boʻladi.</p>
           </Card>
-          <Card tone="blue" icon={PencilRuler} title="Metodik maslahat">
-            <p>Oʻquvchilardan har bir bosqichni <strong>hujjat bilan</strong> yakunlashni talab qiling — kichik jadval yoki chizma boʻlsa ham.</p>
-            <p>Bu kelajakdagi mutaxassisning eng muhim koʻnikmasini shakllantiradi: <strong>qarorni yozma asoslash</strong>.</p>
+          <Card tone="blue" emoji="🗂️" title="Kichik maslahat">
+            <p>Har qadamni bitta varaqda yozib qoʻying. Keyin nosozlik chiqsa, shu varaq sizni tez qutqaradi.</p>
           </Card>
         </Grid>
       </Block>
 
-      <Block title="Namuna: maktab tarmogʻini bosqichma-bosqich qurish" tone="teal"
-        sub={<>Ssenariy real loyihaga asoslangan: 20 kompyuterli xona, oʻqituvchilar xonasi, direktor xonasi, kutubxona, server xonasi va Wi-Fi hududi. Har bir qadamda bitta qurilma qoʻshiladi va nima uchun aynan shu joyda turishi izohlanadi.</>}>
+      <Block title="Maktab tarmogʻini qadam-baqadam quramiz" tone="teal"
+        sub={<>Tugmani bosib boring. Har qadamda bitta qurilma qoʻshiladi va nega shu joyda turishi aytiladi. 👇</>}>
         <SchoolBuild />
 
         <Grid cols={3} className="mt-6">
-          <Card icon={Cloud} title="Nega provayderdan boshlanadi?">
-            <p>Tashqi dunyoga chiqish nuqtasi — eng avval aniqlanishi kerak boʻlgan joy. Uning oʻrni qolgan barcha uskunaning joylashuvini belgilaydi.</p>
+          <Card icon={Cloud} title="Nega Internetdan boshlanadi?">
+            <p>Tashqi dunyoga chiqish nuqtasi birinchi aniqlanadi. Qolgan qurilmalar shunga qarab joylashadi.</p>
           </Card>
-          <Card tone="amber" icon={ShieldCheck} title="Nega himoya chegarada?">
-            <p>Firewall siyosati tarmoqning <strong>chegarasida</strong> bajarilishi kerak. Ayrim sxemalarda firewall routerdan oldin turadi, boshqalarida router bilan bitta qurilmaga birlashadi yoki oʻzi marshrutlaydi.</p>
-            <p>Muhimi — trafik himoyalangan segmentlarga yetishidan oldin tekshiriladi.</p>
+          <Card tone="amber" icon={ShieldCheck} title="Nega firewall chegarada?">
+            <p>Qorovul maktab darvozasida turadi, koridorda emas. Firewall ham shunday — trafikni ichkariga kirishidan <strong>oldin</strong> tekshiradi. 🚪</p>
           </Card>
-          <Card tone="violet" icon={Split} title="Nega segmentlarga boʻlinadi?">
-            <p>Oʻquv tarmogʻi, maʼmuriyat va Wi-Fi — har biri alohida VLAN. Bitta segmentdagi muammo (virus, ortiqcha trafik) boshqalarga oʻtmaydi.</p>
+          <Card tone="violet" icon={Split} title="Nega boʻlaklarga ajratiladi?">
+            <p>Oʻquv tarmogʻi, oʻqituvchilar va Wi-Fi alohida turadi. Bir joydagi muammo boshqasiga oʻtmaydi.</p>
           </Card>
         </Grid>
 
-        <Callout kind="note" title="Loyiha va qurilish tartibi" className="mt-4">
-          Simulyatsiya qurilish ketma-ketligini koʻrsatadi. Unga qadar yetti bosqichning dastlabki oltitasi qogʻozda bajarilgan boʻlishi kerak: qaysi qurilma qayerda turishi, nechta VLAN boʻlishi va ular orasidagi qoidalar oldindan hal qilinadi.
+        <Callout kind="note" title="Avval qogʻozda" className="mt-4">
+          Simulyator qurilish tartibini koʻrsatadi. Lekin bunga qadar 1–6 qadam qogʻozda bajarilgan boʻladi.
         </Callout>
       </Block>
 
+      <Block title="Qisqa xulosa jadvali" tone="teal">
+        <DataTable dense
+          head={['Qadam', 'Nima qilinadi', 'Qoʻlda qoladigan hujjat']}
+          rows={[
+            ['1', 'Nima kerakligini yozamiz', 'Talablar roʻyxati'],
+            ['2', 'Binoni oʻrganamiz', 'Bino chizmasi'],
+            ['3', 'Sxemani tanlaymiz', 'Tarmoq sxemasi'],
+            ['4', 'Qurilma tanlaymiz', 'Xarid roʻyxati'],
+            ['5', 'Manzillarni rejalaymiz', 'IP reja jadvali'],
+            ['6', 'Himoyani rejalaymiz', 'Xavfsizlik rejasi'],
+            ['7', 'Oʻrnatamiz va sinaymiz', 'Ishlaydigan tarmoq'],
+          ]} />
+      </Block>
+
       <LifeExample>
-        <p>Maktab yangi informatika xonasi uchun 20 ta kompyuter oldi, tarmoq uchun esa «har ehtimolga qarshi» 16 portli oddiy switch xarid qilindi. Oʻrnatish kuni maʼlum boʻldi: portlar yetmaydi, printer va oʻqituvchi kompyuteriga joy yoʻq, switch esa VLAN ni qoʻllab-quvvatlamaydi — oʻquv tarmogʻini maʼmuriyatdan ajratib boʻlmaydi.</p>
-        <p>Agar 1-bosqichda talablar yozilganida (20 kompyuter + printer + oʻqituvchi kompyuteri + routerga chiqish = 23 ta ulanish), 4-bosqichda kamida 24 portli boshqariladigan switch tanlangan boʻlar edi. Bir varaq hisob-kitob uskunani ikkinchi marta sotib olishdan arzon.</p>
+        <p>Maktab yangi informatika xonasiga 20 ta kompyuter oldi. Tarmoq uchun esa «yetadi» deb 16 portli switch sotib olindi. 😕</p>
+        <p>Oʻrnatish kuni portlar yetmay qoldi: printer va oʻqituvchi kompyuteriga joy qolmadi. Agar 1-qadamda sanab chiqilganida (20 + printer + oʻqituvchi + router = 23 ta ulanish), 24 portli switch olinardi. Bir varaq hisob — ikkinchi xariddan arzon.</p>
       </LifeExample>
 
       <Takeaway items={[
-        <>Loyihalash uskunadan emas, <strong>talablardan</strong> boshlanadi.</>,
-        <>Har bir bosqich yozma hujjat bilan tugaydi: texnik topshiriq → qamrov xaritasi → sxema → uskunalar roʻyxati → IP reja → xavfsizlik siyosati → yakuniy hujjatlar.</>,
-        <>Xavfsizlik alohida bosqich emas, <strong>barcha bosqichlardagi shart</strong>: segmentatsiya boshidan rejalashtiriladi.</>,
-        <>Tarmoq provayderdan boshlab quriladi: Internet → modem → firewall → router → asosiy switch → VLAN segmentlari.</>,
+        <>Loyiha qurilmadan emas, <strong>talablardan</strong> boshlanadi.</>,
+        <>Har qadam oxirida bitta hujjat qoladi: roʻyxat → chizma → sxema → xarid → IP reja → himoya rejasi.</>,
+        <>Tarmoq Internetdan boshlab quriladi: Internet → modem → firewall → router → switch → boʻlaklar.</>,
+        <>Xavfsizlik oxirgi qadam emas — u <strong>birinchi kundan</strong> oʻylanadi.</>,
       ]} />
 
       <MiniTask questions={[
         {
-          q: 'Direktor: «Avval 24 portli switch sotib olaylik, qolganini keyin koʻramiz», — dedi. Loyihachi sifatida birinchi navbatda nima qilasiz?',
+          q: 'Direktor: «Avval switch sotib olaylik, qolganini keyin koʻramiz». Siz nima qilasiz? 🤔',
           options: [
-            'Eng arzon switchni topib, darhol buyurtma beraman',
-            'Talablarni aniqlayman: foydalanuvchilar soni, xizmatlar, oʻsish — va yozma texnik topshiriq tuzaman',
-            'Kabel tortishni boshlayman, uskuna keyin tanlanadi',
-            'Avval Wi-Fi parolini oʻylab topaman',
+            'Eng arzon switchni buyurtma qilaman',
+            'Avval nima kerakligini yozib chiqaman: nechta kompyuter, qanday xizmatlar',
+            'Kabel tortishni boshlayman',
+            'Wi-Fi parolini oʻylab topaman',
           ],
           correct: 1,
-          explain: 'Loyihalash talablarni aniqlashdan boshlanadi. Portlar soni, PoE va VLAN ehtiyoji texnik topshiriqdan kelib chiqadi; aks holda uskunani qayta sotib olishga toʻgʻri keladi.',
+          explain: 'Loyiha 1-qadamdan boshlanadi. Portlar soni va narx talablardan kelib chiqadi.',
         },
         {
-          q: 'Tarmoq ishga tushgach, oʻquvchi kompyuteridan buxgalteriya papkasi koʻrinib qoldi. Bu qaysi bosqichlardagi kamchilik?',
+          q: 'Tarmoq ishga tushdi. Oʻquvchi kompyuteridan buxgalteriya papkasi koʻrinib qoldi. Qaysi qadam oʻtkazib yuborilgan?',
           options: [
-            '2-bosqich: devor materiali hisobga olinmagan',
-            '4-bosqich: switchda portlar yetmagan',
-            '7-bosqich: kabel notoʻgʻri tortilgan',
-            '3- va 6-bosqich: segmentatsiya (VLAN) va kirish qoidalari rejalashtirilmagan',
+            '2-qadam: bino chizmasi',
+            '4-qadam: switch tanlash',
+            '3- va 6-qadam: tarmoq boʻlaklarga ajratilmagan va qoidalar yozilmagan',
+            '7-qadam: kabel notoʻgʻri tortilgan',
           ],
-          correct: 3,
-          explain: 'Oʻquv tarmogʻi va maʼmuriyat alohida VLAN ga ajratilmagan, ular orasidagi qoidalar yozilmagan. Buni keyin tuzatish tarmoqning katta qismini qayta sozlashni talab qiladi.',
+          correct: 2,
+          explain: 'Oʻquv tarmogʻi va maʼmuriyat alohida boʻlishi kerak edi. Buni keyin tuzatish ancha qiyin.',
         },
         {
-          q: 'Yangi printer ulangach, u bilan bitta kompyuter bir xil manzil olib qoldi va ikkalasi ham tarmoqdan uzilib turibdi. Qaysi hujjat buning oldini olar edi?',
-          options: [
-            'IP reja jadvali: statik manzillar DHCP doirasidan tashqarida belgilanadi',
-            'Kabel va qamrov xaritasi',
-            'Uskunalar roʻyxati va byudjet',
-            'Bino plani',
-          ],
+          q: 'Yangi printer ulandi va bir kompyuter bilan bir xil manzil olib qoldi. Qaysi hujjat buning oldini olardi?',
+          options: ['IP reja jadvali', 'Bino chizmasi', 'Xarid roʻyxati', 'Wi-Fi paroli'],
           correct: 0,
-          explain: '5-bosqich natijasi — IP reja jadvali. Unda qaysi manzillar statik berilishi va DHCP qaysi oraliqdan tarqatishi yoziladi, shunda manzillar toʻqnashmaydi.',
+          explain: 'IP reja jadvalida qaysi manzil kimga tegishli ekani yozilgan boʻladi — manzillar toʻqnashmaydi.',
         },
       ]} />
     </>

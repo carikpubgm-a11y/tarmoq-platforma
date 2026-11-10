@@ -38,13 +38,13 @@ const TOOLS: Tool[] = [
     url: 'https://www.netacad.com/cisco-packet-tracer',
     needs: ['Kompyuterga oʻrnatiladi', 'Cisco Networking Academy hisobi kerak'],
     why: 'Tarmoqni virtual muhitda loyihalash va sinab koʻrish vositasi. Haqiqiy switch, router va kabellar boʻlmasa ham, tarmoqni ekranda yigʻish, sozlash va paketning yoʻlini qadam-baqadam kuzatish mumkin.',
-    inTopic: 'Topologiya, qurilmalar va IP manzillash mavzularini amalda mustahkamlaydi: talaba «10 ta kompyuter va 1 ta printer» tarmogʻini yigʻadi, manzil beradi va aloqani tekshiradi. Simulyatsiya rejimida paket switch va routerdan qanday oʻtishi koʻrinadi.',
+    inTopic: 'Topologiya, qurilmalar va IP manzillash mavzularini amalda mustahkamlaydi: oʻquvchi «10 ta kompyuter va 1 ta printer» tarmogʻini yigʻadi, manzil beradi va aloqani tekshiradi. Simulyatsiya rejimida paket switch va routerdan qanday oʻtishi koʻrinadi.',
     student: [
       'Qurilmalarni ish maydoniga joylaydi va kabel bilan ulaydi.',
       'Har bir qurilmaga IP-manzil va tarmoq maskasini beradi.',
       'Ping yuborib aloqani tekshiradi; xato chiqsa, sababini topib tuzatadi.',
     ],
-    teacher: 'Dasturni dars oldidan barcha kompyuterlarga oʻrnatib, hisobga kirib qoʻying. Yarim tayyor sxema faylini tarqatsangiz, vaqt tejaladi: talaba noldan emas, aniq vazifadan boshlaydi.',
+    teacher: 'Dasturni dars oldidan barcha kompyuterlarga oʻrnatib, hisobga kirib qoʻying. Yarim tayyor sxema faylini tarqatsangiz, vaqt tejaladi: oʻquvchi noldan emas, aniq vazifadan boshlaydi.',
     stage: 'Koʻrgazma va amaliyot',
     supports: 'Namoyish, amaliy topshiriq',
     local: { to: '/laboratoriya', label: 'Tarmoq konstruktori', note: 'qurilma qoʻshish, kabel ulash, IP sozlash va paket yuborish' },
@@ -56,9 +56,9 @@ const TOOLS: Tool[] = [
     tone: 'rose',
     icon: StickyNote,
     url: 'https://padlet.com',
-    needs: ['Brauzerda ishlaydi', 'Talabaga havola yoki QR-kod yetarli'],
+    needs: ['Brauzerda ishlaydi', 'Oʻquvchiga havola yoki QR-kod yetarli'],
     why: 'Guruh boʻlib fikr almashish vositasi. Ishtirokchilar bitta umumiy doskaga matn, rasm yoki havola koʻrinishidagi yozuvlarni joylaydi va bir-birining fikrini real vaqtda koʻradi.',
-    inTopic: 'Snowball metodini qoʻllab-quvvatlaydi: «Tarmoq xavfsizligi uchun eng muhim uchta chora qaysi?» savoliga avval har bir talaba, soʻng juftlik va toʻrtlik oʻz javobini doskaga yozadi. Fikrlar yoʻqolmaydi va yakunda butun guruh bilan solishtiriladi.',
+    inTopic: 'Snowball metodini qoʻllab-quvvatlaydi: «Tarmoq xavfsizligi uchun eng muhim uchta chora qaysi?» savoliga avval har bir oʻquvchi, soʻng juftlik va toʻrtlik oʻz javobini doskaga yozadi. Fikrlar yoʻqolmaydi va yakunda butun guruh bilan solishtiriladi.',
     student: [
       'Havola yoki QR-kod orqali doskaga kiradi.',
       'Oʻz fikrini alohida yozuv qilib joylaydi.',
@@ -76,8 +76,8 @@ const TOOLS: Tool[] = [
     tone: 'violet',
     icon: Gamepad2,
     url: 'https://kahoot.com',
-    needs: ['Brauzerda ishlaydi', 'Har bir talabada qurilma va internet boʻlishi kerak'],
-    why: 'Bilimni interaktiv tekshirish vositasi. Oʻqituvchi savollarni katta ekranda koʻrsatadi, talabalar oʻz qurilmasidan javob beradi; natija va reyting darhol chiqadi.',
+    needs: ['Brauzerda ishlaydi', 'Har bir oʻquvchida qurilma va internet boʻlishi kerak'],
+    why: 'Bilimni interaktiv tekshirish vositasi. Oʻqituvchi savollarni katta ekranda koʻrsatadi, oʻquvchilar oʻz qurilmasidan javob beradi; natija va reyting darhol chiqadi.',
     inTopic: 'Yangi mavzudan keyin tezkor mustahkamlash uchun qoʻllanadi: «Switch qaysi qatlamda ishlaydi?», «169.254.x.x manzili nimani bildiradi?» kabi savollar. Har bir savoldan keyin javoblar taqsimoti koʻrinadi — qaysi tushuncha qiyin boʻlgani darhol ayon boʻladi.',
     student: [
       'Oʻyin PIN-kodi orqali telefon yoki kompyuterdan qoʻshiladi.',
@@ -104,7 +104,7 @@ const TOOLS: Tool[] = [
       'Juftliklarni topadi yoki elementlarni toʻgʻri tartibga qoʻyadi.',
       'Natijani tekshiradi va xatosini shu zahoti tuzatadi.',
     ],
-    teacher: 'Bitta mashq — bitta tushuncha: 6–8 juftlikdan oshirmang. Kuchli talabalarga mashqni oʻzlari tuzishni topshiring — savol tuzish javob berishdan koʻra chuqurroq oʻrgatadi.',
+    teacher: 'Bitta mashq — bitta tushuncha: 6–8 juftlikdan oshirmang. Kuchli oʻquvchilarga mashqni oʻzlari tuzishni topshiring — savol tuzish javob berishdan koʻra chuqurroq oʻrgatadi.',
     stage: 'Yangi mavzuni mustahkamlash',
     supports: 'Mustaqil ish, juftlikda tekshirish',
     local: { to: '/qurilmalar', label: 'Boʻlim oxiridagi interaktiv topshiriqlar', note: 'har bir nazariy boʻlim «oʻzingizni tekshiring» topshirigʻi bilan tugaydi' },
@@ -118,7 +118,7 @@ const TOOLS: Tool[] = [
     url: 'https://www.drawio.com',
     needs: ['Brauzerda ishlaydi', 'Roʻyxatdan oʻtish shart emas'],
     why: 'Tarmoq sxemalari va diagrammalarni chizish vositasi (draw.io nomi bilan ham tanilgan). Tayyor shakllar kutubxonasida tarmoq qurilmalarining belgilari bor; sxema rasm yoki PDF koʻrinishida saqlanadi.',
-    inTopic: 'Loyihalash bosqichida ishlatiladi: talaba maktab tarmogʻining mantiqiy sxemasini chizadi, qurilmalarni belgilaydi, IP-reja va segment chegaralarini yozib qoʻyadi. Bunday sxema «ishlamaydi» — u hujjat, lekin loyihani himoya qilish uchun aynan shunday hujjat kerak.',
+    inTopic: 'Loyihalash bosqichida ishlatiladi: oʻquvchi maktab tarmogʻining mantiqiy sxemasini chizadi, qurilmalarni belgilaydi, IP-reja va segment chegaralarini yozib qoʻyadi. Bunday sxema «ishlamaydi» — u hujjat, lekin loyihani himoya qilish uchun aynan shunday hujjat kerak.',
     student: [
       'Shakllar kutubxonasidan tarmoq qurilmalari belgilarini tanlaydi.',
       'Qurilmalarni chiziqlar bilan ulab, nomi va IP-manzilini yozadi.',
@@ -178,7 +178,7 @@ function ToolCard({ tool, index }: { tool: Tool; index: number }) {
           <p className="mt-2 text-[0.97rem] leading-relaxed text-slate-600">{tool.inTopic}</p>
         </section>
         <section>
-          <h4 className={cx('text-xs font-bold uppercase tracking-[0.12em]', t.text)}>Talaba nima bajaradi?</h4>
+          <h4 className={cx('text-xs font-bold uppercase tracking-[0.12em]', t.text)}>Oʻquvchi nima bajaradi?</h4>
           <ol className="mt-2 space-y-2 text-[0.97rem] leading-relaxed text-slate-600">
             {tool.student.map((s, i) => (
               <li key={i} className="flex gap-2.5">
@@ -254,7 +254,7 @@ export default function Vositalar() {
         </Callout>
       </Block>
 
-      <Block tone="amber" title="Beshta vosita" sub="Har bir karta bir xil savollarga javob beradi: nima uchun ishlatiladi, ushbu mavzuda qanday qoʻllanadi, talaba nima bajaradi va oʻqituvchi nimaga eʼtibor berishi kerak.">
+      <Block tone="amber" title="Beshta vosita" sub="Har bir karta bir xil savollarga javob beradi: nima uchun ishlatiladi, ushbu mavzuda qanday qoʻllanadi, oʻquvchi nima bajaradi va oʻqituvchi nimaga eʼtibor berishi kerak.">
         <div className="space-y-5">
           {TOOLS.map((tool, i) => <ToolCard key={tool.id} tool={tool} index={i} />)}
         </div>
@@ -279,16 +279,16 @@ export default function Vositalar() {
         <StepList
           tone="amber"
           items={[
-            { title: 'Avval maqsad, keyin metod, oxirida vosita', text: '«Kahoot! oʻtkazamiz» — bu dars maqsadi emas. Maqsad: «talaba switch va router farqini tushuntira oladi». Vosita shu maqsadga xizmat qilsagina tanlanadi.' },
+            { title: 'Avval maqsad, keyin metod, oxirida vosita', text: '«Kahoot! oʻtkazamiz» — bu dars maqsadi emas. Maqsad: «oʻquvchi switch va router farqini tushuntira oladi». Vosita shu maqsadga xizmat qilsagina tanlanadi.' },
             { title: 'Bitta darsda bir-ikki vosita yetarli', text: 'Har bir yangi vosita kirish, sozlash va tushuntirish uchun vaqt oladi. Vositalar koʻpaysa, diqqat mavzudan texnikaga oʻtib ketadi.' },
             { title: 'Zaxira rejangiz boʻlsin', text: 'Internet uzilishi yoki sayt ochilmasligi mumkin. Har bir vosita uchun oflayn variantni oldindan oʻylab qoʻying: qogʻoz stikerlar, doska yoki platformaning oʻz boʻlimi.' },
-            { title: 'Talabaning maʼlumotini asrang', text: 'Roʻyxatdan oʻtishni talab qiladigan xizmatlarda talabalardan ortiqcha shaxsiy maʼlumot soʻralmasin. Imkoni boʻlsa, havola orqali kiriladigan rejimdan foydalaning.' },
+            { title: 'Oʻquvchining maʼlumotini asrang', text: 'Roʻyxatdan oʻtishni talab qiladigan xizmatlarda oʻquvchilardan ortiqcha shaxsiy maʼlumot soʻralmasin. Imkoni boʻlsa, havola orqali kiriladigan rejimdan foydalaning.' },
           ]}
         />
       </Block>
 
       <LifeExample>
-        <p>Informatika oʻqituvchisi Snowball metodi uchun Padlet doskasini tayyorlab qoʻygan edi, lekin dars boshida maktabda internet uzilib qoldi. U sarosimaga tushmadi: talabalarga stiker tarqatdi, fikrlar oddiy doskaga yopishtirildi — «1 → 2 → 4» tartibi oʻzgarmadi.</p>
+        <p>Informatika oʻqituvchisi Snowball metodi uchun Padlet doskasini tayyorlab qoʻygan edi, lekin dars boshida maktabda internet uzilib qoldi. U sarosimaga tushmadi: oʻquvchilarga stiker tarqatdi, fikrlar oddiy doskaga yopishtirildi — «1 → 2 → 4» tartibi oʻzgarmadi.</p>
         <p>Keyingi darsda internet tiklangach, xuddi shu ish Padlet doskasida bajarildi. <strong>Metod oʻsha-oʻsha qoldi, faqat vosita almashdi.</strong> Shuning uchun dars rejasida avval metod, keyin vosita yoziladi.</p>
       </LifeExample>
 
@@ -311,7 +311,7 @@ export default function Vositalar() {
             explain: 'Padlet — umumiy onlayn doska: har bir guruh oʻz yozuvini joylaydi va hamma bir-birining fikrini koʻradi. Eʼtibor bering: Snowball — metod, Padlet esa uni qoʻllab-quvvatlaydigan vosita. Kahoot! bilimni tekshiradi, Packet Tracer va diagrams.net esa tarmoq sxemasi bilan ishlaydi.',
           },
           {
-            q: 'Talabalar switch, router va kompyuterlarni ulab, paket manzilga yetib borishini virtual muhitda sinab koʻrishi kerak. Qaysi vosita kerak?',
+            q: 'Oʻquvchilar switch, router va kompyuterlarni ulab, paket manzilga yetib borishini virtual muhitda sinab koʻrishi kerak. Qaysi vosita kerak?',
             options: ['LearningApps', 'diagrams.net', 'Cisco Packet Tracer', 'Padlet'],
             correct: 2,
             explain: 'Cisco Packet Tracer — tarmoq simulyatori: unda qurilmalar sozlanadi va paketning yoʻli kuzatiladi. diagrams.net muharririda ham sxema chizish mumkin, lekin bunday sxema «ishlamaydi» — unda paket yuborib boʻlmaydi. Platformada xuddi shu vazifani tarmoq konstruktori bajaradi.',

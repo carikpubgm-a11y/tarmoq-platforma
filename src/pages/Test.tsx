@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ArrowRight, BookOpen, ChartColumn, CircleCheck, CircleX, ClipboardCheck, Eye, EyeOff, Filter, Flag,
-  Keyboard, Play, RotateCcw, SearchCheck, Square, Trash2, Trophy,
+  Keyboard, SearchCheck, Square, Trash2, Trophy,
 } from 'lucide-react'
-import { Block, Btn, Callout, Card, DataTable, Goal, Grid, PageHeader, Pill, Takeaway, TONE, cx } from '../components/ui'
+import { Ball, Block, Btn, Callout, Card, DataTable, Goal, Grid, Konfetti, PageHeader, Pill, Progress, Takeaway, TONE, cx } from '../components/ui'
 import { QUIZ, TOPICS, VERDICTS, verdictFor, type QuizQuestion, type QuizTopic } from '../data/quiz'
 import { saveResult, useResults, useStored, type Result, type ResultKey } from '../lib/storage'
 
@@ -92,14 +92,14 @@ export default function Test() {
         tone="green"
         eyebrow="Amaliyot va baholash"
         title="Bilimni baholash va testlar"
-        lead={<>Bu savollar taʼrifni soʻramaydi — <strong>vaziyatni tahlil qilishni</strong> talab qiladi. Har bir javobdan keyin izoh chiqadi, yakunda esa qaysi mavzuni takrorlash kerakligi koʻrsatiladi.</>}
+        lead={<>18 savol, har birida bitta toʻgʻri javob. Javob berganingizdan keyin darhol <strong>qisqa izoh</strong> chiqadi, yakunda esa qaysi boʻlimni takrorlash kerakligi koʻrsatiladi.</>}
       />
 
       <Goal
         items={[
-          '18 ta vaziyatli savol orqali yetti mavzu boʻyicha bilimni tekshirish.',
-          'Har bir xatoning sababini izoh orqali tushunish va tegishli boʻlimga qaytish.',
-          'Test hamda amaliy ishlar natijalarini bitta jadvalda koʻrish.',
+          'Yetti mavzu boʻyicha oʻzingizni sinab koʻrish.',
+          'Har bir xatoning sababini izohdan bilib olish.',
+          'Natijani laboratoriya ishlari bilan bitta jadvalda koʻrish.',
         ]}
       />
 
@@ -107,7 +107,7 @@ export default function Test() {
         id={TEST_ID}
         tone="green"
         title="Test markazi"
-        sub="Har bir savolda faqat bitta toʻgʻri javob bor. Xato javob tanlansa ham toʻgʻri javob koʻrsatiladi — maqsad jazolash emas, tushuntirish."
+        sub="Xato qilsangiz ham toʻgʻri javob koʻrsatiladi — bu yerda maqsad baho emas, tushunish."
       >
         {session.phase === 'setup' && (
           <Setup filter={session.filter} onFilter={f => setSession({ ...EMPTY, filter: f })} onStart={() => start(session.filter)} />
@@ -181,12 +181,12 @@ function Setup({ filter, onFilter, onStart }: { filter: TopicFilter; onFilter: (
     ...TOPICS.map(t => ({ value: t.topic as TopicFilter, label: t.topic as string, n: QUIZ.filter(q => q.topic === t.topic).length })),
   ]
   return (
-    <div className="anim-in rounded-2xl border border-emerald-200 bg-white p-5 shadow-card sm:p-7">
+    <div className="anim-in rounded-4xl border-2 border-emerald-200 bg-white p-5 shadow-card sm:p-7">
       <div className="flex items-center gap-3">
-        <span className="grid h-11 w-11 flex-none place-items-center rounded-xl bg-emerald-50 text-emerald-700"><Filter size={22} /></span>
+        <span className="grid h-12 w-12 flex-none place-items-center rounded-2xl bg-emerald-100 text-emerald-700"><Filter size={24} /></span>
         <div>
-          <h3 className="text-lg font-bold">Mavzuni tanlang</h3>
-          <p className="text-[0.95rem] text-slate-600">Toʻliq test — «Hammasi». Bitta mavzuni tanlasangiz, faqat shu mavzu savollari chiqadi.</p>
+          <h3 className="text-[1.25rem] font-extrabold">Qaysi mavzudan boshlaymiz?</h3>
+          <p className="text-[0.98rem] text-slate-600">Toʻliq test uchun «Hammasi»ni tanlang. Bitta mavzuni tanlasangiz — faqat shu mavzu savollari chiqadi.</p>
         </div>
       </div>
 
@@ -208,10 +208,10 @@ function Setup({ filter, onFilter, onStart }: { filter: TopicFilter; onFilter: (
         <p className="mr-auto text-[0.97rem] text-slate-600" role="status" aria-live="polite">
           Tanlandi: <strong className="text-navy-950">{filter === 'all' ? 'barcha mavzular' : '«' + filter + '»'}</strong> — <strong className="text-navy-950">{count} ta savol</strong>.{' '}
           {filter === 'all'
-            ? 'Natija «Yakuniy test» sifatida saqlanadi.'
-            : 'Bu mashq rejimi: natija yakuniy baho sifatida saqlanmaydi.'}
+            ? 'Natija «Yakuniy test» boʻlib saqlanadi.'
+            : 'Bu — mashq: natija baho sifatida saqlanmaydi.'}
         </p>
-        <Btn variant="primary" size="lg" icon={Play} onClick={onStart}>Testni boshlash</Btn>
+        <Btn variant="primary" size="lg" onClick={onStart}>🚀 Boshlash</Btn>
       </div>
 
       <div className="mt-6 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
@@ -273,24 +273,21 @@ function Run({ question, index, total, score, answered, picked, filter, onPick, 
   }, [done, onPick])
 
   return (
-    <div className="rounded-2xl border border-emerald-200 bg-white p-5 shadow-card sm:p-7">
+    <div className="relative rounded-4xl border-2 border-emerald-200 bg-white p-5 shadow-card sm:p-7">
+      <Konfetti on={right} />
       {/* Holat qatori */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <span className="font-mono text-base font-bold text-navy-950" role="status" aria-live="polite">Savol {index + 1} / {total}</span>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5">
+        <span className="font-display text-[1.3rem] font-extrabold text-navy-950" role="status" aria-live="polite">Savol {index + 1} / {total}</span>
         <Pill tone="green">{question.topic}</Pill>
-        {filter !== 'all' && <Pill tone="slate">mashq rejimi</Pill>}
-        <span className="ml-auto rounded-full bg-emerald-100 px-3 py-1 font-mono text-sm font-bold text-emerald-800" role="status" aria-live="polite">
-          Toʻgʻri: {score} / {answered}
-        </span>
+        {filter !== 'all' && <Pill tone="slate">mashq</Pill>}
+        <span className="ml-auto" role="status" aria-live="polite"><Ball ball={score} maks={total} label="toʻgʻri" /></span>
       </div>
-      <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-100" role="progressbar" aria-label="Test jarayoni" aria-valuemin={0} aria-valuemax={total} aria-valuenow={answered}>
-        <div className="h-full rounded-full bg-emerald-500 transition-all duration-300" style={{ width: (answered / total) * 100 + '%' }} />
-      </div>
+      <Progress value={answered} max={total} className="mt-3.5 !h-4" />
 
       {/* Savol */}
       <div key={question.id} className="anim-in mt-6">
-        <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">{question.focus}</p>
-        <h3 className="mt-2 text-xl font-bold leading-snug sm:text-[1.45rem]">{question.q}</h3>
+        <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-emerald-700">{question.focus}</p>
+        <h3 className="text-balance mt-2 text-[1.3rem] font-extrabold leading-snug sm:text-[1.5rem]">{question.q}</h3>
 
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {question.options.map((o, oi) => {
@@ -299,18 +296,16 @@ function Run({ question, index, total, score, answered, picked, filter, onPick, 
             return (
               <button key={oi} type="button" disabled={done} onClick={() => choose(oi)}
                 aria-label={`${LETTERS[oi]} varianti: ${o}${state === 'correct' ? ' — toʻgʻri javob' : state === 'wrong' ? ' — notoʻgʻri' : ''}`}
-                className={cx('flex min-h-[4rem] items-start gap-3.5 rounded-2xl border-2 px-4 py-4 text-left text-base leading-snug transition sm:text-[1.05rem]',
-                  state === 'idle' && 'border-slate-200 bg-white text-navy-950 hover:border-emerald-500 hover:bg-emerald-50 active:translate-y-px',
-                  state === 'correct' && 'border-emerald-500 bg-emerald-50 text-emerald-950',
-                  state === 'wrong' && 'border-rose-500 bg-rose-50 text-rose-950',
-                  state === 'dim' && 'border-slate-200 bg-slate-50 text-slate-400')}>
-                <span className={cx('grid h-8 w-8 flex-none place-items-center rounded-lg font-mono text-sm font-bold',
+                className={cx('flex min-h-[4.75rem] items-start gap-3.5 rounded-3xl border-2 px-4 py-4 text-left text-[1.05rem] font-semibold leading-snug transition sm:px-5 sm:text-[1.1rem]',
+                  state === 'idle' && 'border-slate-200 bg-white text-navy-950 hover:-translate-y-0.5 hover:border-emerald-500 hover:bg-emerald-50 hover:shadow-card active:translate-y-px',
+                  state === 'correct' && 'animate-pop border-emerald-500 bg-emerald-50 text-emerald-950',
+                  state === 'wrong' && 'animate-wiggle border-rose-500 bg-rose-50 text-rose-950',
+                  state === 'dim' && 'border-slate-100 bg-slate-50 text-slate-400')}>
+                <span className={cx('grid h-10 w-10 flex-none place-items-center rounded-2xl font-display text-base font-extrabold',
                   state === 'correct' ? 'bg-emerald-600 text-white' : state === 'wrong' ? 'bg-rose-600 text-white' : state === 'dim' ? 'bg-slate-300 text-white' : 'bg-navy-950 text-white')}>
-                  {LETTERS[oi]}
+                  {state === 'correct' ? <CircleCheck size={20} /> : state === 'wrong' ? <CircleX size={20} /> : LETTERS[oi]}
                 </span>
-                <span className="min-w-0 flex-1 pt-0.5">{o}</span>
-                {state === 'correct' && <CircleCheck size={22} className="mt-0.5 flex-none text-emerald-600" aria-hidden="true" />}
-                {state === 'wrong' && <CircleX size={22} className="mt-0.5 flex-none text-rose-600" aria-hidden="true" />}
+                <span className="min-w-0 flex-1 pt-1">{o}</span>
               </button>
             )
           })}
@@ -318,27 +313,30 @@ function Run({ question, index, total, score, answered, picked, filter, onPick, 
 
         {done && (
           <div role="status" aria-live="polite"
-            className={cx('anim-in mt-5 rounded-2xl border-l-4 px-4 py-4 text-[0.98rem] leading-relaxed sm:px-5',
-              right ? 'border-emerald-500 bg-emerald-50 text-emerald-950' : 'border-amber-500 bg-amber-50 text-amber-950')}>
-            <p className="font-bold">
-              {right ? 'Toʻgʻri javob.' : `Notoʻgʻri. Toʻgʻri javob — ${LETTERS[question.correct]}: ${question.options[question.correct]}.`}
-            </p>
-            <p className="mt-1.5">{question.explain}</p>
+            className={cx('anim-in mt-5 flex gap-3.5 rounded-3xl border-2 px-4 py-4 text-[1rem] leading-relaxed sm:px-5',
+              right ? 'border-emerald-300 bg-emerald-50 text-emerald-950' : 'border-amber-300 bg-amber-50 text-amber-950')}>
+            <span className="flex-none text-2xl" aria-hidden="true">{right ? '🎉' : '💡'}</span>
+            <span>
+              <strong className="block text-[1.05rem]">
+                {right ? 'Toʻgʻri! Barakalla.' : `Toʻgʻri javob — ${LETTERS[question.correct]}: ${question.options[question.correct]}.`}
+              </strong>
+              <span className="mt-1 block">{question.explain}</span>
+            </span>
           </div>
         )}
       </div>
 
       {/* Boshqaruv */}
-      <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-5">
-        <Btn variant="ghost" icon={Square} onClick={onStop}>Testni toʻxtatish</Btn>
-        <span className="hidden items-center gap-1.5 text-sm text-slate-500 lg:inline-flex"><Keyboard size={16} />1–4 yoki A–D — javob, Enter — davom etish</span>
+      <div className="mt-6 flex flex-wrap items-center gap-3 border-t-2 border-slate-100 pt-5">
+        <Btn variant="ghost" icon={Square} onClick={onStop}>Toʻxtatish</Btn>
+        <span className="hidden items-center gap-1.5 text-sm text-slate-500 lg:inline-flex"><Keyboard size={16} />1–4 yoki A–D — javob, Enter — davom</span>
         <button ref={nextRef} type="button" disabled={!done} onClick={onNext}
-          className="ml-auto inline-flex select-none items-center justify-center gap-2.5 rounded-2xl bg-teal-600 px-6 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-teal-700 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45">
-          {isLast ? 'Natijani koʻrish' : 'Keyingi savol'}
-          <ArrowRight size={20} />
+          className="btn-pop ml-auto inline-flex select-none items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-b from-teal-500 to-teal-600 px-7 py-4 text-[1.1rem] font-extrabold text-white transition hover:from-teal-400 hover:to-teal-500 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45">
+          {isLast ? '🏁 Natijani koʻrish' : 'Keyingi savol'}
+          <ArrowRight size={22} />
         </button>
       </div>
-      {!done && <p className="mt-3 text-right text-sm text-slate-500">Davom etish uchun avval javob variantini tanlang.</p>}
+      {!done && <p className="mt-3 text-right text-sm text-slate-500">Avval javobni tanlang — keyin «Keyingi savol».</p>}
     </div>
   )
 }
@@ -367,7 +365,8 @@ function ResultView({ questions, answers, score, filter, onRestart, onSetup }: {
   return (
     <div className="anim-in space-y-5">
       {/* Umumiy natija */}
-      <div className={cx('rounded-2xl border bg-white p-5 shadow-card sm:p-7', tone.border)}>
+      <div className={cx('relative rounded-4xl border-2 bg-white p-5 shadow-card sm:p-7', tone.border)}>
+        <Konfetti on />
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center">
           <div className="relative h-36 w-36 flex-none">
             <svg viewBox="0 0 120 120" className={cx('h-full w-full -rotate-90', tone.text)} aria-hidden="true">
@@ -386,21 +385,23 @@ function ResultView({ questions, answers, score, filter, onRestart, onSetup }: {
               <Pill tone={verdict.tone}><Trophy size={14} />{verdict.label}</Pill>
               <Pill tone="slate">{filter === 'all' ? 'Yakuniy test' : 'Mashq: ' + filter}</Pill>
             </div>
-            <h3 className="mt-3 text-2xl font-extrabold sm:text-[1.7rem]">Natija: {score} / {total} — {percent}%</h3>
-            <p className="mt-1.5 text-[1.02rem] leading-relaxed text-slate-600">{verdict.text}</p>
+            <h3 className="text-balance mt-3 text-2xl font-extrabold sm:text-[1.7rem]">
+              {total} savoldan {score} tasi toʻgʻri — {percent}%
+            </h3>
+            <p className="mt-1.5 text-[1.05rem] font-semibold leading-relaxed text-slate-700">{verdict.text}</p>
             <p className="mt-1.5 text-sm text-slate-500">
               {filter === 'all'
-                ? 'Natija «Yakuniy test» sifatida saqlandi va quyidagi jadvalda koʻrinadi.'
-                : 'Bu mashq rejimi edi — yakuniy baho uchun testni «Hammasi» rejimida ishlang.'}
+                ? 'Natija saqlandi — pastdagi jadvalda koʻrinadi.'
+                : 'Bu mashq edi. Baho uchun testni «Hammasi» rejimida ishlang.'}
             </p>
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-3 border-t border-slate-100 pt-5">
-          <Btn variant="primary" size="lg" icon={RotateCcw} onClick={onRestart}>Testni qayta ishlash</Btn>
+        <div className="mt-6 flex flex-wrap gap-3 border-t-2 border-slate-100 pt-5">
+          <Btn variant="primary" size="lg" onClick={onRestart}>🔄 Yana bir marta</Btn>
           {wrong.length > 0 && (
             <Btn size="lg" icon={review ? EyeOff : Eye} aria-expanded={review} onClick={() => setReview(r => !r)}>
-              {review ? 'Xatolarni yashirish' : `Xatolarni koʻrib chiqish (${wrong.length})`}
+              {review ? 'Xatolarni yashirish' : `Xatolarimni koʻrish (${wrong.length})`}
             </Btn>
           )}
           <Btn variant="ghost" size="lg" icon={Filter} onClick={onSetup}>Mavzuni oʻzgartirish</Btn>
@@ -410,7 +411,7 @@ function ResultView({ questions, answers, score, filter, onRestart, onSetup }: {
       {/* Xatolar tahlili */}
       {review && wrong.length > 0 && (
         <div className="anim-in rounded-2xl border border-rose-200 bg-white p-5 shadow-card sm:p-7">
-          <h3 className="flex items-center gap-2 text-lg font-bold"><CircleX size={20} className="text-rose-600" />Xatolar tahlili</h3>
+          <h3 className="flex items-center gap-2 text-lg font-extrabold"><CircleX size={20} className="text-rose-600" />Xatolarni koʻrib chiqamiz</h3>
           <ol className="mt-4 space-y-5">
             {wrong.map(({ q, a }) => (
               <li key={q.id} className="border-t border-slate-100 pt-4 first:border-t-0 first:pt-0">
@@ -439,7 +440,7 @@ function ResultView({ questions, answers, score, filter, onRestart, onSetup }: {
       <div className="grid gap-5 lg:grid-cols-2">
         {/* Mavzular kesimida */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-6">
-          <h3 className="flex items-center gap-2 text-lg font-bold"><ChartColumn size={20} className="text-emerald-600" />Mavzular kesimida</h3>
+          <h3 className="flex items-center gap-2 text-lg font-extrabold"><ChartColumn size={20} className="text-emerald-600" />Mavzular boʻyicha</h3>
           <ul className="mt-4 space-y-3.5">
             {byTopic.map(t => {
               const p = percentOf(t.ok, t.total)
@@ -461,15 +462,15 @@ function ResultView({ questions, answers, score, filter, onRestart, onSetup }: {
 
         {/* Tavsiyalar */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-6">
-          <h3 className="flex items-center gap-2 text-lg font-bold"><BookOpen size={20} className="text-emerald-600" />Tavsiyalar</h3>
+          <h3 className="flex items-center gap-2 text-lg font-extrabold"><BookOpen size={20} className="text-emerald-600" />Nimani takrorlaymiz?</h3>
           {weak.length === 0 ? (
-            <p className="mt-4 flex gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-[0.97rem] text-emerald-950">
+            <p className="mt-4 flex gap-2.5 rounded-2xl border-2 border-emerald-200 bg-emerald-50 px-4 py-3 text-[1rem] text-emerald-950">
               <CircleCheck size={20} className="mt-0.5 flex-none text-emerald-600" />
-              <span>Barcha savollarga toʻgʻri javob berildi. Bilimni amalda sinash uchun <Link to="/laboratoriya" className="font-semibold underline underline-offset-2">tarmoq konstruktoriga</Link> oʻting.</span>
+              <span>Hammasi toʻgʻri — zoʻr ish! Endi bilimni amalda sinash uchun <Link to="/laboratoriya" className="font-bold underline underline-offset-2">tarmoq konstruktoriga</Link> oʻting.</span>
             </p>
           ) : (
             <>
-              <p className="mt-2 text-[0.95rem] text-slate-600">Xato qilingan mavzular boʻyicha quyidagi boʻlimlarni takrorlang:</p>
+              <p className="mt-2 text-[0.98rem] text-slate-600">Shu boʻlimlarni qayta koʻrib chiqsangiz, keyingi urinishda natija koʻtariladi:</p>
               <ul className="mt-3 space-y-2.5">
                 {weak.map(t => (
                   <li key={t.topic}>
@@ -576,7 +577,7 @@ function ActivityResults({ onGoTest }: { onGoTest: () => void }) {
       />
 
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <p className="mr-auto flex items-center gap-2 text-sm text-slate-500"><ClipboardCheck size={16} />Natijalar faqat shu qurilmada saqlanadi va serverga yuborilmaydi.</p>
+        <p className="mr-auto flex items-center gap-2 text-sm text-slate-500"><ClipboardCheck size={16} />Natijalar shu brauzerda saqlanadi — har qayta bajarganda yangilanadi.</p>
         {done.length > 0 && !confirm && <Btn size="sm" variant="ghost" icon={Trash2} onClick={() => setConfirm(true)}>Natijalarni tozalash</Btn>}
         {confirm && (
           <span className="flex flex-wrap items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-900" role="alert">

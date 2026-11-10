@@ -4,3 +4,5 @@ dist-offline
 .vercel
 .DS_Store
 *.local
+
+data/

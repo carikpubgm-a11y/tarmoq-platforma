@@ -73,10 +73,18 @@ export interface Result {
 }
 export type ResultKey = 'test' | 'lab' | 'firewall' | 'muammoli' | 'snowball' | 'jurnal' | 'namoyish' | 'amaliy'
 
+/** Oʻquvchi sessiyasi shu yerga ulanadi — natija serverga ham yuboriladi. */
+let syncer: ((key: ResultKey, r: Result) => void) | null = null
+export function setResultSyncer(fn: ((key: ResultKey, r: Result) => void) | null) {
+  syncer = fn
+}
+
 export function saveResult(key: ResultKey, r: Omit<Result, 'at'>) {
   const all = loadStored<Partial<Record<ResultKey, Result>>>('results', {})
-  all[key] = { ...r, at: Date.now() }
+  const full: Result = { ...r, at: Date.now() }
+  all[key] = full
   saveStored('results', all)
+  try { syncer?.(key, full) } catch { /* server bilan aloqa natijani buzmasin */ }
 }
 export function useResults() {
   return useStored<Partial<Record<ResultKey, Result>>>('results', {})

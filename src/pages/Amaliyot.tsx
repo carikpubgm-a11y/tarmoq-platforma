@@ -316,7 +316,7 @@ export default function Amaliyot() {
         tone="green"
         eyebrow="Amaliyot va baholash"
         title="Amaliy mashgʻulotlar"
-        lead={<>Nazariyadan keyin oʻquvchi <strong>oʻzi qurishi</strong> kerak. Quyida uch daraja uchun topshiriqlar — bitta sinfda ham, universitet seminarida ham qoʻllanadi.</>}
+        lead={<>Nazariyadan keyin oʻquvchi <strong>oʻzi qurishi</strong> kerak. Quyida uch daraja uchun topshiriqlar — bitta sinfda ham, sinfdan tashqari mashgʻulotda ham qoʻllanadi.</>}
       />
 
       <Goal

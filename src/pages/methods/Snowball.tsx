@@ -7,12 +7,12 @@ import { MethodInfo, Stepper, StageTimer, type MethodMeta } from './MethodInfo'
 const QUESTION = 'Kompyuter tarmogʻida xavfsizlikni taʼminlash uchun eng muhim uchta chora qaysi?'
 
 const META: MethodMeta = {
-  goal: <>Har bir talabaning fikri eshitiladi va guruh qarori bosqichma-bosqich «qor uyumi» kabi yiriklashadi: <strong>1 → 2 → 4 kishi → butun auditoriya</strong>. Jim oʻtiradigan talaba ham ishtirok etadi.</>,
-  how: ['Talaba savolga yakka oʻzi javob yozadi', 'Juftlikda ikki roʻyxat birlashtirilib, eng yaxshi uchta fikr tanlanadi', 'Ikki juftlik qoʻshilib, toʻrt kishilik guruh umumiy yechimni kelishadi', 'Guruh vakili yakuniy xulosani taqdim etadi'],
+  goal: <>Har bir oʻquvchining fikri eshitiladi va guruh qarori bosqichma-bosqich «qor uyumi» kabi yiriklashadi: <strong>1 → 2 → 4 kishi → butun auditoriya</strong>. Jim oʻtiradigan oʻquvchi ham ishtirok etadi.</>,
+  how: ['Oʻquvchi savolga yakka oʻzi javob yozadi', 'Juftlikda ikki roʻyxat birlashtirilib, eng yaxshi uchta fikr tanlanadi', 'Ikki juftlik qoʻshilib, toʻrt kishilik guruh umumiy yechimni kelishadi', 'Guruh vakili yakuniy xulosani taqdim etadi'],
   teacher: ['Savolni aniq qoʻyadi va vaqtni boshqaradi', 'Bosqichdan bosqichga oʻtishni eʼlon qiladi', 'Guruh xulosalarini umumlashtiradi, toʻldiradi'],
   student: ['Avval mustaqil fikrlaydi', 'Sherigini tinglaydi, fikrini asoslaydi', 'Guruh bilan kelishib, ustuvorlikni belgilaydi'],
-  example: <>«Xavfsizlik uchun eng muhim uchta chora» savoliga bir talaba «antivirus» deydi, sherigi «MFA» deb eʼtiroz bildiradi. Bahs jarayonida ikkalasi ham choralar <em>qatlam-qatlam</em> ishlashini tushunadi.</>,
-  outcome: <>Talaba xavfsizlik choralarini nomlay oladi, ularni muhimligiga koʻra tartiblaydi va tanlovini asoslaydi; muloqot va kelishish koʻnikmasi rivojlanadi.</>,
+  example: <>«Xavfsizlik uchun eng muhim uchta chora» savoliga bir oʻquvchi «antivirus» deydi, sherigi «MFA» deb eʼtiroz bildiradi. Bahs jarayonida ikkalasi ham choralar <em>qatlam-qatlam</em> ishlashini tushunadi.</>,
+  outcome: <>Oʻquvchi xavfsizlik choralarini nomlay oladi, ularni muhimligiga koʻra tartiblaydi va tanlovini asoslaydi; muloqot va kelishish koʻnikmasi rivojlanadi.</>,
   criteria: ['Yakka bosqichda uchta fikr yozilgan', 'Juftlik va guruhda tanlov amalga oshirilgan', 'Yakuniy uchlik kamida uchta turli himoya yoʻnalishini qamraydi', 'Guruh xulosasi yozma asoslangan'],
 }
 
@@ -102,7 +102,7 @@ export default function Snowball() {
   return (
     <>
       <PageHeader no="12.2" tone="amber" eyebrow="Pedagogik metod" title="Snowball (qor uyumi) metodi"
-        lead="Fikr yakka talabadan boshlanib, juftlik va guruh orqali yiriklashadi — xuddi dumalagan qor uyumi kabi." />
+        lead="Fikr yakka oʻquvchidan boshlanib, juftlik va guruh orqali yiriklashadi — xuddi dumalagan qor uyumi kabi." />
       <MethodInfo m={META} />
 
       <Block title="Mashgʻulot" tone="amber" sub="Auditoriyada bitta qurilmada birga toʻldiring: har bosqichda yangi fikrlar qoʻshiladi, soʻng eng muhimlari saralanadi.">
@@ -217,7 +217,7 @@ export default function Snowball() {
 
       <Takeaway items={[
         'Snowball — pedagogik metod; uni qogʻozda ham, Padlet kabi vositada ham oʻtkazish mumkin.',
-        'Har bir bosqichda fikrlar soni koʻpayadi, soʻng saralanadi — talaba ustuvorlikni belgilashni oʻrganadi.',
+        'Har bir bosqichda fikrlar soni koʻpayadi, soʻng saralanadi — oʻquvchi ustuvorlikni belgilashni oʻrganadi.',
         'Xavfsizlikda bitta «eng yaxshi» chora yoʻq: choralar qatlam boʻlib ishlaydi.',
       ]} />
     </>
