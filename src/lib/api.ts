@@ -52,12 +52,14 @@ export const api = {
 
 /** Vazifa kodlari → oʻquvchiga koʻrinadigan nom va sahifa manzili. */
 export const VAZIFALAR: Record<string, { nom: string; yoʻl: string; emoji: string }> = {
+  boglanish: { nom: 'Tarmoq asoslari', yoʻl: '/bosqich/boglanish', emoji: '🔗' },
   mosini: { nom: 'Mosini top', yoʻl: '/bosqich/qurilmalar', emoji: '🔌' },
   yigish: { nom: 'Tarmoqni yigʻ', yoʻl: '/bosqich/qurish', emoji: '🔧' },
+  oqim: { nom: 'Maʼlumot oqimi', yoʻl: '/bosqich/oqim', emoji: '📨' },
   parol: { nom: 'Xavfsiz parol', yoʻl: '/bosqich/parol', emoji: '🔑' },
+  firewall: { nom: 'Firewall himoyasi', yoʻl: '/bosqich/himoya', emoji: '🛡️' },
   bilimdon: { nom: 'Tezkor bilimdon', yoʻl: '/bosqich/bilimdon', emoji: '🏆' },
   lab: { nom: 'Tarmoq konstruktori', yoʻl: '/laboratoriya', emoji: '🏗️' },
-  firewall: { nom: 'Firewall laboratoriyasi', yoʻl: '/laboratoriya/firewall', emoji: '🛡️' },
   snowball: { nom: 'Sinf fikri', yoʻl: '/fikr', emoji: '💭' },
 }
 export const VAZIFA_KODLARI = Object.keys(VAZIFALAR)

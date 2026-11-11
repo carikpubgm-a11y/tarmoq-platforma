@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, Monitor, Network, RotateCcw, Router, Server, type LucideIcon } from 'lucide-react'
 import { Btn, Stage, cx } from '../components/ui'
+import { saveResult, type ResultKey } from '../lib/storage'
 
 /* Paket safari: kompyuter 192.168.10.25 → switch → router 192.168.10.1 → fayl serveri 192.168.40.5.
    Ichki yoʻnaltirishda IP manzillar saqlanadi, MAC manzillar esa har uchastkada qayta yoziladi. */
@@ -64,14 +65,20 @@ function frameAt(i: number) {
   return { src: 'Router', srcMac: MAC.out, dst: 'Fayl serveri', dstMac: MAC.srv }
 }
 
-export default function PacketFlow() {
+export default function PacketFlow({ saveKey }: { saveKey?: ResultKey }) {
   const [i, setI] = useState(0)
   const logRef = useRef<HTMLDivElement>(null)
+  const berildi = useRef(false)
 
   useEffect(() => {
     const el = logRef.current
     if (el) el.scrollTop = el.scrollHeight
-  }, [i])
+    // Sayohat tugadi — ball beriladi (bir marta)
+    if (i >= TOTAL && saveKey && !berildi.current) {
+      berildi.current = true
+      saveResult(saveKey, { score: 1, max: 1, label: 'Maʼlumot oqimi', detail: 'kuzatildi' })
+    }
+  }, [i, saveKey])
 
   const at: NodeId = i === 0 ? 'pc' : STEPS[i - 1].at
   const frame = frameAt(i)
@@ -131,6 +138,13 @@ export default function PacketFlow() {
         <Btn variant="primary" icon={ArrowRight} disabled={i >= TOTAL} onClick={() => setI(v => Math.min(TOTAL, v + 1))}>Keyingi qadam</Btn>
         <Btn variant="dark" icon={RotateCcw} disabled={i === 0} onClick={() => setI(0)}>Boshidan</Btn>
       </div>
+
+      {i >= TOTAL && saveKey && (
+        <div className="anim-in mt-4 flex items-center gap-3 rounded-2xl border-2 border-teal-400 bg-teal-500/15 px-4 py-3 text-teal-100">
+          <span className="text-2xl">🎉</span>
+          <p className="font-semibold">Paketning yoʻlini oxirigacha kuzatding — <strong className="text-white">balling reytingga qoʻshildi!</strong></p>
+        </div>
+      )}
 
       {/* Sarlavhalar: nima oʻzgaradi, nima oʻzgarmaydi */}
       <div className="mt-4 grid gap-3 md:grid-cols-2">

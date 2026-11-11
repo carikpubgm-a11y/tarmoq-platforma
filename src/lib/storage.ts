@@ -76,7 +76,7 @@ export interface Result {
 }
 export type ResultKey =
   | 'test' | 'lab' | 'firewall'
-  | 'mosini' | 'yigish' | 'parol' | 'bilimdon'          // oʻyinlar
+  | 'boglanish' | 'mosini' | 'yigish' | 'oqim' | 'parol' | 'bilimdon'   // sayohat bosqichlari
   | 'muammoli' | 'snowball' | 'jurnal' | 'namoyish' | 'amaliy'  // metodlar
 
 /** Oʻquvchi sessiyasi shu yerga ulanadi — natija serverga ham yuboriladi. */

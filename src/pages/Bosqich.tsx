@@ -11,7 +11,7 @@ import XavfsizParol from '../components/games/XavfsizParol'
 import Bilimdon from '../components/games/Bilimdon'
 import PacketFlow from '../sims/PacketFlow'
 import FirewallLab from '../lab/FirewallLab'
-import IsmSorov from '../components/IsmSorov'
+import EslabQol from '../components/EslabQol'
 
 /* Har bosqichning qisqa mazmuni — koʻp matn emas, 2–3 jumla + vizual. */
 function Mazmun({ path }: { path: string }) {
@@ -96,9 +96,17 @@ function BatafsilLink({ to, matn = 'Bu mavzuni batafsil oʻrganish' }: { to: str
 /** Bosqichdagi interaktiv qism (oʻyin yoki simulyator). */
 function Interaktiv({ path }: { path: string }) {
   switch (path) {
+    case '/bosqich/boglanish': return (
+      <EslabQol saveKey="boglanish" intro="Tarmoq ishlashi uchun uchta narsa kerak edi. Har birini bosib, eslab qol 👇"
+        items={[
+          { emoji: '💬', label: 'Umumiy til', izoh: 'protokol — bir xil qoida' },
+          { emoji: '📬', label: 'Manzil', izoh: 'har kimning oʻz manzili' },
+          { emoji: '🔗', label: 'Yoʻl', izoh: 'sim yoki Wi-Fi' },
+        ]} />
+    )
     case '/bosqich/qurilmalar': return <MosiniTop />
     case '/bosqich/qurish': return <TarmoqniYig />
-    case '/bosqich/oqim': return <div className="rounded-4xl"><PacketFlow /></div>
+    case '/bosqich/oqim': return <div className="rounded-4xl"><PacketFlow saveKey="oqim" /></div>
     case '/bosqich/parol': return <XavfsizParol />
     case '/bosqich/himoya': return <div className="rounded-4xl"><FirewallLab /></div>
     case '/bosqich/bilimdon': return <Bilimdon />
@@ -140,8 +148,6 @@ export default function Bosqich() {
         </div>
         <div className="bg-black/10 px-6 py-3.5 text-[1.05rem] font-semibold sm:px-8">🤔 {s.savol}</div>
       </header>
-
-      {bolliOyin && <IsmSorov />}
 
       {/* Qisqa mazmun */}
       <div className="prose-uz anim-in mb-8 rounded-4xl border-2 border-slate-200 bg-white p-5 text-[1.08rem] leading-relaxed text-slate-700 shadow-card sm:p-7">
