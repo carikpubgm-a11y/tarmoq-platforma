@@ -68,25 +68,40 @@ export function OquvchiProvider({ children }: { children: ReactNode }) {
 
   /* Navbatdagi natijalarni serverga yuborish */
   const navbatniYuborish = useCallback(async () => {
-    const o = oquvchiRef.current
+    let o = oquvchiRef.current
     if (!o || !navbatRef.current.length) return
     const qolgan: Navbat[] = []
-    let oxirgi: Oquvchi | null = null
+    let oxirgiId: string | null = null
+    let qaytaRoyxatdan = false
     for (const n of navbatRef.current) {
       try {
         await api.natija(o.id, n.vazifa, n.ball, n.maks, n.izoh)
-        oxirgi = o
+        oxirgiId = o.id
       } catch (e) {
-        if (e instanceof ApiXato && e.message.includes('topilmadi')) continue // oʻquvchi oʻchirilgan
+        const ochirilgan = e instanceof ApiXato && e.message.includes('topilmadi')
+        // Server'da oʻquvchi yoʻq (maʼlumot tozalangan) — bir marta qayta roʻyxatdan
+        // oʻtkazamiz, aks holda ballar jimgina yoʻqoladi.
+        if (ochirilgan && !qaytaRoyxatdan) {
+          qaytaRoyxatdan = true
+          try {
+            const { oquvchi: yangi } = await api.kirish(o.ism, o.familiya, o.sinf)
+            o = yangi; oquvchiRef.current = yangi
+            setOquvchi(yangi); saveStored('oquvchi', yangi)
+            await api.natija(yangi.id, n.vazifa, n.ball, n.maks, n.izoh)
+            oxirgiId = yangi.id
+            continue
+          } catch { qolgan.push(n); continue }
+        }
+        if (ochirilgan) { qolgan.push(n); continue }
         qolgan.push(n)
       }
     }
     setNavbat(qolgan); saveStored('navbat', qolgan)
     setAloqa(qolgan.length ? 'yoq' : 'bor')
-    if (oxirgi && !qolgan.length) {
+    if (oxirgiId && !qolgan.length) {
       try {
         const { reyting } = await api.reyting()
-        const yangi = reyting.find(x => x.id === o.id)
+        const yangi = reyting.find(x => x.id === oxirgiId)
         if (yangi) { setOquvchi(yangi); saveStored('oquvchi', yangi) }
       } catch { /* keyinroq */ }
     }
@@ -126,21 +141,21 @@ export function OquvchiProvider({ children }: { children: ReactNode }) {
     setKutilyapti(true); setXato('')
     try {
       const avvalgi = oquvchiRef.current
+      // Mahalliy natijalarni tozalashdan OLDIN oʻqib olamiz (anonim oʻyin yoʻqolmasin).
+      const eski = loadStored<Partial<Record<ResultKey, Result>>>('results', {})
       const { oquvchi: o } = await api.kirish(ism, familiya, sinf)
+      const boshqaOquvchi = !!avvalgi && avvalgi.id !== o.id
 
-      // Boshqa oʻquvchi kirayotgan boʻlsa — bu kompyuterdagi oldingi natija/progressni
-      // tozalaymiz, aks holda u yangi oʻquvchiga ulanib ketadi.
-      if (!avvalgi || avvalgi.id !== o.id) tozalaProgress()
+      // Faqat BOSHQA oʻquvchi kirsa — bu kompyuterdagi oldingi progressni tozalaymiz.
+      if (boshqaOquvchi) tozalaProgress()
 
       setOquvchi(o); saveStored('oquvchi', o); setAloqa('bor')
 
-      // Faqat ANONIM oʻynagandan keyin birinchi marta kirgan boʻlsa — oʻsha natijalarni
-      // shu oʻquvchiga biriktiramiz. Qayta kirishda yoki boshqa oʻquvchida — yoʻq.
+      // Anonim oʻynagandan keyin birinchi marta kirsa — natijalarni shu oʻquvchiga biriktiramiz.
       if (!avvalgi) {
-        const eski = loadStored<Partial<Record<ResultKey, Result>>>('results', {})
         const q: Navbat[] = Object.entries(eski).map(([vazifa, r]) => ({ vazifa, ball: r!.score, maks: r!.max, izoh: r!.detail }))
         if (q.length) { setNavbat(q); saveStored('navbat', q) }
-      } else {
+      } else if (boshqaOquvchi) {
         setNavbat([]); saveStored('navbat', [])
       }
       return true
